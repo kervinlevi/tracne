@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/start_guide_journal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="32dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/end_guide_journal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="32dp" />
+
+        <TextView
+            android:id="@+id/date_journal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/end_guide_journal"
+            app:layout_constraintStart_toStartOf="@id/start_guide_journal"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="March 21, 2021" />
+
+        <TextView
+            android:id="@+id/mood_label_journal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="How are you feeling today?"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@id/end_guide_journal"
+            app:layout_constraintStart_toStartOf="@id/start_guide_journal"
+            app:layout_constraintTop_toBottomOf="@id/date_journal" />
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/mood_bar_journal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:max="10"
+            android:min="0"
+            app:layout_constraintEnd_toEndOf="@id/end_guide_journal"
+            app:layout_constraintStart_toStartOf="@id/start_guide_journal"
+            app:layout_constraintTop_toBottomOf="@id/mood_label_journal" />
+
+        <TextView
+            android:id="@+id/sleep_label_journal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="How long did you sleep last night?"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@id/end_guide_journal"
+            app:layout_constraintStart_toStartOf="@id/start_guide_journal"
+            app:layout_constraintTop_toBottomOf="@id/mood_bar_journal" />
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/sleep_bar_journal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:max="13"
+            android:min="0"
+            app:layout_constraintEnd_toEndOf="@id/end_guide_journal"
+            app:layout_constraintStart_toStartOf="@id/start_guide_journal"
+            app:layout_constraintTop_toBottomOf="@id/sleep_label_journal" />
+
+        <TextView
+            android:id="@+id/spots_label_journal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="How many new spots do you notice?"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@id/end_guide_journal"
+            app:layout_constraintStart_toStartOf="@id/start_guide_journal"
+            app:layout_constraintTop_toBottomOf="@id/sleep_bar_journal" />
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/spots_bar_journal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:max="20"
+            android:min="0"
+            app:layout_constraintEnd_toEndOf="@id/end_guide_journal"
+            app:layout_constraintStart_toStartOf="@id/start_guide_journal"
+            app:layout_constraintTop_toBottomOf="@id/spots_label_journal" />
+
+        <TextView
+            android:id="@+id/rate_label_journal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Rate your skin right now"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@id/end_guide_journal"
+            app:layout_constraintStart_toStartOf="@id/start_guide_journal"
+            app:layout_constraintTop_toBottomOf="@id/spots_bar_journal" />
+
+        <androidx.appcompat.widget.AppCompatSeekBar
+            android:id="@+id/rate_bar_journal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:max="10"
+            android:min="0"
+            app:layout_constraintEnd_toEndOf="@id/end_guide_journal"
+            app:layout_constraintStart_toStartOf="@id/start_guide_journal"
+            app:layout_constraintTop_toBottomOf="@id/rate_label_journal" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/submit_button_journal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="32dp"
+            android:text="Add entry"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/end_guide_journal"
+            app:layout_constraintStart_toStartOf="@id/start_guide_journal"
+            app:layout_constraintTop_toBottomOf="@id/rate_bar_journal"
+            app:layout_constraintVertical_bias="1.0" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>
