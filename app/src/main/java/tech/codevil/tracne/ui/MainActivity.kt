@@ -1,7 +1,6 @@
 package tech.codevil.tracne.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
 import tech.codevil.tracne.databinding.ActivityMainBinding
@@ -20,7 +19,5 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        Log.d(javaClass.simpleName, "Entry DAO = ${entryDao.hashCode()}")
     }
 }

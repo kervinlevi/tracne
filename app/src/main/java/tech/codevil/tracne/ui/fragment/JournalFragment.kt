@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_journal.*
 import tech.codevil.tracne.databinding.FragmentJournalBinding
 import tech.codevil.tracne.model.Entry
 import tech.codevil.tracne.ui.viewmodel.MainViewModel
@@ -35,17 +34,17 @@ class JournalFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mainViewModel.date.observe(viewLifecycleOwner, {
-            date_journal.text = it
+            binding.dateJournal.text = it
         })
 
-        submit_button_journal.setOnClickListener {
+        binding.submitButtonJournal.setOnClickListener {
             mainViewModel.insertEntry(
                 Entry(
                     timestamp = System.currentTimeMillis(),
-                    mood = mood_bar_journal.progress,
-                    sleep = sleep_bar_journal.progress,
-                    newSpots = spots_bar_journal.progress,
-                    rating = rate_bar_journal.progress
+                    mood = binding.moodBarJournal.progress,
+                    sleep = binding.sleepBarJournal.progress,
+                    newSpots = binding.spotsBarJournal.progress,
+                    rating = binding.rateBarJournal.progress
                 )
             )
         }

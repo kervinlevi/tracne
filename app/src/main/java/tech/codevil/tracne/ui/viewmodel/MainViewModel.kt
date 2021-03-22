@@ -21,18 +21,17 @@ class MainViewModel @Inject constructor(
     private val _entries: LiveData<List<Entry>> = entryRepository.getEntriesLiveData()
     val entries: LiveData<List<Entry>> get() = _entries
 
-    val date: MutableLiveData<String> = MutableLiveData()
+    private val _date: MutableLiveData<String> = MutableLiveData()
+    val date: LiveData<String> = _date
 
-    val enableWritingToday: MutableLiveData<Boolean> = MutableLiveData()
+    val enableWritingToday: LiveData<Boolean>
 
     init {
         val format = SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault())
-        date.value = format.format(Calendar.getInstance().time)
+        _date.value = format.format(Calendar.getInstance().time)
 
-        entries.observeForever { //TODO: check if it's ok to use observeForever inside view model
-            if (it.isNotEmpty()) {
-                enableWritingToday.value = format.format(it.last().timestamp) != date.value
-            }
+        enableWritingToday = Transformations.map(entries) {
+            if (it.isNotEmpty()) format.format(it.last().timestamp) != date.value else false
         }
     }
 

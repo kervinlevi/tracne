@@ -1,7 +1,6 @@
 package tech.codevil.tracne.ui.fragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_home.*
 import tech.codevil.tracne.databinding.FragmentHomeBinding
 import tech.codevil.tracne.ui.viewmodel.MainViewModel
 import java.text.SimpleDateFormat
@@ -39,17 +37,16 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         mainViewModel.enableWritingToday.observe(viewLifecycleOwner, {
-            write_button_home.isEnabled = it
-            Log.d(javaClass.simpleName, "write button enabled =  $it")
+            binding.writeButtonHome.isEnabled = it
         })
         mainViewModel.entries.observe(viewLifecycleOwner, { entries ->
             val stringBuilder = StringBuilder()
             entries.map {
-                stringBuilder.append("${DATE_FORMATTER.format(Date(it.timestamp))} Skin rating = ${it.newSpots}, ")
+                stringBuilder.append("${DATE_FORMATTER.format(Date(it.timestamp))} Skin rating = ${it.rating}\n")
             }
-            entries_text_home.text = stringBuilder.toString()
+            binding.entriesTextHome.text = stringBuilder.toString()
         })
-        write_button_home.setOnClickListener {
+        binding.writeButtonHome.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToJournalFragment())
         }
     }
