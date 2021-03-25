@@ -16,6 +16,10 @@
     <fragment
         android:id="@+id/journalFragment"
         android:name="tech.codevil.tracne.ui.fragment.JournalFragment"
-        android:label="JournalFragment" />
+        android:label="JournalFragment" >
+        <action
+            android:id="@+id/action_journalFragment_to_homeFragment"
+            app:popUpTo="@id/homeFragment" />
+    </fragment>
 
 </navigation>
