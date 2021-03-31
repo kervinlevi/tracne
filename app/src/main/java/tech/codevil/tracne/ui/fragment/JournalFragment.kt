@@ -67,6 +67,10 @@ class JournalFragment : Fragment() {
                 )
             )
         }
+
+        binding.customizeImageViewJournal.setOnClickListener {
+            findNavController().navigate(JournalFragmentDirections.actionJournalFragmentToCustomizeFragment())
+        }
     }
 
 }

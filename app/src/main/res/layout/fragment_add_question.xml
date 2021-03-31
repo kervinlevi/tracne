@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:fillViewport="true"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/start_guide_add_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="16dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/end_guide_add_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="16dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_layout_add_question"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="@id/end_guide_add_question"
+            app:layout_constraintStart_toStartOf="@id/start_guide_add_question"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_edit_text_add_question"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Guiding question"
+                android:inputType="textMultiLine" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/type_label_text_add_question"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Type"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@id/end_guide_add_question"
+            app:layout_constraintStart_toStartOf="@id/start_guide_add_question"
+            app:layout_constraintTop_toBottomOf="@id/input_layout_add_question" />
+
+        <RadioGroup
+            android:id="@+id/type_radio_group_add_question"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="@id/end_guide_add_question"
+            app:layout_constraintStart_toStartOf="@id/start_guide_add_question"
+            app:layout_constraintTop_toBottomOf="@id/type_label_text_add_question">
+
+            <RadioButton
+                android:id="@+id/yes_no_radio_add_question"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Yes-No" />
+
+            <RadioButton
+                android:id="@+id/numeric_radio_add_question"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Numeric" />
+
+            <RadioButton
+                android:id="@+id/slider_radio_add_question"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Slider" />
+
+        </RadioGroup>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/min_input_layout_add_question"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toStartOf="@id/max_input_layout_add_question"
+            app:layout_constraintStart_toStartOf="@id/start_guide_add_question"
+            app:layout_constraintTop_toBottomOf="@id/type_radio_group_add_question">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/min_input_edit_text_add_question"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Min"
+                android:inputType="number"
+                android:text="0" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/max_input_layout_add_question"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBaseline_toBaselineOf="@id/min_input_layout_add_question"
+            app:layout_constraintEnd_toEndOf="@id/end_guide_add_question"
+            app:layout_constraintStart_toEndOf="@id/min_input_layout_add_question">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/max_input_edit_text_add_question"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Max"
+                android:inputType="number"
+                android:text="10" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/min_max_group_add_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="min_input_layout_add_question,max_input_layout_add_question"
+            tools:visibility="visible" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/submit_button_add_question"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="32dp"
+            android:text="Add question"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/end_guide_add_question"
+            app:layout_constraintStart_toStartOf="@id/start_guide_add_question"
+            app:layout_constraintTop_toBottomOf="@id/min_input_layout_add_question"
+            app:layout_constraintVertical_bias="1.0" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>
+

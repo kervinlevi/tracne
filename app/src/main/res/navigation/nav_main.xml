@@ -20,6 +20,28 @@
         <action
             android:id="@+id/action_journalFragment_to_homeFragment"
             app:popUpTo="@id/homeFragment" />
+        <action
+            android:id="@+id/action_journalFragment_to_customizeFragment"
+            app:destination="@id/customizeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/customizeFragment"
+        android:name="tech.codevil.tracne.ui.fragment.CustomizeFragment"
+        android:label="CustomizeFragment" >
+        <action
+            android:id="@+id/action_customizeFragment_to_journalFragment"
+            app:popUpTo="@id/journalFragment" />
+        <action
+            android:id="@+id/action_customizeFragment_to_addQuestionFragment"
+            app:destination="@id/addQuestionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addQuestionFragment"
+        android:name="tech.codevil.tracne.ui.fragment.AddQuestionFragment"
+        android:label="AddQuestionFragment" >
+        <action
+            android:id="@+id/action_addQuestionFragment_to_customizeFragment"
+            app:popUpTo="@id/customizeFragment" />
     </fragment>
 
 </navigation>

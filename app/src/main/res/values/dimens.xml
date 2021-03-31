@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="customize_item_decoration_top_padding">16dp</dimen>
+    <dimen name="customize_item_decoration_bottom_padding">16dp</dimen>
+    <dimen name="customize_item_decoration_start_padding">16dp</dimen>
+    <dimen name="customize_item_decoration_end_padding">16dp</dimen>
+</resources>
