@@ -4,11 +4,65 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f0f0f0"
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/start_guide_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="16dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/end_guide_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="16dp" />
+
+        <TextView
+            android:id="@+id/hey_there_home"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Hey there!"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="@id/end_guide_home"
+            app:layout_constraintStart_toStartOf="@id/start_guide_home"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/write_card_home"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:clickable="true"
+            android:foreground="?android:selectableItemBackgroundBorderless"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="4dp"
+            app:layout_constraintEnd_toEndOf="@id/end_guide_home"
+            app:layout_constraintStart_toStartOf="@id/start_guide_home"
+            app:layout_constraintTop_toBottomOf="@id/hey_there_home">
+
+            <TextView
+                android:id="@+id/write_spiel_home"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:lineSpacingExtra="3sp"
+                android:lines="2"
+                android:padding="32dp"
+                android:text="You haven't written an entry today.\nClick here to log your progress"
+                android:textSize="14sp" />
+
+        </com.google.android.material.card.MaterialCardView>
+
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/write_button_home"
@@ -16,6 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="32dp"
             android:text="Write an entry"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -33,6 +88,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/write_button_home"
             tools:text="Entries go here" />
+
+        <tech.codevil.tracne.ui.FancySeekBar
+            android:id="@+id/emotion_bar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:barBackgroundColor="@color/white"
+            app:barForegroundColor="@color/black"
+            app:initialValue="9"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/entries_text_home"
+            app:maxValue="20" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

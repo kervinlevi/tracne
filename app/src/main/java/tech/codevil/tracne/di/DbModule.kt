@@ -9,6 +9,9 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import tech.codevil.tracne.db.EntryDao
 import tech.codevil.tracne.db.JournalDatabase
+import tech.codevil.tracne.db.JournalDatabaseMigration
+import tech.codevil.tracne.db.JournalDatabaseMigration.MIGRATION_1_2
+import tech.codevil.tracne.db.QuestionDao
 import javax.inject.Singleton
 
 /**
@@ -26,12 +29,18 @@ object DbModule {
             context,
             JournalDatabase::class.java,
             JournalDatabase.DATABASE_NAME
-        ).build()
+        ).addMigrations(MIGRATION_1_2).build()
     }
 
     @Singleton
     @Provides
     fun provideEntryDao(journalDatabase: JournalDatabase): EntryDao {
         return journalDatabase.entryDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideQuestionDao(journalDatabase: JournalDatabase): QuestionDao {
+        return journalDatabase.questionDao()
     }
 }

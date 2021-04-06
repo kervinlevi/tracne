@@ -36,7 +36,7 @@ class MainViewModel @Inject constructor(
         _date.value = format.format(Calendar.getInstance().time)
 
         enableWritingToday = Transformations.map(entries) {
-            if (it.isNotEmpty()) format.format(it.last().timestamp) != date.value else false
+            if (it.isNotEmpty()) format.format(it.last().timestamp) != date.value else true
         }
     }
 

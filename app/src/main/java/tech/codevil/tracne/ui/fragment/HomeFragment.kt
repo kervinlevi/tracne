@@ -37,7 +37,11 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         mainViewModel.enableWritingToday.observe(viewLifecycleOwner, {
-            binding.writeButtonHome.isEnabled = it
+            binding.writeCardHome.isClickable = it
+            if (it) binding.writeSpielHome.text =
+                "You haven't written an entry today.\nClick here to log your progress"
+            else binding.writeSpielHome.text = "All done! Have a great day"
+//            binding.writeButtonHome.isEnabled = it
         })
         mainViewModel.entries.observe(viewLifecycleOwner, { entries ->
             val stringBuilder = StringBuilder()
@@ -46,7 +50,7 @@ class HomeFragment : Fragment() {
             }
             binding.entriesTextHome.text = stringBuilder.toString()
         })
-        binding.writeButtonHome.setOnClickListener {
+        binding.writeCardHome.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToJournalFragment())
         }
     }
