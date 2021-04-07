@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -12,6 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import tech.codevil.tracne.databinding.FragmentCustomizeBinding
 import tech.codevil.tracne.ui.recyclerviewcomponent.CustomizeAdapter
 import tech.codevil.tracne.ui.recyclerviewcomponent.CustomizeItemDecoration
+import tech.codevil.tracne.ui.viewmodel.CustomizeViewModel
 
 /**
  * Created by kervin.decena on 31/03/2021.
@@ -21,6 +23,8 @@ class CustomizeFragment : Fragment(), CustomizeAdapter.Listener {
 
     private var _binding: FragmentCustomizeBinding? = null
     private val binding get() = _binding!!
+
+    private val customizeViewModel: CustomizeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,6 +43,9 @@ class CustomizeFragment : Fragment(), CustomizeAdapter.Listener {
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             this.adapter = adapter
         }
+        customizeViewModel.questions.observe(viewLifecycleOwner, {
+            adapter.setItems(it)
+        })
     }
 
     override fun onDestroyView() {

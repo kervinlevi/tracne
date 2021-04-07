@@ -58,24 +58,10 @@
                 android:lineSpacingExtra="3sp"
                 android:lines="2"
                 android:padding="32dp"
-                android:text="You haven't written an entry today.\nClick here to log your progress"
+                android:text="@string/not_written_an_entry"
                 android:textSize="14sp" />
 
         </com.google.android.material.card.MaterialCardView>
-
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/write_button_home"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="32dp"
-            android:text="Write an entry"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.25" />
 
         <TextView
             android:id="@+id/entries_text_home"
@@ -86,7 +72,7 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/write_button_home"
+            app:layout_constraintTop_toBottomOf="@id/write_card_home"
             tools:text="Entries go here" />
 
         <tech.codevil.tracne.ui.FancySeekBar
@@ -94,6 +80,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
+            android:visibility="gone"
             app:barBackgroundColor="@color/white"
             app:barForegroundColor="@color/black"
             app:initialValue="9"

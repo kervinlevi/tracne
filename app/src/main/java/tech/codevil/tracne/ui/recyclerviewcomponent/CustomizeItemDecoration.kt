@@ -26,13 +26,12 @@ class CustomizeItemDecoration: RecyclerView.ItemDecoration() {
         if (position == 0) {
             outRect.top = getPaddingTop(view.context)
         }
-        if (position > 0 && position == parent.childCount - 1) {
-            outRect.bottom = getPaddingBottom(view.context)
-        }
+
         if (position != RecyclerView.NO_POSITION) {
             outRect.left = getPaddingStart(view.context)
             outRect.right = getPaddingEnd(view.context)
         }
+        outRect.bottom = getPaddingBottom(view.context)
     }
 
     private fun getPaddingTop(context: Context): Int {

@@ -12,7 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import tech.codevil.tracne.common.util.DataState
 import tech.codevil.tracne.databinding.FragmentJournalBinding
 import tech.codevil.tracne.model.Entry
-import tech.codevil.tracne.ui.viewmodel.MainViewModel
+import tech.codevil.tracne.ui.viewmodel.JournalViewModel
 
 /**
  * Created by kervin.decena on 21/03/2021.
@@ -23,7 +23,7 @@ class JournalFragment : Fragment() {
     private var _binding: FragmentJournalBinding? = null
     private val binding: FragmentJournalBinding get() = _binding!!
 
-    private val mainViewModel: MainViewModel by viewModels()
+    private val journalViewModel: JournalViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,10 +36,10 @@ class JournalFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mainViewModel.date.observe(viewLifecycleOwner, {
+        journalViewModel.date.observe(viewLifecycleOwner, {
             binding.dateJournal.text = it
         })
-        mainViewModel.insertSuccess.observe(viewLifecycleOwner, {
+        journalViewModel.insertSuccess.observe(viewLifecycleOwner, {
             when (it) {
                 is DataState.Error -> {
                     binding.submitButtonJournal.isEnabled = true
@@ -57,7 +57,7 @@ class JournalFragment : Fragment() {
         })
 
         binding.submitButtonJournal.setOnClickListener {
-            mainViewModel.insertEntry(
+            journalViewModel.insertEntry(
                 Entry(
                     timestamp = System.currentTimeMillis(),
                     mood = binding.moodBarJournal.progress,

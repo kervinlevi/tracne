@@ -8,8 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
+import tech.codevil.tracne.R
 import tech.codevil.tracne.databinding.FragmentHomeBinding
-import tech.codevil.tracne.ui.viewmodel.MainViewModel
+import tech.codevil.tracne.ui.viewmodel.HomeViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -22,7 +23,7 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    private val mainViewModel: MainViewModel by viewModels()
+    private val homeViewModel: HomeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,14 +37,12 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        mainViewModel.enableWritingToday.observe(viewLifecycleOwner, {
+        homeViewModel.enableWritingToday.observe(viewLifecycleOwner, {
             binding.writeCardHome.isClickable = it
-            if (it) binding.writeSpielHome.text =
-                "You haven't written an entry today.\nClick here to log your progress"
-            else binding.writeSpielHome.text = "All done! Have a great day"
-//            binding.writeButtonHome.isEnabled = it
+            binding.writeSpielHome.text =
+                if (it) getString(R.string.not_written_an_entry) else getString(R.string.all_done)
         })
-        mainViewModel.entries.observe(viewLifecycleOwner, { entries ->
+        homeViewModel.entries.observe(viewLifecycleOwner, { entries ->
             val stringBuilder = StringBuilder()
             entries.map {
                 stringBuilder.append("${DATE_FORMATTER.format(Date(it.timestamp))} Skin rating = ${it.rating}\n")
