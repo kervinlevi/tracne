@@ -134,6 +134,15 @@
             app:layout_constraintStart_toStartOf="@id/start_guide_journal"
             app:layout_constraintTop_toBottomOf="@id/rate_label_journal" />
 
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/templates_container_journal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/rate_bar_journal"
+            app:layout_constraintStart_toStartOf="@id/start_guide_journal"
+            app:layout_constraintEnd_toEndOf="@id/end_guide_journal" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/submit_button_journal"
             android:layout_width="0dp"
@@ -144,7 +153,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/end_guide_journal"
             app:layout_constraintStart_toStartOf="@id/start_guide_journal"
-            app:layout_constraintTop_toBottomOf="@id/rate_bar_journal"
+            app:layout_constraintTop_toBottomOf="@id/templates_container_journal"
             app:layout_constraintVertical_bias="1.0" />
 
         <ImageView

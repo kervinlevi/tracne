@@ -9,5 +9,5 @@ data class Entry(
     var sleep: Int,
     var newSpots: Int,
     var rating: Int,
-    var templateValues: Map<String, Any>
+    var templateValues: Map<String, Int>
 )

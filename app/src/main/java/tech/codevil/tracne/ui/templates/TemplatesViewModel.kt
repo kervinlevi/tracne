@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import tech.codevil.tracne.model.Template
-import tech.codevil.tracne.repository.QuestionRepository
+import tech.codevil.tracne.repository.TemplateRepository
 import javax.inject.Inject
 
 /**
@@ -12,10 +12,10 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class TemplatesViewModel @Inject constructor(
-    questionRepository: QuestionRepository
+    templateRepository: TemplateRepository
 ): ViewModel() {
 
-    private val _questions = questionRepository.observeQuestions()
+    private val _questions = templateRepository.observeTemplates()
     val questions: LiveData<List<Template>> = _questions
 
 }

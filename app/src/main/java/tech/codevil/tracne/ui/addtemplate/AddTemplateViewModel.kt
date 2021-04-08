@@ -7,7 +7,7 @@ import kotlinx.coroutines.launch
 import tech.codevil.tracne.common.util.Constants
 import tech.codevil.tracne.common.util.DataState
 import tech.codevil.tracne.model.Template
-import tech.codevil.tracne.repository.QuestionRepository
+import tech.codevil.tracne.repository.TemplateRepository
 import javax.inject.Inject
 
 /**
@@ -15,7 +15,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class AddTemplateViewModel @Inject constructor(
-    private val questionRepository: QuestionRepository
+    private val templateRepository: TemplateRepository
 ) : ViewModel() {
 
     private val _minMaxVisible = MutableLiveData<Boolean>()
@@ -55,7 +55,7 @@ class AddTemplateViewModel @Inject constructor(
                 status = Constants.QUESTION_STATUS_ACTIVE
             )
             _addSuccess.value = DataState.Loading
-            val id = questionRepository.insertQuestion(question)
+            val id = templateRepository.insertTemplate(question)
             val dataState =
                 if (id == -1L) DataState.Error(RuntimeException("error inserting"))
                 else DataState.Success(Unit)

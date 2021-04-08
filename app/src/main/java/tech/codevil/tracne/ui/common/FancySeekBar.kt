@@ -25,6 +25,9 @@ class FancySeekBar @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
+    interface Listener {
+        fun onValueChanged(newValue: Int)
+    }
 
     private var marks = 10
     private var fillBarPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -50,6 +53,7 @@ class FancySeekBar @JvmOverloads constructor(
     private var dragKnob = false
     private var marksList: MutableList<Float> = mutableListOf()
     private var currentValue = 0
+    private var listener: Listener? = null
 
     val value get() = currentValue
 
@@ -85,8 +89,12 @@ class FancySeekBar @JvmOverloads constructor(
         barRectF.set(0f, 0f, w.toFloat(), knobDiameter)
         fillRectF.set(0f, 0f, 0f, knobDiameter)
 
+        recomputeMarks()
+    }
+
+    private fun recomputeMarks() {
         marksList.clear()
-        val step = (w - knobDiameter) / ((marks - 1).toFloat())
+        val step = (width - knobDiameter) / ((marks - 1).toFloat())
         for (i in 0 until marks) marksList.add(knobRadius + (i * step))
 
         if (currentValue in 0 until marksList.size) {
@@ -142,7 +150,7 @@ class FancySeekBar @JvmOverloads constructor(
             MotionEvent.ACTION_MOVE -> {
                 if (dragKnob) {
                     knobX = min(max(knobRadius, event.x), width - knobRadius)
-                    currentValue = getNearestMarkIndex()
+                    setCurrentValue(getNearestMarkIndex())
                     postInvalidate()
                 }
                 Log.d(javaClass.simpleName, "Action move")
@@ -160,7 +168,7 @@ class FancySeekBar @JvmOverloads constructor(
     }
 
     private fun stickKnobToMark() {
-        currentValue = getNearestMarkIndex()
+        setCurrentValue(getNearestMarkIndex())
         knobX = marksList[currentValue]
         postInvalidate()
     }
@@ -185,11 +193,31 @@ class FancySeekBar @JvmOverloads constructor(
 
     fun setValue(value: Int) { //value is zero-indexed
         if (value in 0 until marks) {
-            currentValue = value
+            setCurrentValue(value)
             if (value in 0 until marksList.size) {
                 knobX = marksList[value]
                 postInvalidate()
             }
+        }
+    }
+
+    fun setMarks(marks: Int) {
+        this.marks = marks
+        recomputeMarks()
+        postInvalidate()
+    }
+
+    fun setOnValueChangedListener(listener: Listener?) {
+        this.listener = listener
+    }
+
+    private fun setCurrentValue(newValue: Int) {
+        if (listener == null) {
+            currentValue = newValue
+        }
+        else if (currentValue != newValue) {
+            currentValue = newValue
+            listener?.onValueChanged(newValue)
         }
     }
 }

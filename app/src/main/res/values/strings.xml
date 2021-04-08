@@ -19,4 +19,6 @@
     <string name="numeric">Numeric</string>
     <string name="slider">Slider</string>
     <string name="label">Label</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>
