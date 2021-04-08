@@ -2,6 +2,7 @@ package tech.codevil.tracne.di
 
 import android.content.Context
 import androidx.room.Room
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -9,9 +10,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import tech.codevil.tracne.db.EntryDao
 import tech.codevil.tracne.db.JournalDatabase
-import tech.codevil.tracne.db.JournalDatabaseMigration
-import tech.codevil.tracne.db.JournalDatabaseMigration.MIGRATION_1_2
-import tech.codevil.tracne.db.QuestionDao
+import tech.codevil.tracne.db.TemplateDao
 import javax.inject.Singleton
 
 /**
@@ -29,7 +28,7 @@ object DbModule {
             context,
             JournalDatabase::class.java,
             JournalDatabase.DATABASE_NAME
-        ).addMigrations(MIGRATION_1_2).build()
+        ).addMigrations().build()
     }
 
     @Singleton
@@ -40,7 +39,13 @@ object DbModule {
 
     @Singleton
     @Provides
-    fun provideQuestionDao(journalDatabase: JournalDatabase): QuestionDao {
+    fun provideQuestionDao(journalDatabase: JournalDatabase): TemplateDao {
         return journalDatabase.questionDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideGson(): Gson {
+        return Gson()
     }
 }

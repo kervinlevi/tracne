@@ -1,17 +1,17 @@
 package tech.codevil.tracne.db
 
 import tech.codevil.tracne.common.util.EntityMapper
-import tech.codevil.tracne.model.Question
+import tech.codevil.tracne.model.Template
 import javax.inject.Inject
 
 /**
  * Created by kervin.decena on 06/04/2021.
  */
-class QuestionCacheMapper @Inject constructor() : EntityMapper<Question, QuestionCacheEntity> {
+class TemplateCacheMapper @Inject constructor() : EntityMapper<Template, TemplateCacheEntity> {
 
 
-    override fun mapFromEntity(entity: Question): QuestionCacheEntity {
-        return QuestionCacheEntity(
+    override fun mapFromEntity(entity: Template): TemplateCacheEntity {
+        return TemplateCacheEntity(
             timestamp = entity.timestamp,
             label = entity.label,
             guidingQuestion = entity.guidingQuestion,
@@ -22,8 +22,8 @@ class QuestionCacheMapper @Inject constructor() : EntityMapper<Question, Questio
         )
     }
 
-    override fun mapToEntity(domainModel: QuestionCacheEntity): Question {
-        return Question(
+    override fun mapToEntity(domainModel: TemplateCacheEntity): Template {
+        return Template(
             timestamp = domainModel.timestamp,
             label = domainModel.label,
             guidingQuestion = domainModel.guidingQuestion,
@@ -34,7 +34,7 @@ class QuestionCacheMapper @Inject constructor() : EntityMapper<Question, Questio
         )
     }
 
-    fun mapFromEntities(entities: List<QuestionCacheEntity>): List<Question> {
+    fun mapFromEntities(entities: List<TemplateCacheEntity>): List<Template> {
         return entities.map { mapToEntity(it) }
     }
 }

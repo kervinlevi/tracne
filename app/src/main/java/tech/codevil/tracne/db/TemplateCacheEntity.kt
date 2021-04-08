@@ -1,16 +1,18 @@
 package tech.codevil.tracne.db
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
 /**
  * Created by kervin.decena on 06/04/2021.
  */
-@Entity(tableName = "question")
-class QuestionCacheEntity(
+@Entity(tableName = "template", indices = [Index(value = ["timestamp"], unique = true)])
+class TemplateCacheEntity(
     var timestamp: Long,
     var label: String,
-    var guidingQuestion: String,
+    @ColumnInfo(name = "guiding_question") var guidingQuestion: String,
     var type: String,
     var min: Int,
     var max: Int,

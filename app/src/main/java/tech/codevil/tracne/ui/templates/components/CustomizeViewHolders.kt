@@ -1,10 +1,10 @@
-package tech.codevil.tracne.ui.recyclerviewcomponent
+package tech.codevil.tracne.ui.templates.components
 
 import androidx.recyclerview.widget.RecyclerView
 import tech.codevil.tracne.R
 import tech.codevil.tracne.databinding.ViewHolderAddTemplateBinding
 import tech.codevil.tracne.databinding.ViewHolderDisplayTemplateBinding
-import tech.codevil.tracne.model.Question
+import tech.codevil.tracne.model.Template
 
 /**
  * Created by kervin.decena on 31/03/2021.
@@ -18,11 +18,11 @@ class CustomizeViewHolder(
 
     }
 
-    fun setTemplate(question: Question) {
-        itemBinding.labelDisplayTemplate.text = question.label
-        itemBinding.guidingQuestionDisplayTemplate.text = question.guidingQuestion
+    fun setTemplate(template: Template) {
+        itemBinding.labelDisplayTemplate.text = template.label
+        itemBinding.guidingQuestionDisplayTemplate.text = template.guidingQuestion
         itemBinding.typeTextDisplayTemplate.text =
-            itemView.context.getString(R.string.format_template_type, question.type)
+            itemView.context.getString(R.string.format_template_type, template.type)
     }
 
 }

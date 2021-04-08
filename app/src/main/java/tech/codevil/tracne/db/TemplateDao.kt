@@ -10,14 +10,14 @@ import androidx.room.Query
  * Created by kervin.decena on 06/04/2021.
  */
 @Dao
-interface QuestionDao {
+interface TemplateDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(entity: QuestionCacheEntity): Long
+    suspend fun insert(entity: TemplateCacheEntity): Long
 
-    @Query("SELECT * FROM question")
-    suspend fun get(): List<QuestionCacheEntity>
+    @Query("SELECT * FROM template")
+    suspend fun get(): List<TemplateCacheEntity>
 
-    @Query("SELECT * FROM question")
-    fun observe(): LiveData<List<QuestionCacheEntity>>
+    @Query("SELECT * FROM template")
+    fun observe(): LiveData<List<TemplateCacheEntity>>
 }

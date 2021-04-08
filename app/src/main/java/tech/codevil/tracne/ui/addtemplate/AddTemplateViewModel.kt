@@ -1,4 +1,4 @@
-package tech.codevil.tracne.ui.viewmodel
+package tech.codevil.tracne.ui.addtemplate
 
 
 import androidx.lifecycle.*
@@ -6,7 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import tech.codevil.tracne.common.util.Constants
 import tech.codevil.tracne.common.util.DataState
-import tech.codevil.tracne.model.Question
+import tech.codevil.tracne.model.Template
 import tech.codevil.tracne.repository.QuestionRepository
 import javax.inject.Inject
 
@@ -14,8 +14,7 @@ import javax.inject.Inject
  * Created by kervin.decena on 06/04/2021.
  */
 @HiltViewModel
-class AddQuestionViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle,
+class AddTemplateViewModel @Inject constructor(
     private val questionRepository: QuestionRepository
 ) : ViewModel() {
 
@@ -37,7 +36,7 @@ class AddQuestionViewModel @Inject constructor(
         }
     }
 
-    fun addQuestion(
+    fun addTemplate(
         label: String,
         guidingQuestion: String,
         type: String,
@@ -46,7 +45,7 @@ class AddQuestionViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             //TODO: form validation
-            val question = Question(
+            val question = Template(
                 timestamp = System.currentTimeMillis(),
                 label = label,
                 guidingQuestion = guidingQuestion,

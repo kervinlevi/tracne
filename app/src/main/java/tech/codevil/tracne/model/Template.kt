@@ -3,7 +3,7 @@ package tech.codevil.tracne.model
 /**
  * Created by kervin.decena on 06/04/2021.
  */
-data class Question(
+data class Template(
     val timestamp: Long,
     val label: String,
     val guidingQuestion: String,

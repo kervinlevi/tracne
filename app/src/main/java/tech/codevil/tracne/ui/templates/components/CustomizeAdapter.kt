@@ -1,11 +1,11 @@
-package tech.codevil.tracne.ui.recyclerviewcomponent
+package tech.codevil.tracne.ui.templates.components
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import tech.codevil.tracne.databinding.ViewHolderAddTemplateBinding
 import tech.codevil.tracne.databinding.ViewHolderDisplayTemplateBinding
-import tech.codevil.tracne.model.Question
+import tech.codevil.tracne.model.Template
 
 /**
  * Created by kervin.decena on 31/03/2021.
@@ -19,7 +19,7 @@ class CustomizeAdapter(val listener: Listener) : RecyclerView.Adapter<RecyclerVi
 
     interface Listener: CustomizeAddViewHolder.Listener, CustomizeViewHolder.Listener
 
-    private val items: MutableList<Question> = mutableListOf()
+    private val items: MutableList<Template> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if (viewType == TYPE_ADD) {
@@ -52,13 +52,13 @@ class CustomizeAdapter(val listener: Listener) : RecyclerView.Adapter<RecyclerVi
         return if (position == 0) TYPE_ADD else TYPE_DISPLAY
     }
 
-    private fun getItem(position: Int): Question {
+    private fun getItem(position: Int): Template {
         return items[position - 1]
     }
 
-    fun setItems(questions: List<Question>) {
+    fun setItems(templates: List<Template>) {
         items.clear()
-        items.addAll(questions)
+        items.addAll(templates)
         notifyDataSetChanged()
     }
 }

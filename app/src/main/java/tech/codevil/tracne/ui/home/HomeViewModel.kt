@@ -1,12 +1,9 @@
-package tech.codevil.tracne.ui.viewmodel
+package tech.codevil.tracne.ui.home
 
 import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
-import tech.codevil.tracne.common.util.DataState
 import tech.codevil.tracne.model.Entry
 import tech.codevil.tracne.repository.EntryRepository
-import java.lang.RuntimeException
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -16,8 +13,7 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle,
-    private val entryRepository: EntryRepository
+    entryRepository: EntryRepository
 ) : ViewModel() {
 
     private val _entries: LiveData<List<Entry>> = entryRepository.getEntriesLiveData()

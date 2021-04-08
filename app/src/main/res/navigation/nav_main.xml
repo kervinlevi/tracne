@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="tech.codevil.tracne.ui.fragment.HomeFragment"
+        android:name="tech.codevil.tracne.ui.home.HomeFragment"
         android:label="HomeFragment">
         <action
             android:id="@+id/action_homeFragment_to_journalFragment"
@@ -15,33 +15,33 @@
 
     <fragment
         android:id="@+id/journalFragment"
-        android:name="tech.codevil.tracne.ui.fragment.JournalFragment"
+        android:name="tech.codevil.tracne.ui.journal.JournalFragment"
         android:label="JournalFragment" >
         <action
             android:id="@+id/action_journalFragment_to_homeFragment"
             app:popUpTo="@id/homeFragment" />
         <action
-            android:id="@+id/action_journalFragment_to_customizeFragment"
-            app:destination="@id/customizeFragment" />
+            android:id="@+id/action_journalFragment_to_templatesFragment"
+            app:destination="@id/templatesFragment" />
     </fragment>
     <fragment
-        android:id="@+id/customizeFragment"
-        android:name="tech.codevil.tracne.ui.fragment.CustomizeFragment"
-        android:label="CustomizeFragment" >
+        android:id="@+id/templatesFragment"
+        android:name="tech.codevil.tracne.ui.templates.TemplatesFragment"
+        android:label="TemplatesFragment" >
         <action
-            android:id="@+id/action_customizeFragment_to_journalFragment"
+            android:id="@+id/action_templatesFragment_to_journalFragment"
             app:popUpTo="@id/journalFragment" />
         <action
-            android:id="@+id/action_customizeFragment_to_addQuestionFragment"
-            app:destination="@id/addQuestionFragment" />
+            android:id="@+id/action_templatesFragment_to_addTemplateFragment"
+            app:destination="@id/addTemplateFragment" />
     </fragment>
     <fragment
-        android:id="@+id/addQuestionFragment"
-        android:name="tech.codevil.tracne.ui.fragment.AddQuestionFragment"
-        android:label="AddQuestionFragment" >
+        android:id="@+id/addTemplateFragment"
+        android:name="tech.codevil.tracne.ui.addtemplate.AddTemplateFragment"
+        android:label="AddTemplateFragment" >
         <action
-            android:id="@+id/action_addQuestionFragment_to_customizeFragment"
-            app:popUpTo="@id/customizeFragment" />
+            android:id="@+id/action_addTemplateFragment_to_templatesFragment"
+            app:popUpTo="@id/templatesFragment" />
     </fragment>
 
 </navigation>

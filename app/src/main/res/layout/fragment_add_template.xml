@@ -2,166 +2,165 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:fillViewport="true"
-    >
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/start_guide_add_question"
+            android:id="@+id/start_guide_add_template"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_begin="16dp" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/end_guide_add_question"
+            android:id="@+id/end_guide_add_template"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_end="16dp" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/label_input_layout_add_question"
+            android:id="@+id/label_input_layout_add_template"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            app:layout_constraintEnd_toEndOf="@id/end_guide_add_question"
-            app:layout_constraintStart_toStartOf="@id/start_guide_add_question"
+            app:layout_constraintEnd_toEndOf="@id/end_guide_add_template"
+            app:layout_constraintStart_toStartOf="@id/start_guide_add_template"
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/label_input_edit_text_add_question"
+                android:id="@+id/label_input_edit_text_add_template"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="20"
-                android:hint="Label"
-                android:inputType="textMultiLine" />
+                android:hint="@string/label"
+                android:inputType="textMultiLine"
+                android:maxLength="20" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_layout_add_question"
+            android:id="@+id/input_layout_add_template"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            app:layout_constraintEnd_toEndOf="@id/end_guide_add_question"
-            app:layout_constraintStart_toStartOf="@id/start_guide_add_question"
-            app:layout_constraintTop_toBottomOf="@id/label_input_layout_add_question">
+            app:layout_constraintEnd_toEndOf="@id/end_guide_add_template"
+            app:layout_constraintStart_toStartOf="@id/start_guide_add_template"
+            app:layout_constraintTop_toBottomOf="@id/label_input_layout_add_template">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/input_edit_text_add_question"
+                android:id="@+id/input_edit_text_add_template"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Guiding question"
+                android:hint="@string/guiding_question"
                 android:inputType="textMultiLine" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/type_label_text_add_question"
+            android:id="@+id/type_label_text_add_template"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="Type"
+            android:text="@string/type"
             android:textColor="@color/black"
             android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="@id/end_guide_add_question"
-            app:layout_constraintStart_toStartOf="@id/start_guide_add_question"
-            app:layout_constraintTop_toBottomOf="@id/input_layout_add_question" />
+            app:layout_constraintEnd_toEndOf="@id/end_guide_add_template"
+            app:layout_constraintStart_toStartOf="@id/start_guide_add_template"
+            app:layout_constraintTop_toBottomOf="@id/input_layout_add_template" />
 
         <RadioGroup
-            android:id="@+id/type_radio_group_add_question"
+            android:id="@+id/type_radio_group_add_template"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="@id/end_guide_add_question"
-            app:layout_constraintStart_toStartOf="@id/start_guide_add_question"
-            app:layout_constraintTop_toBottomOf="@id/type_label_text_add_question">
+            app:layout_constraintEnd_toEndOf="@id/end_guide_add_template"
+            app:layout_constraintStart_toStartOf="@id/start_guide_add_template"
+            app:layout_constraintTop_toBottomOf="@id/type_label_text_add_template">
 
             <RadioButton
-                android:id="@+id/yes_no_radio_add_question"
+                android:id="@+id/yes_no_radio_add_template"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Yes-No" />
+                android:text="@string/yes_no" />
 
             <RadioButton
-                android:id="@+id/numeric_radio_add_question"
+                android:id="@+id/numeric_radio_add_template"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Numeric" />
+                android:text="@string/numeric" />
 
             <RadioButton
-                android:id="@+id/slider_radio_add_question"
+                android:id="@+id/slider_radio_add_template"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Slider" />
+                android:text="@string/slider" />
 
         </RadioGroup>
 
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/min_input_layout_add_question"
+            android:id="@+id/min_input_layout_add_template"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toStartOf="@id/max_input_layout_add_question"
-            app:layout_constraintStart_toStartOf="@id/start_guide_add_question"
-            app:layout_constraintTop_toBottomOf="@id/type_radio_group_add_question">
+            app:layout_constraintEnd_toStartOf="@id/max_input_layout_add_template"
+            app:layout_constraintStart_toStartOf="@id/start_guide_add_template"
+            app:layout_constraintTop_toBottomOf="@id/type_radio_group_add_template">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/min_input_edit_text_add_question"
+                android:id="@+id/min_input_edit_text_add_template"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Min"
+                android:hint="@string/min"
                 android:inputType="number"
-                android:text="0" />
+                android:text="@string/min_default_value" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/max_input_layout_add_question"
+            android:id="@+id/max_input_layout_add_template"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            app:layout_constraintBaseline_toBaselineOf="@id/min_input_layout_add_question"
-            app:layout_constraintEnd_toEndOf="@id/end_guide_add_question"
-            app:layout_constraintStart_toEndOf="@id/min_input_layout_add_question">
+            app:layout_constraintBaseline_toBaselineOf="@id/min_input_layout_add_template"
+            app:layout_constraintEnd_toEndOf="@id/end_guide_add_template"
+            app:layout_constraintStart_toEndOf="@id/min_input_layout_add_template">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/max_input_edit_text_add_question"
+                android:id="@+id/max_input_edit_text_add_template"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Max"
+                android:hint="@string/max"
                 android:inputType="number"
-                android:text="10" />
+                android:text="@string/max_default_value" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.constraintlayout.widget.Group
-            android:id="@+id/min_max_group_add_question"
+            android:id="@+id/min_max_group_add_template"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:constraint_referenced_ids="min_input_layout_add_question,max_input_layout_add_question"
+            app:constraint_referenced_ids="min_input_layout_add_template,max_input_layout_add_template"
             tools:visibility="visible" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/submit_button_add_question"
+            android:id="@+id/submit_button_add_template"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:layout_marginBottom="32dp"
-            android:text="Add question"
+            android:text="@string/add_template"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/end_guide_add_question"
-            app:layout_constraintStart_toStartOf="@id/start_guide_add_question"
-            app:layout_constraintTop_toBottomOf="@id/min_input_layout_add_question"
+            app:layout_constraintEnd_toEndOf="@id/end_guide_add_template"
+            app:layout_constraintStart_toStartOf="@id/start_guide_add_template"
+            app:layout_constraintTop_toBottomOf="@id/min_input_layout_add_template"
             app:layout_constraintVertical_bias="1.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

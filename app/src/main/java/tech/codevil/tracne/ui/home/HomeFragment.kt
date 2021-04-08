@@ -1,4 +1,4 @@
-package tech.codevil.tracne.ui.fragment
+package tech.codevil.tracne.ui.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,7 +10,6 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import tech.codevil.tracne.R
 import tech.codevil.tracne.databinding.FragmentHomeBinding
-import tech.codevil.tracne.ui.viewmodel.HomeViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 

@@ -1,4 +1,4 @@
-package tech.codevil.tracne.ui.recyclerviewcomponent
+package tech.codevil.tracne.ui.templates.components
 
 import android.content.Context
 import android.graphics.Rect

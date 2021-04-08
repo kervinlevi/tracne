@@ -8,5 +8,6 @@ data class Entry(
     var mood: Int,
     var sleep: Int,
     var newSpots: Int,
-    var rating: Int
+    var rating: Int,
+    var templateValues: Map<String, Any>
 )

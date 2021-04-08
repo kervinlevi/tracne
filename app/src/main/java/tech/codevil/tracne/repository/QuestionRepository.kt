@@ -2,23 +2,23 @@ package tech.codevil.tracne.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
-import tech.codevil.tracne.db.QuestionCacheMapper
-import tech.codevil.tracne.db.QuestionDao
-import tech.codevil.tracne.model.Question
+import tech.codevil.tracne.db.TemplateCacheMapper
+import tech.codevil.tracne.db.TemplateDao
+import tech.codevil.tracne.model.Template
 import javax.inject.Inject
 
 /**
  * Created by kervin.decena on 06/04/2021.
  */
 class QuestionRepository @Inject constructor(
-    private val questionDao: QuestionDao,
-    private val questionCacheMapper: QuestionCacheMapper
+    private val templateDao: TemplateDao,
+    private val templateCacheMapper: TemplateCacheMapper
 ) {
 
-    suspend fun insertQuestion(question: Question) =
-        questionDao.insert(questionCacheMapper.mapFromEntity(question))
+    suspend fun insertQuestion(template: Template) =
+        templateDao.insert(templateCacheMapper.mapFromEntity(template))
 
-    fun observeQuestions(): LiveData<List<Question>> {
-        return Transformations.map(questionDao.observe(), questionCacheMapper::mapFromEntities)
+    fun observeQuestions(): LiveData<List<Template>> {
+        return Transformations.map(templateDao.observe(), templateCacheMapper::mapFromEntities)
     }
 }

@@ -1,4 +1,4 @@
-package tech.codevil.tracne.ui.fragment
+package tech.codevil.tracne.ui.templates
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,40 +10,39 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
-import tech.codevil.tracne.databinding.FragmentCustomizeBinding
-import tech.codevil.tracne.ui.recyclerviewcomponent.CustomizeAdapter
-import tech.codevil.tracne.ui.recyclerviewcomponent.CustomizeItemDecoration
-import tech.codevil.tracne.ui.viewmodel.CustomizeViewModel
+import tech.codevil.tracne.databinding.FragmentTemplatesBinding
+import tech.codevil.tracne.ui.templates.components.CustomizeAdapter
+import tech.codevil.tracne.ui.templates.components.CustomizeItemDecoration
 
 /**
  * Created by kervin.decena on 31/03/2021.
  */
 @AndroidEntryPoint
-class CustomizeFragment : Fragment(), CustomizeAdapter.Listener {
+class TemplatesFragment : Fragment(), CustomizeAdapter.Listener {
 
-    private var _binding: FragmentCustomizeBinding? = null
+    private var _binding: FragmentTemplatesBinding? = null
     private val binding get() = _binding!!
 
-    private val customizeViewModel: CustomizeViewModel by viewModels()
+    private val templatesViewModel: TemplatesViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentCustomizeBinding.inflate(inflater)
+        _binding = FragmentTemplatesBinding.inflate(inflater)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val adapter = CustomizeAdapter(this)
-        binding.customizeRecyclerView.apply {
+        binding.templatesRecyclerView.apply {
             addItemDecoration(CustomizeItemDecoration())
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             this.adapter = adapter
         }
-        customizeViewModel.questions.observe(viewLifecycleOwner, {
+        templatesViewModel.questions.observe(viewLifecycleOwner, {
             adapter.setItems(it)
         })
     }
@@ -54,7 +53,7 @@ class CustomizeFragment : Fragment(), CustomizeAdapter.Listener {
     }
 
     override fun onClickAddCustomQuestion() {
-        findNavController().navigate(CustomizeFragmentDirections.actionCustomizeFragmentToAddQuestionFragment())
+        findNavController().navigate(TemplatesFragmentDirections.actionTemplatesFragmentToAddTemplateFragment())
     }
 
 }

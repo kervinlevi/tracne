@@ -1,4 +1,4 @@
-package tech.codevil.tracne.ui.viewmodel
+package tech.codevil.tracne.ui.journal
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -8,4 +8,15 @@
     <string name="spots_guiding_question">How many new spots do you notice?</string>
     <string name="rating_guiding_question">Rate your skin right now</string>
     <string name="add_entry">Add entry</string>
+    <string name="add_template">Add template</string>
+    <string name="max">Max</string>
+    <string name="min">Min</string>
+    <string name="min_default_value">0</string>
+    <string name="max_default_value">10</string>
+    <string name="guiding_question">Guiding question</string>
+    <string name="type">Type</string>
+    <string name="yes_no">Yes-No</string>
+    <string name="numeric">Numeric</string>
+    <string name="slider">Slider</string>
+    <string name="label">Label</string>
 </resources>

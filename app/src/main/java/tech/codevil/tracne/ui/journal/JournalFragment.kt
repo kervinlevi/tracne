@@ -1,4 +1,4 @@
-package tech.codevil.tracne.ui.fragment
+package tech.codevil.tracne.ui.journal
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,7 +12,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import tech.codevil.tracne.common.util.DataState
 import tech.codevil.tracne.databinding.FragmentJournalBinding
 import tech.codevil.tracne.model.Entry
-import tech.codevil.tracne.ui.viewmodel.JournalViewModel
 
 /**
  * Created by kervin.decena on 21/03/2021.
@@ -63,13 +62,14 @@ class JournalFragment : Fragment() {
                     mood = binding.moodBarJournal.value,
                     sleep = binding.sleepBarJournal.value,
                     newSpots = binding.spotsBarJournal.value,
-                    rating = binding.rateBarJournal.value
+                    rating = binding.rateBarJournal.value,
+                    templateValues = mapOf()
                 )
             )
         }
 
         binding.customizeImageViewJournal.setOnClickListener {
-            findNavController().navigate(JournalFragmentDirections.actionJournalFragmentToCustomizeFragment())
+            findNavController().navigate(JournalFragmentDirections.actionJournalFragmentToTemplatesFragment())
         }
     }
 

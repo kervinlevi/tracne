@@ -6,12 +6,12 @@ import androidx.room.RoomDatabase
 /**
  * Created by kervin.decena on 21/03/2021.
  */
-@Database(entities = [EntryCacheEntity::class, QuestionCacheEntity::class], version = 2)
+@Database(entities = [EntryCacheEntity::class, TemplateCacheEntity::class], version = 1)
 abstract class JournalDatabase: RoomDatabase() {
 
     abstract fun entryDao(): EntryDao
 
-    abstract fun questionDao(): QuestionDao
+    abstract fun questionDao(): TemplateDao
 
     companion object {
         val DATABASE_NAME: String = "journal_db"
