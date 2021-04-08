@@ -60,10 +60,10 @@ class JournalFragment : Fragment() {
             journalViewModel.insertEntry(
                 Entry(
                     timestamp = System.currentTimeMillis(),
-                    mood = binding.moodBarJournal.progress,
-                    sleep = binding.sleepBarJournal.progress,
-                    newSpots = binding.spotsBarJournal.progress,
-                    rating = binding.rateBarJournal.progress
+                    mood = binding.moodBarJournal.value,
+                    sleep = binding.sleepBarJournal.value,
+                    newSpots = binding.spotsBarJournal.value,
+                    rating = binding.rateBarJournal.value
                 )
             )
         }

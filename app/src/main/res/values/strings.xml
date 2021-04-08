@@ -3,4 +3,9 @@
     <string name="format_template_type">Type: %s</string>
     <string name="not_written_an_entry">You haven\'t written an entry today.\nClick here to log your progress</string>
     <string name="all_done">All done! Have a great day</string>
+    <string name="mood_guiding_question">How are you feeling today?</string>
+    <string name="sleep_guiding_question">How long did you sleep last night?</string>
+    <string name="spots_guiding_question">How many new spots do you notice?</string>
+    <string name="rating_guiding_question">Rate your skin right now</string>
+    <string name="add_entry">Add entry</string>
 </resources>

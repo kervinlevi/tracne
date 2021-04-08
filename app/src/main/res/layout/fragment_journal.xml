@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:fillViewport="true"
+    android:background="@color/primary_fragment_background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -42,20 +43,21 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="How are you feeling today?"
+            android:text="@string/mood_guiding_question"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="@id/end_guide_journal"
             app:layout_constraintStart_toStartOf="@id/start_guide_journal"
             app:layout_constraintTop_toBottomOf="@id/date_journal" />
 
-        <androidx.appcompat.widget.AppCompatSeekBar
+        <tech.codevil.tracne.ui.common.FancySeekBar
             android:id="@+id/mood_bar_journal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:max="10"
-            android:min="0"
+            app:barBackgroundColor="@color/primary_seekbar_background"
+            app:barForegroundColor="@color/primary_seekbar_foreground"
+            app:maxValue="10"
             app:layout_constraintEnd_toEndOf="@id/end_guide_journal"
             app:layout_constraintStart_toStartOf="@id/start_guide_journal"
             app:layout_constraintTop_toBottomOf="@id/mood_label_journal" />
@@ -65,20 +67,21 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="How long did you sleep last night?"
+            android:text="@string/sleep_guiding_question"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="@id/end_guide_journal"
             app:layout_constraintStart_toStartOf="@id/start_guide_journal"
             app:layout_constraintTop_toBottomOf="@id/mood_bar_journal" />
 
-        <androidx.appcompat.widget.AppCompatSeekBar
+        <tech.codevil.tracne.ui.common.FancySeekBar
             android:id="@+id/sleep_bar_journal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:max="13"
-            android:min="0"
+            app:barBackgroundColor="@color/primary_seekbar_background"
+            app:barForegroundColor="@color/primary_seekbar_foreground"
+            app:maxValue="13"
             app:layout_constraintEnd_toEndOf="@id/end_guide_journal"
             app:layout_constraintStart_toStartOf="@id/start_guide_journal"
             app:layout_constraintTop_toBottomOf="@id/sleep_label_journal" />
@@ -88,20 +91,21 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="How many new spots do you notice?"
+            android:text="@string/spots_guiding_question"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="@id/end_guide_journal"
             app:layout_constraintStart_toStartOf="@id/start_guide_journal"
             app:layout_constraintTop_toBottomOf="@id/sleep_bar_journal" />
 
-        <androidx.appcompat.widget.AppCompatSeekBar
+        <tech.codevil.tracne.ui.common.FancySeekBar
             android:id="@+id/spots_bar_journal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:max="20"
-            android:min="0"
+            app:barBackgroundColor="@color/primary_seekbar_background"
+            app:barForegroundColor="@color/primary_seekbar_foreground"
+            app:maxValue="20"
             app:layout_constraintEnd_toEndOf="@id/end_guide_journal"
             app:layout_constraintStart_toStartOf="@id/start_guide_journal"
             app:layout_constraintTop_toBottomOf="@id/spots_label_journal" />
@@ -111,20 +115,21 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Rate your skin right now"
+            android:text="@string/rating_guiding_question"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="@id/end_guide_journal"
             app:layout_constraintStart_toStartOf="@id/start_guide_journal"
             app:layout_constraintTop_toBottomOf="@id/spots_bar_journal" />
 
-        <androidx.appcompat.widget.AppCompatSeekBar
+        <tech.codevil.tracne.ui.common.FancySeekBar
             android:id="@+id/rate_bar_journal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:max="10"
-            android:min="0"
+            app:barBackgroundColor="@color/primary_seekbar_background"
+            app:barForegroundColor="@color/primary_seekbar_foreground"
+            app:maxValue="10"
             app:layout_constraintEnd_toEndOf="@id/end_guide_journal"
             app:layout_constraintStart_toStartOf="@id/start_guide_journal"
             app:layout_constraintTop_toBottomOf="@id/rate_label_journal" />
@@ -135,7 +140,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:layout_marginBottom="32dp"
-            android:text="Add entry"
+            android:text="@string/add_entry"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/end_guide_journal"
             app:layout_constraintStart_toStartOf="@id/start_guide_journal"
@@ -146,8 +151,8 @@
             android:id="@+id/customize_image_view_journal"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:padding="8dp"
-            android:src="@android:drawable/ic_menu_preferences"
+            android:padding="12dp"
+            android:src="@drawable/ic_circle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             />

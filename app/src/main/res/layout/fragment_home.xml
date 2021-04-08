@@ -75,7 +75,7 @@
             app:layout_constraintTop_toBottomOf="@id/write_card_home"
             tools:text="Entries go here" />
 
-        <tech.codevil.tracne.ui.FancySeekBar
+        <tech.codevil.tracne.ui.common.FancySeekBar
             android:id="@+id/emotion_bar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

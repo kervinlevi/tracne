@@ -1,4 +1,4 @@
-package tech.codevil.tracne.ui
+package tech.codevil.tracne.ui.common
 
 import android.annotation.SuppressLint
 import android.content.Context
