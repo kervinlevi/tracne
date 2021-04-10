@@ -21,4 +21,6 @@
     <string name="label">Label</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="log">Log</string>
+    <string name="statistics">Statistics</string>
 </resources>

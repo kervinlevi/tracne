@@ -11,6 +11,9 @@
         <action
             android:id="@+id/action_homeFragment_to_journalFragment"
             app:destination="@id/journalFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_statisticsFragment"
+            app:destination="@id/statisticsFragment" />
     </fragment>
 
     <fragment
@@ -42,6 +45,15 @@
         <action
             android:id="@+id/action_addTemplateFragment_to_templatesFragment"
             app:popUpTo="@id/templatesFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/statisticsFragment"
+        android:name="tech.codevil.tracne.ui.statistics.StatisticsFragment"
+        android:label="StatisticsFragment" >
+        <action
+            android:id="@+id/action_statisticsFragment_to_homeFragment"
+            app:popUpTo="@id/homeFragment" />
     </fragment>
 
 </navigation>
