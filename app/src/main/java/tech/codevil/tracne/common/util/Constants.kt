@@ -1,5 +1,9 @@
 package tech.codevil.tracne.common.util
 
+import android.annotation.SuppressLint
+import java.text.SimpleDateFormat
+import java.util.*
+
 /**
  * Created by kervin.decena on 06/04/2021.
  */
@@ -11,4 +15,6 @@ object Constants {
 
     const val QUESTION_STATUS_ACTIVE = "active"
     const val QUESTION_STATUS_ARCHIVED = "archived"
+
+    val DAY_FORMAT = SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH)
 }

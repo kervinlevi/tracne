@@ -6,13 +6,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import tech.codevil.tracne.common.util.Constants.DAY_FORMAT
 import tech.codevil.tracne.common.util.DataState
 import tech.codevil.tracne.model.Entry
 import tech.codevil.tracne.model.Template
 import tech.codevil.tracne.repository.EntryRepository
 import tech.codevil.tracne.repository.TemplateRepository
-import java.lang.RuntimeException
-import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
@@ -34,8 +33,7 @@ class JournalViewModel @Inject constructor(
     val date: LiveData<String> get() = _date
 
     init {
-        val format = SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault())
-        _date.value = format.format(Calendar.getInstance().time)
+        _date.value = DAY_FORMAT.format(Calendar.getInstance().time)
     }
 
 

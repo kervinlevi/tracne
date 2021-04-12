@@ -9,8 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import tech.codevil.tracne.R
+import tech.codevil.tracne.common.util.Constants.DAY_FORMAT
 import tech.codevil.tracne.databinding.FragmentHomeBinding
-import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -44,7 +44,7 @@ class HomeFragment : Fragment() {
         homeViewModel.entries.observe(viewLifecycleOwner, { entries ->
             val stringBuilder = StringBuilder()
             entries.map {
-                stringBuilder.append("${DATE_FORMATTER.format(Date(it.timestamp))} Skin rating = ${it.rating}\n")
+                stringBuilder.append("${DAY_FORMAT.format(Date(it.timestamp))} Skin rating = ${it.rating}\n")
             }
             binding.entriesTextHome.text = stringBuilder.toString()
         })
@@ -58,7 +58,4 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    companion object {
-        val DATE_FORMATTER = SimpleDateFormat("MMMM dd, yyyy", Locale.ENGLISH)
-    }
 }
