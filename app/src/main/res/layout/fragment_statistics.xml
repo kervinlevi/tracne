@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="#00BCD4">
 
-    <tech.codevil.tracne.ui.statistics.GraphView
+    <tech.codevil.tracne.ui.statistics.MultipleGraphView
         android:id="@+id/graph_view"
         android:layout_width="0dp"
         android:layout_height="200dp"
@@ -14,5 +14,52 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/graph_toggles_chip_group"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/graph_view"
+        >
+
+        <com.google.android.material.chip.Chip
+            android:text="New spots"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <com.google.android.material.chip.Chip
+            android:text="Skin rating"
+            android:enabled="false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <com.google.android.material.chip.Chip
+            android:text="Mood"
+            android:checkable="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <com.google.android.material.chip.Chip
+            android:text="Sleep"
+            app:checkedIconEnabled="false"
+            android:checkable="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <com.google.android.material.chip.Chip
+            android:text="Water"
+            android:checkable="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <com.google.android.material.chip.Chip
+            android:text="Dairy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </com.google.android.material.chip.ChipGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
