@@ -15,9 +15,12 @@ interface EntryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(entity: EntryCacheEntity): Long
 
-    @Query("SELECT * FROM entry")
+    @Query("SELECT * FROM entry ORDER BY timestamp")
     suspend fun get(): List<EntryCacheEntity>
 
-    @Query("SELECT * FROM entry")
+    @Query("SELECT * FROM entry ORDER BY timestamp")
     fun observe(): LiveData<List<EntryCacheEntity>>
+
+    @Query("SELECT * FROM entry WHERE timestamp BETWEEN :start AND :end ORDER BY timestamp")
+    fun getWithinTimestamp(start: Long, end: Long): LiveData<List<EntryCacheEntity>>
 }

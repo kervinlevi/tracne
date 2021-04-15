@@ -33,30 +33,30 @@ class MultipleGraphView @JvmOverloads constructor(
     }
 
     var sleepValuesMap = mutableMapOf(
-        1 to 8,
-        2 to 9,
-        3 to 9,
-        4 to 6,
-        5 to 6,
-        6 to 6,
+        1 to 6,
+        2 to 6,
+        3 to 7,
+        4 to 7,
+        5 to 8,
+        6 to 7,
         7 to 7,
         8 to 8,
-        9 to 6,
-        10 to 9,
+        9 to 9,
+        10 to 12,
         11 to 9,
         12 to 10,
         13 to 6,
         14 to 5,
         15 to 7,
-        16 to 8,
+        16 to 13,
         17 to 8,
         18 to 7,
-        19 to 6,
+        19 to 1,
         20 to 8,
     )
     val sleepGraph = Graph(
         xMin = 1,
-        xMax = 31,
+        xMax = 20,
         yMin = 0,
         yMax = 13,
         valuesMap = sleepValuesMap,
@@ -80,14 +80,14 @@ class MultipleGraphView @JvmOverloads constructor(
         14 to 19,
         15 to 20,
         16 to 10,
-        17 to 1,
+        17 to 19,
         18 to 9,
         19 to 0,
         20 to 0,
     )
     val spotsGraph = Graph(
         xMin = 1,
-        xMax = 31,
+        xMax = 20,
         yMin = 0,
         yMax = 20,
         valuesMap = spotsValuesMap,
@@ -117,8 +117,8 @@ class MultipleGraphView @JvmOverloads constructor(
             val path = graphPaths[index]
             val points = pointsList[index]
 
-            val spacingX = totalWidth / ((graph.xMax - graph.xMin - 1).toFloat())
-            val spacingY = totalHeight / ((graph.yMax - graph.yMin - 1).toFloat())
+            val spacingX = totalWidth / ((graph.xMax - graph.xMin).toFloat())
+            val spacingY = totalHeight / ((graph.yMax - graph.yMin).toFloat())
 
             var prevX = graphStart()
             var prevY = height - graphBottom()
@@ -132,7 +132,7 @@ class MultipleGraphView @JvmOverloads constructor(
                 if (graph.valuesMap.containsKey(x)) {
                     val value = graph.valuesMap[x]!!
                     val pointX = graphStart() + (i * spacingX)
-                    val pointY = (graph.yMax - value - 1) * spacingY + graphTop() //TODO: fix graphing Y
+                    val pointY = height - graphBottom() - ((value - graph.yMin) * spacingY)
                     points.add(PointF(pointX, pointY))
 
                     if (path.isEmpty) {
@@ -160,9 +160,9 @@ class MultipleGraphView @JvmOverloads constructor(
         super.onDraw(canvas)
         canvas?.apply {
             drawLine(
-                0f,
+                graphStart(),
                 height.toFloat() - graphBottom(),
-                width.toFloat(),
+                width.toFloat() - graphEnd(),
                 height.toFloat() - graphBottom(),
                 linePaint
             )
@@ -174,19 +174,26 @@ class MultipleGraphView @JvmOverloads constructor(
     }
 
     private fun graphStart(): Float {
-        return 50f;
+        return 50f
     }
 
     private fun graphEnd(): Float {
-        return 0f;
+        return 50f
     }
 
     private fun graphTop(): Float {
-        return 0f;
+        return 50f
     }
 
     private fun graphBottom(): Float {
-        return 50f;
+        return 50f
+    }
+
+    fun setGraphs(graphs: List<Graph>) {
+        this.graphs.clear()
+        this.graphs.addAll(graphs)
+        computePoints()
+        postInvalidate()
     }
 
 }
