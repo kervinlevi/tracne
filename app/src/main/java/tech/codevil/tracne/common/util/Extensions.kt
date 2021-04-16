@@ -1,4 +1,4 @@
-package tech.codevil.tracne.ui.common
+package tech.codevil.tracne.common.util
 
 import android.text.Editable
 import android.text.TextWatcher
@@ -9,6 +9,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.sendBlocking
 import kotlinx.coroutines.flow.*
+import java.util.*
 
 /**
  * Created by kervin.decena on 09/04/2021.
@@ -32,8 +33,19 @@ object Extensions {
             removeTextChangedListener(textWatcher)
         }
     }
-//        .buffer(Channel.CONFLATED)
-//        .distinctUntilChanged()
-//        .debounce(300L)
+    
+    fun Calendar.setMinTime() {
+        set(Calendar.HOUR, getActualMinimum(Calendar.HOUR))
+        set(Calendar.MINUTE, getActualMinimum(Calendar.MINUTE))
+        set(Calendar.SECOND, getActualMinimum(Calendar.SECOND))
+        set(Calendar.MILLISECOND, getActualMinimum(Calendar.MILLISECOND))
+    }
+
+    fun Calendar.setMaxTime() {
+        set(Calendar.HOUR, getActualMaximum(Calendar.HOUR))
+        set(Calendar.MINUTE, getActualMaximum(Calendar.MINUTE))
+        set(Calendar.SECOND, getActualMaximum(Calendar.SECOND))
+        set(Calendar.MILLISECOND, getActualMaximum(Calendar.MILLISECOND))
+    }
 
 }

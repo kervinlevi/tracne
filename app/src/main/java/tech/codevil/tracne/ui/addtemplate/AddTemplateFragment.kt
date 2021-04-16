@@ -20,7 +20,7 @@ import tech.codevil.tracne.common.util.Constants.QUESTION_TYPE_SLIDER
 import tech.codevil.tracne.common.util.Constants.QUESTION_TYPE_YES_NO
 import tech.codevil.tracne.common.util.DataState
 import tech.codevil.tracne.databinding.FragmentAddTemplateBinding
-import tech.codevil.tracne.ui.common.Extensions.textWatcherFlow
+import tech.codevil.tracne.common.util.Extensions.textWatcherFlow
 
 /**
  * Created by kervin.decena on 31/03/2021.

@@ -1,11 +1,13 @@
 package tech.codevil.tracne.ui.statistics
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import tech.codevil.tracne.common.util.Constants
 import tech.codevil.tracne.databinding.FragmentStatisticsBinding
@@ -41,10 +43,10 @@ class StatisticsFragment : Fragment() {
             binding.entriesStatistics.text = stringBuilder.toString()
         }
 
-        statisticsViewModel.graphsFromEntries.observe(
-            viewLifecycleOwner,
-            binding.graphView::setGraphs
-        )
+        statisticsViewModel.graphsFromEntries.observe(viewLifecycleOwner) {
+            Log.d(javaClass.simpleName, Gson().toJson(it).toString())
+            binding.graphView.setGraphs(it)
+        }
     }
 
 
