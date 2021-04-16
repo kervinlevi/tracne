@@ -10,7 +10,6 @@ import tech.codevil.tracne.repository.EntryRepository
 import tech.codevil.tracne.ui.statistics.MultipleGraphView.Graph
 import java.util.*
 import java.util.Calendar.DAY_OF_MONTH
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltViewModel
@@ -36,15 +35,26 @@ class StatisticsViewModel @Inject constructor(entryRepository: EntryRepository) 
             val listValuesMap = mutableListOf<MutableMap<Int, Int>>().apply {
                 parameters.map { add(mutableMapOf()) }
             }
+            val start = timestampStart.value
+            val end = timestampEnd.value
+            if (start == null || end == null || start > end) {
+                return@map graph
+            }
+
             val calendar = Calendar.getInstance()
-            calendar.timeInMillis = timestampStart.value ?: 0L
-            val xMin = calendar.get(DAY_OF_MONTH)
-            calendar.timeInMillis = timestampEnd.value ?: 0L
-            val xMax = calendar.get(DAY_OF_MONTH)
+            calendar.timeInMillis = start
+            calendar.setMinTime()
+            val noTimeStart = calendar.timeInMillis
+            val xMin = 0
+
+            calendar.timeInMillis = end
+            calendar.setMinTime()
+            val noTimeEnd = calendar.timeInMillis
+            val xMax = daysBetween(noTimeStart, noTimeEnd)
 
             entries.map {
-                calendar.timeInMillis = it.timestamp
-                val x = calendar.get(DAY_OF_MONTH)
+                val date = it.day
+                val x = daysBetween(noTimeStart, date.time)
                 parameters.forEachIndexed { index, param ->
                     when (param) {
                         "sleep" -> listValuesMap[index][x] = it.sleep
@@ -121,6 +131,10 @@ class StatisticsViewModel @Inject constructor(entryRepository: EntryRepository) 
         if (timestampStart.value != null && timestampEnd.value != null) {
             timestampLiveData.value = Pair(timestampStart.value!!, timestampEnd.value!!)
         }
+    }
+
+    private fun daysBetween(start: Long, end: Long): Int {
+        return ((end - start) / (24 * 60 * 60 * 1000)).toInt()
     }
 
 }

@@ -16,6 +16,7 @@ import tech.codevil.tracne.model.Entry
 import tech.codevil.tracne.ui.common.SliderTemplateView
 import tech.codevil.tracne.ui.common.TemplateViewCallback
 import tech.codevil.tracne.ui.common.YesNoTemplateView
+import java.util.*
 
 /**
  * Created by kervin.decena on 21/03/2021.
@@ -83,11 +84,13 @@ class JournalFragment : Fragment(), TemplateViewCallback {
             journalViewModel.insertEntry(
                 Entry(
                     timestamp = System.currentTimeMillis(),
+                    day = Date(),
                     mood = binding.moodBarJournal.value,
                     sleep = binding.sleepBarJournal.value,
                     newSpots = binding.spotsBarJournal.value,
                     rating = binding.rateBarJournal.value,
-                    templateValues = this.templateValues
+                    templateValues = this.templateValues,
+                    lastUpdated = System.currentTimeMillis()
                 )
             )
         }

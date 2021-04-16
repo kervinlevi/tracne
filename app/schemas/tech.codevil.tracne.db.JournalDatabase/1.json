@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "fb90e5a825465c82771246260fb64206",
+    "identityHash": "448b02d2f5a598c3fd1dd2a7c6e91c7b",
     "entities": [
       {
         "tableName": "entry",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `timestamp` INTEGER NOT NULL, `mood` INTEGER NOT NULL, `sleep` INTEGER NOT NULL, `new_spots` INTEGER NOT NULL, `rating` INTEGER NOT NULL, `template_values_json` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `timestamp` INTEGER NOT NULL, `day` TEXT NOT NULL, `mood` INTEGER NOT NULL, `sleep` INTEGER NOT NULL, `new_spots` INTEGER NOT NULL, `rating` INTEGER NOT NULL, `template_values_json` TEXT NOT NULL, `last_updated` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -18,6 +18,12 @@
             "fieldPath": "timestamp",
             "columnName": "timestamp",
             "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "day",
+            "columnName": "day",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -49,6 +55,12 @@
             "columnName": "template_values_json",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "lastUpdated",
+            "columnName": "last_updated",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -59,12 +71,12 @@
         },
         "indices": [
           {
-            "name": "index_entry_timestamp",
+            "name": "index_entry_day",
             "unique": true,
             "columnNames": [
-              "timestamp"
+              "day"
             ],
-            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_entry_timestamp` ON `${TABLE_NAME}` (`timestamp`)"
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_entry_day` ON `${TABLE_NAME}` (`day`)"
           }
         ],
         "foreignKeys": []
@@ -144,7 +156,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'fb90e5a825465c82771246260fb64206')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '448b02d2f5a598c3fd1dd2a7c6e91c7b')"
     ]
   }
 }

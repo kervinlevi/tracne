@@ -45,11 +45,13 @@ class EntryRepository @Inject constructor(
 
                     val entry = Entry(
                         timestamp = calendar.timeInMillis,
+                        day = calendar.time,
                         mood = (1..9).random(),
                         sleep = (1..12).random(),
                         newSpots = (1..19).random(),
                         rating = (4..9).random(),
-                        templateValues = mapOf()
+                        templateValues = mapOf(),
+                        lastUpdated = calendar.timeInMillis
                     )
                     insertEntry(entry)
                 }

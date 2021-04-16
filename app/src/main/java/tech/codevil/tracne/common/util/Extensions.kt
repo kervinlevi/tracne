@@ -35,10 +35,11 @@ object Extensions {
     }
     
     fun Calendar.setMinTime() {
-        set(Calendar.HOUR, getActualMinimum(Calendar.HOUR))
-        set(Calendar.MINUTE, getActualMinimum(Calendar.MINUTE))
-        set(Calendar.SECOND, getActualMinimum(Calendar.SECOND))
-        set(Calendar.MILLISECOND, getActualMinimum(Calendar.MILLISECOND))
+        set(Calendar.HOUR, 0)
+        set(Calendar.MINUTE, 0)
+        set(Calendar.SECOND, 0)
+        set(Calendar.MILLISECOND, 0)
+        set(Calendar.AM_PM, 0)
     }
 
     fun Calendar.setMaxTime() {
@@ -46,6 +47,7 @@ object Extensions {
         set(Calendar.MINUTE, getActualMaximum(Calendar.MINUTE))
         set(Calendar.SECOND, getActualMaximum(Calendar.SECOND))
         set(Calendar.MILLISECOND, getActualMaximum(Calendar.MILLISECOND))
+        set(Calendar.AM_PM, getActualMaximum(Calendar.AM_PM))
     }
 
 }
