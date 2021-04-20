@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.google.android.material.chip.Chip
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import tech.codevil.tracne.common.util.Constants
@@ -21,6 +22,7 @@ class StatisticsFragment : Fragment() {
 
     private var _binding: FragmentStatisticsBinding? = null
     private val binding get() = _binding!!
+    private val chipId = mutableMapOf<String, Int>()
 
     private val statisticsViewModel: StatisticsViewModel by viewModels()
 
@@ -46,6 +48,30 @@ class StatisticsFragment : Fragment() {
         statisticsViewModel.graphsFromEntries.observe(viewLifecycleOwner) {
             Log.d(javaClass.simpleName, Gson().toJson(it).toString())
             binding.graphView.setGraphs(it)
+        }
+
+        statisticsViewModel.parameters.observe(viewLifecycleOwner) { parameters ->
+            parameters.forEach {
+                if (chipId.containsKey(it.id)) {
+                    val chip = binding.graphTogglesChipGroup.findViewById(chipId[it.id]!!) as Chip
+                    chip.text = it.label
+                    chip.isChecked = it.isChecked
+                    chip.isEnabled = it.isEnabled
+                } else {
+                    val chip = Chip(requireContext())
+                    chip.id = View.generateViewId()
+                    chip.isCheckable = true
+                    chip.isCheckedIconVisible = true
+                    chip.text = it.label
+                    chip.isChecked = it.isChecked
+                    chip.isEnabled = it.isEnabled
+                    chip.setOnCheckedChangeListener { _, _ ->
+                        statisticsViewModel.onToggleParameter(it.id)
+                    }
+                    chipId[it.id] = chip.id
+                    binding.graphTogglesChipGroup.addView(chip)
+                }
+            }
         }
     }
 

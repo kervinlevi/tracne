@@ -31,73 +31,9 @@ class MultipleGraphView @JvmOverloads constructor(
             style = Paint.Style.FILL
         }
     }
-
-    var sleepValuesMap = mutableMapOf(
-        1 to 6,
-        2 to 6,
-        3 to 7,
-        4 to 7,
-        5 to 8,
-        6 to 7,
-        7 to 7,
-        8 to 8,
-        9 to 9,
-        10 to 12,
-        11 to 9,
-        12 to 10,
-        13 to 6,
-        14 to 5,
-        15 to 7,
-        16 to 13,
-        17 to 8,
-        18 to 7,
-        19 to 1,
-        20 to 8,
-    )
-    val sleepGraph = Graph(
-        xMin = 1,
-        xMax = 20,
-        yMin = 0,
-        yMax = 13,
-        valuesMap = sleepValuesMap,
-        color = Color.BLUE
-    )
-
-    var spotsValuesMap = mutableMapOf(
-        1 to 0,
-        2 to 0,
-        3 to 0,
-        4 to 2,
-        5 to 3,
-        6 to 3,
-        7 to 0,
-        8 to 0,
-        9 to 1,
-        10 to 3,
-        11 to 3,
-        12 to 2,
-        13 to 2,
-        14 to 19,
-        15 to 20,
-        16 to 10,
-        17 to 19,
-        18 to 9,
-        19 to 0,
-        20 to 0,
-    )
-    val spotsGraph = Graph(
-        xMin = 1,
-        xMax = 20,
-        yMin = 0,
-        yMax = 20,
-        valuesMap = spotsValuesMap,
-        color = Color.MAGENTA
-    )
-
-
-    val graphs = mutableListOf(sleepGraph, spotsGraph)
-    val graphPaths = mutableListOf(Path(), Path())
-    val pointsList = mutableListOf(mutableListOf<PointF>(), mutableListOf<PointF>())
+    val graphs = mutableListOf<Graph>()
+    val graphPaths = mutableListOf<Path>()
+    val pointsList = mutableListOf<MutableList<PointF>>()
     val pointRadius = 5.0f
 
     val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -192,6 +128,14 @@ class MultipleGraphView @JvmOverloads constructor(
     fun setGraphs(graphs: List<Graph>) {
         this.graphs.clear()
         this.graphs.addAll(graphs)
+
+        graphPaths.clear()
+        pointsList.clear()
+        repeat(this.graphs.size) {
+            graphPaths.add(Path())
+            pointsList.add(mutableListOf())
+        }
+
         computePoints()
         postInvalidate()
     }
