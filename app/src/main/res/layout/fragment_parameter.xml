@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipChildren="false">
+
+        <ImageView
+            android:id="@+id/back_button_parameter"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:padding="12dp"
+            android:src="@drawable/ic_arrow_left"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/start_guide_parameter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="16dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/end_guide_parameter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="16dp" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/back_bottom_barrier_parameter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="back_button_parameter" />
+
+        <ImageView
+            android:id="@+id/icon_parameter"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/ic_circle"
+            app:layout_constraintBottom_toBottomOf="@id/icon_bottom_barrier_parameter"
+            app:layout_constraintStart_toStartOf="@id/start_guide_parameter"
+            app:layout_constraintTop_toTopOf="@id/back_bottom_barrier_parameter" />
+
+        <TextView
+            android:id="@+id/label_parameter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="8dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/guided_question_parameter"
+            app:layout_constraintEnd_toEndOf="@id/end_guide_parameter"
+            app:layout_constraintStart_toEndOf="@id/icon_parameter"
+            app:layout_constraintTop_toBottomOf="@id/back_bottom_barrier_parameter"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="Label" />
+
+        <TextView
+            android:id="@+id/guided_question_parameter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingEnd="8dp"
+            android:paddingBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="@id/icon_bottom_barrier_parameter"
+            app:layout_constraintEnd_toEndOf="@id/end_guide_parameter"
+            app:layout_constraintStart_toEndOf="@id/icon_parameter"
+            app:layout_constraintTop_toBottomOf="@id/label_parameter"
+            tools:text="What is the guided question?" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/icon_bottom_barrier_parameter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="icon_parameter, label_parameter, guided_question_parameter" />
+
+        <TextView
+            android:id="@+id/date_picker_parameter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/bg_rounded_ripple"
+            android:clickable="true"
+            android:padding="8dp"
+            android:text="@string/mar_11_to_apr_5"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/end_guide_parameter"
+            app:layout_constraintTop_toBottomOf="@id/icon_bottom_barrier_parameter" />
+
+        <tech.codevil.tracne.ui.statistics.MultipleGraphView
+            android:id="@+id/statistics_graph_parameter"
+            android:layout_width="0dp"
+            android:layout_height="300dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="@id/end_guide_parameter"
+            app:layout_constraintStart_toStartOf="@id/start_guide_parameter"
+            app:layout_constraintTop_toBottomOf="@id/date_picker_parameter" />
+
+        <HorizontalScrollView
+            android:id="@+id/chip_scroll_parameter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fillViewport="true"
+            android:scrollbars="none"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/statistics_graph_parameter">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group_parameter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:clipToPadding="false"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                app:singleLine="true"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:text="@string/compare_with"
+                    android:textColor="@color/black"
+                    app:checkedIconEnabled="false"
+                    app:chipBackgroundColor="@color/transparent"
+                    app:chipEndPadding="0dp"
+                    app:chipStartPadding="0dp"
+                    app:textStartPadding="0dp" />
+
+            </com.google.android.material.chip.ChipGroup>
+
+        </HorizontalScrollView>
+
+        <TextView
+            android:id="@+id/data_label_parameter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/data"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/end_guide_parameter"
+            app:layout_constraintStart_toStartOf="@id/start_guide_parameter"
+            app:layout_constraintTop_toBottomOf="@id/chip_scroll_parameter" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/data_recycler_view_parameter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/data_label_parameter"
+            app:layout_constraintVertical_bias="0.0"
+            tools:paddingEnd="16dp"
+            tools:paddingStart="16dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

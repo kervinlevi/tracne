@@ -96,7 +96,7 @@ class AddTemplateFragment : Fragment() {
                 }
                 is DataState.Success -> {
                     Toast.makeText(requireContext(), "Success!", Toast.LENGTH_SHORT).show()
-                    findNavController().navigate(AddTemplateFragmentDirections.actionAddTemplateFragmentToTemplatesFragment())
+                    findNavController().navigate(AddTemplateFragmentDirections.actionAddTemplateFragment2ToTemplatesFragment2())
                 }
                 is DataState.Loading -> {
                     binding.submitButtonAddTemplate.isEnabled = false

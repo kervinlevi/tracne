@@ -29,7 +29,8 @@ class FancySeekBar @JvmOverloads constructor(
         fun onValueChanged(newValue: Int)
     }
 
-    private var marks = 10
+    private var min = 0
+    private var max = 10
     private var fillBarPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.FILL
         color = Color.LTGRAY
@@ -52,10 +53,10 @@ class FancySeekBar @JvmOverloads constructor(
     private var knobY: Float = 0f
     private var dragKnob = false
     private var marksList: MutableList<Float> = mutableListOf()
-    private var currentValue = 0
+    private var currentValueIndex = 0
     private var listener: Listener? = null
 
-    val value get() = currentValue
+    val value get() = currentValueIndex
 
     init {
         knobRadius = dpToPx(16f)
@@ -63,8 +64,9 @@ class FancySeekBar @JvmOverloads constructor(
         knobY = knobRadius
         textPaint.textSize = knobRadius
         context.withStyledAttributes(attrs, R.styleable.FancySeekBar) {
-            marks = getInt(R.styleable.FancySeekBar_maxValue, 10)
-            currentValue = getInt(R.styleable.FancySeekBar_initialValue, 0)
+            min = getInt(R.styleable.FancySeekBar_minValue, 0)
+            max = getInt(R.styleable.FancySeekBar_maxValue, 10)
+            currentValueIndex = getInt(R.styleable.FancySeekBar_initialValue, 0)
             fillBarPaint.color = getColor(R.styleable.FancySeekBar_barBackgroundColor, Color.LTGRAY)
             knobPaint.color = getColor(R.styleable.FancySeekBar_barForegroundColor, Color.MAGENTA)
         }
@@ -89,15 +91,15 @@ class FancySeekBar @JvmOverloads constructor(
         barRectF.set(0f, 0f, w.toFloat(), knobDiameter)
         fillRectF.set(0f, 0f, 0f, knobDiameter)
 
-        recomputeMarks()
+        recomputePoints()
     }
 
-    private fun recomputeMarks() {
+    private fun recomputePoints() {
         marksList.clear()
-        val step = (width - knobDiameter) / ((marks - 1).toFloat())
-        for (i in 0 until marks) marksList.add(knobRadius + (i * step))
+        val step = (width - knobDiameter) / ((max - min).toFloat())
+        for (i in min..max) marksList.add(knobRadius + ((i - min) * step))
 
-        if (currentValue in 0 until marksList.size) {
+        if (currentValueIndex in 0 until marksList.size) {
             knobX = marksList[value]
             postInvalidate()
         }
@@ -116,7 +118,7 @@ class FancySeekBar @JvmOverloads constructor(
             //draw knob
             //drawCircle(knobX, knobY, knobRadius, knobPaint)
 
-            drawText("${currentValue + 1}", knobX, knobY + knobRadius / 3, textPaint)
+            drawText("${currentValueIndex + min}", knobX, knobY + knobRadius / 3, textPaint)
         }
     }
 
@@ -150,7 +152,7 @@ class FancySeekBar @JvmOverloads constructor(
             MotionEvent.ACTION_MOVE -> {
                 if (dragKnob) {
                     knobX = min(max(knobRadius, event.x), width - knobRadius)
-                    setCurrentValue(getNearestMarkIndex())
+                    setCurrentValueIndex(getNearestMarkIndex())
                     postInvalidate()
                 }
                 Log.d(javaClass.simpleName, "Action move")
@@ -168,8 +170,8 @@ class FancySeekBar @JvmOverloads constructor(
     }
 
     private fun stickKnobToMark() {
-        setCurrentValue(getNearestMarkIndex())
-        knobX = marksList[currentValue]
+        setCurrentValueIndex(getNearestMarkIndex())
+        knobX = marksList[currentValueIndex]
         postInvalidate()
     }
 
@@ -192,18 +194,19 @@ class FancySeekBar @JvmOverloads constructor(
     }
 
     fun setValue(value: Int) { //value is zero-indexed
-        if (value in 0 until marks) {
-            setCurrentValue(value)
-            if (value in 0 until marksList.size) {
+        if (value in min until max) {
+            setCurrentValueIndex(value - min)
+            if ((value - min) in 0 until marksList.size) {
                 knobX = marksList[value]
                 postInvalidate()
             }
         }
     }
 
-    fun setMarks(marks: Int) {
-        this.marks = marks
-        recomputeMarks()
+    fun setMinMax(min: Int = 0, max: Int = 10) {
+        this.min = min
+        this.max = max
+        recomputePoints()
         postInvalidate()
     }
 
@@ -211,13 +214,13 @@ class FancySeekBar @JvmOverloads constructor(
         this.listener = listener
     }
 
-    private fun setCurrentValue(newValue: Int) {
+    private fun setCurrentValueIndex(newValueIndex: Int) {
         if (listener == null) {
-            currentValue = newValue
-        }
-        else if (currentValue != newValue) {
-            currentValue = newValue
-            listener?.onValueChanged(newValue)
+            currentValueIndex = newValueIndex
+        } else if (currentValueIndex != newValueIndex) {
+            currentValueIndex = newValueIndex
+            listener?.onValueChanged(newValueIndex + min)
+            Log.d(javaClass.simpleName, "onValueChanged ${newValueIndex + min}")
         }
     }
 }

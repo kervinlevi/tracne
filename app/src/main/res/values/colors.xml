@@ -8,6 +8,14 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="red_500">#FFF44336</color>
+    <color name="transparent">#00FFFFFF</color>
+
+
+    <color name="pastel_bg">#FFF7F0</color>
+    <color name="pastel_yellow">#FCEAC6</color>
+    <color name="pastel_red">#FCB4B6</color>
+    <color name="pastel_blue">#8DCAD4</color>
+    <color name="dark_blue">#355C72</color>
 
     <color name="primary_fragment_background">#f0f0f0</color>
     <color name="primary_seekbar_foreground">#000000</color>

@@ -17,4 +17,5 @@ object Constants {
     const val QUESTION_STATUS_ARCHIVED = "archived"
 
     val DAY_FORMAT = SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH)
+    val RANGE_FORMAT = SimpleDateFormat("MMM. d", Locale.ENGLISH)
 }

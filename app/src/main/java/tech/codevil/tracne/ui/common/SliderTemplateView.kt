@@ -41,7 +41,7 @@ class SliderTemplateView @JvmOverloads constructor(
     fun setTemplate(template: Template) {
         this.template = template
         binding.questionSliderTemplate.text = template.guidingQuestion
-        binding.barSliderTemplate.setMarks(template.max)
+        binding.barSliderTemplate.setMinMax(template.min, template.max)
     }
 
     private fun attachCallback() {

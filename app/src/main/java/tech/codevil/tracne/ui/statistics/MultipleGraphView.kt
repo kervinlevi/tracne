@@ -2,8 +2,10 @@ package tech.codevil.tracne.ui.statistics
 
 import android.content.Context
 import android.graphics.*
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.View
+import kotlinx.parcelize.Parcelize
 import tech.codevil.tracne.common.util.Constants
 import java.util.*
 
@@ -13,17 +15,18 @@ class MultipleGraphView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
+    @Parcelize
     data class Graph(
         val xMin: Int = 0, val xMax: Int = 10,
         val yMin: Int = 0, val yMax: Int = 10,
         var valuesMap: MutableMap<Int, Int>,
         val color: Int = Color.CYAN
-    )
-    {
+    ) : Parcelable {
         val graphPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             color = this@Graph.color
-            style = Paint.Style.FILL
-            alpha = 64
+            style = Paint.Style.STROKE
+            strokeWidth = 5.0f
+//            alpha = 64
         }
 
         val pointPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -53,14 +56,14 @@ class MultipleGraphView @JvmOverloads constructor(
             val path = graphPaths[index]
             val points = pointsList[index]
 
-            val spacingX = totalWidth / ((graph.xMax - graph.xMin).toFloat())
+            val spacingX = totalWidth / ((graph.xMax - graph.xMin).toFloat()) //TODO: confirm - 1
             val spacingY = totalHeight / ((graph.yMax - graph.yMin).toFloat())
 
             var prevX = graphStart()
             var prevY = height - graphBottom()
 
             path.reset()
-            path.moveTo(prevX, prevY)
+//            path.moveTo(prevX, prevY)
             points.clear()
 
             val xValues = (graph.xMin..graph.xMax).toList()
@@ -72,7 +75,8 @@ class MultipleGraphView @JvmOverloads constructor(
                     points.add(PointF(pointX, pointY))
 
                     if (path.isEmpty) {
-                        path.lineTo(prevX, pointY)
+//                        path.lineTo(prevX, pointY)
+                        path.moveTo(pointX, pointY)
                     } else {
                         path.cubicTo((prevX + pointX) / 2f, prevY, (prevX + pointX) / 2f, pointY, pointX, pointY)
                         //https://medium.com/@pranjalg2308/understanding-bezier-curve-in-android-and-moddinggraphview-library-a9b1f0f95cd0
@@ -81,12 +85,12 @@ class MultipleGraphView @JvmOverloads constructor(
                     prevY = pointY
                 }
             }
-            if (points.isNotEmpty()) {
-                path.lineTo(points.last().x, height.toFloat() - graphBottom())
-                path.lineTo(graphStart(), height.toFloat() - graphBottom())
-                path.lineTo(graphStart(), points.first().y)
-            }
-            path.close()
+//            if (points.isNotEmpty()) {
+//                path.lineTo(points.last().x, height.toFloat() - graphBottom())
+//                path.lineTo(graphStart(), height.toFloat() - graphBottom())
+//                path.lineTo(graphStart(), points.first().y)
+//            }
+//            path.close()
         }
 
 
@@ -110,19 +114,19 @@ class MultipleGraphView @JvmOverloads constructor(
     }
 
     private fun graphStart(): Float {
-        return 50f
+        return paddingStart.toFloat()
     }
 
     private fun graphEnd(): Float {
-        return 50f
+        return paddingEnd.toFloat()
     }
 
     private fun graphTop(): Float {
-        return 50f
+        return paddingTop.toFloat()
     }
 
     private fun graphBottom(): Float {
-        return 50f
+        return paddingBottom.toFloat()
     }
 
     fun setGraphs(graphs: List<Graph>) {
@@ -137,6 +141,13 @@ class MultipleGraphView @JvmOverloads constructor(
         }
 
         computePoints()
+        postInvalidate()
+    }
+
+    fun clearGraphs() {
+        this.graphs.clear()
+        graphPaths.clear()
+        pointsList.clear()
         postInvalidate()
     }
 

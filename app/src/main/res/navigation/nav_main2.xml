@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_main2"
+    app:startDestination="@id/home2Fragment">
+
+    <fragment
+        android:id="@+id/home2Fragment"
+        android:name="tech.codevil.tracne.ui.home2.Home2Fragment"
+        android:label="Home2Fragment" >
+        <action
+            android:id="@+id/action_home2Fragment_to_templatesFragment2"
+            app:destination="@id/templatesFragment2" />
+        <action
+            android:id="@+id/action_home2Fragment_to_parameterFragment"
+            app:destination="@id/parameterFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/templatesFragment2"
+        android:name="tech.codevil.tracne.ui.templates.TemplatesFragment"
+        android:label="TemplatesFragment" >
+        <action
+            android:id="@+id/action_templatesFragment2_to_addTemplateFragment2"
+            app:destination="@id/addTemplateFragment2" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addTemplateFragment2"
+        android:name="tech.codevil.tracne.ui.addtemplate.AddTemplateFragment"
+        android:label="AddTemplateFragment" >
+        <action
+            android:id="@+id/action_addTemplateFragment2_to_templatesFragment2"
+            app:popUpTo="@id/templatesFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/parameterFragment"
+        android:name="tech.codevil.tracne.ui.parameter.ParameterFragment"
+        android:label="ParameterFragment" >
+        <argument
+            android:name="param"
+            app:argType="tech.codevil.tracne.ui.home2.components.ParameterItem" />
+    </fragment>
+
+</navigation>

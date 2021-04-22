@@ -3,6 +3,7 @@
     <declare-styleable name="FancySeekBar">
         <attr name="barForegroundColor" format="color" />
         <attr name="barBackgroundColor" format="color" />
+        <attr name="minValue" format="integer" />
         <attr name="maxValue" format="integer" />
         <attr name="initialValue" format="integer" />
     </declare-styleable>

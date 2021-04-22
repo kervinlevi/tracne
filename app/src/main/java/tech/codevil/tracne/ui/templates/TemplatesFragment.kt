@@ -53,7 +53,7 @@ class TemplatesFragment : Fragment(), CustomizeAdapter.Listener {
     }
 
     override fun onClickAddCustomQuestion() {
-        findNavController().navigate(TemplatesFragmentDirections.actionTemplatesFragmentToAddTemplateFragment())
+        findNavController().navigate(TemplatesFragmentDirections.actionTemplatesFragment2ToAddTemplateFragment2())
     }
 
 }
