@@ -40,7 +40,7 @@ class StatisticsFragment : Fragment() {
         statisticsViewModel.entriesWithinTimestamp.observe(viewLifecycleOwner) { entries ->
             val stringBuilder = StringBuilder()
             entries.map {
-                stringBuilder.append("${Constants.DAY_FORMAT.format(Date(it.timestamp))}\tSleep = ${it.sleep}\tSpots = ${it.newSpots}\n")
+                stringBuilder.append("${Constants.DAY_FORMAT.format(Date(it.timestamp))}\tSleep = ${it.values}\tSpots = ${it.values}\n")
             }
             binding.entriesStatistics.text = stringBuilder.toString()
         }
@@ -52,9 +52,9 @@ class StatisticsFragment : Fragment() {
 
         statisticsViewModel.parameters.observe(viewLifecycleOwner) { parameters ->
             parameters.forEach {
-                if (chipId.containsKey(it.id)) {
-                    val chip = binding.graphTogglesChipGroup.findViewById(chipId[it.id]!!) as Chip
-                    chip.text = it.label
+                if (chipId.containsKey(it.template.id())) {
+                    val chip = binding.graphTogglesChipGroup.findViewById(chipId[it.template.id()]!!) as Chip
+                    chip.text = it.template.label
                     chip.isChecked = it.isChecked
                     chip.isEnabled = it.isEnabled
                 } else {
@@ -62,13 +62,13 @@ class StatisticsFragment : Fragment() {
                     chip.id = View.generateViewId()
                     chip.isCheckable = true
                     chip.isCheckedIconVisible = true
-                    chip.text = it.label
+                    chip.text = it.template.label
                     chip.isChecked = it.isChecked
                     chip.isEnabled = it.isEnabled
                     chip.setOnCheckedChangeListener { _, _ ->
-                        statisticsViewModel.onToggleParameter(it.id)
+                        statisticsViewModel.onToggleParameter(it.template.id())
                     }
-                    chipId[it.id] = chip.id
+                    chipId[it.template.id()] = chip.id
                     binding.graphTogglesChipGroup.addView(chip)
                 }
             }

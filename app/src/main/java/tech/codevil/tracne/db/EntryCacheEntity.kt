@@ -11,13 +11,9 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "entry", indices = [Index(value = ["day"], unique = true)])
 data class EntryCacheEntity(
-    var timestamp: Long,
+    @ColumnInfo(name = "time_created") var timeCreated: Long,
     var day: String,
-    var mood: Int,
-    var sleep: Int,
-    @ColumnInfo(name = "new_spots") var newSpots: Int,
-    var rating: Int,
-    @ColumnInfo(name = "template_values_json") var templateValuesJson: String,
+    @ColumnInfo(name = "template_values_json") var valuesJson: String,
     @ColumnInfo(name = "last_updated") var lastUpdated: Long,
 ) {
 

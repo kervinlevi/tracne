@@ -10,6 +10,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import tech.codevil.tracne.db.EntryDao
 import tech.codevil.tracne.db.JournalDatabase
+import tech.codevil.tracne.db.JournalDatabaseCallback
 import tech.codevil.tracne.db.TemplateDao
 import javax.inject.Singleton
 
@@ -27,8 +28,10 @@ object DbModule {
         return Room.databaseBuilder(
             context,
             JournalDatabase::class.java,
-            JournalDatabase.DATABASE_NAME
-        ).addMigrations().build()
+            JournalDatabase.DATABASE_NAME)
+            .addCallback(JournalDatabaseCallback)
+            .addMigrations()
+            .build()
     }
 
     @Singleton

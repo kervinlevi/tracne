@@ -9,12 +9,12 @@ import java.util.*
  */
 object Constants {
 
-    const val QUESTION_TYPE_YES_NO = "yesno"
-    const val QUESTION_TYPE_NUMERIC = "numeric"
-    const val QUESTION_TYPE_SLIDER = "slider"
+    const val TEMPLATE_TYPE_YES_NO = "yesno"
+    const val TEMPLATE_TYPE_NUMERIC = "numeric"
+    const val TEMPLATE_TYPE_SLIDER = "slider"
 
-    const val QUESTION_STATUS_ACTIVE = "active"
-    const val QUESTION_STATUS_ARCHIVED = "archived"
+    const val TEMPLATE_STATUS_ACTIVE = "active"
+    const val TEMPLATE_STATUS_ARCHIVED = "archived"
 
     val DAY_FORMAT = SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH)
     val RANGE_FORMAT = SimpleDateFormat("MMM. d", Locale.ENGLISH)

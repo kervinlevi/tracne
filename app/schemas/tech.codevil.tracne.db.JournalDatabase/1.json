@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "448b02d2f5a598c3fd1dd2a7c6e91c7b",
+    "identityHash": "f7d94ece83fc7645949d6011fccaa5e1",
     "entities": [
       {
         "tableName": "entry",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `timestamp` INTEGER NOT NULL, `day` TEXT NOT NULL, `mood` INTEGER NOT NULL, `sleep` INTEGER NOT NULL, `new_spots` INTEGER NOT NULL, `rating` INTEGER NOT NULL, `template_values_json` TEXT NOT NULL, `last_updated` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `time_created` INTEGER NOT NULL, `day` TEXT NOT NULL, `template_values_json` TEXT NOT NULL, `last_updated` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -15,8 +15,8 @@
             "notNull": false
           },
           {
-            "fieldPath": "timestamp",
-            "columnName": "timestamp",
+            "fieldPath": "timeCreated",
+            "columnName": "time_created",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -27,31 +27,7 @@
             "notNull": true
           },
           {
-            "fieldPath": "mood",
-            "columnName": "mood",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "sleep",
-            "columnName": "sleep",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "newSpots",
-            "columnName": "new_spots",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "rating",
-            "columnName": "rating",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "templateValuesJson",
+            "fieldPath": "valuesJson",
             "columnName": "template_values_json",
             "affinity": "TEXT",
             "notNull": true
@@ -83,7 +59,7 @@
       },
       {
         "tableName": "template",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `timestamp` INTEGER NOT NULL, `label` TEXT NOT NULL, `guiding_question` TEXT NOT NULL, `type` TEXT NOT NULL, `min` INTEGER NOT NULL, `max` INTEGER NOT NULL, `status` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `timestamp` INTEGER NOT NULL, `label` TEXT NOT NULL, `guiding_question` TEXT NOT NULL, `type` TEXT NOT NULL, `min` INTEGER NOT NULL, `max` INTEGER NOT NULL, `values_label_json` TEXT NOT NULL, `status` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -128,6 +104,12 @@
             "notNull": true
           },
           {
+            "fieldPath": "valuesLabelJson",
+            "columnName": "values_label_json",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
             "fieldPath": "status",
             "columnName": "status",
             "affinity": "TEXT",
@@ -156,7 +138,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '448b02d2f5a598c3fd1dd2a7c6e91c7b')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f7d94ece83fc7645949d6011fccaa5e1')"
     ]
   }
 }

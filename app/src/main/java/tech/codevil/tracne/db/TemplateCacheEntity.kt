@@ -16,7 +16,8 @@ class TemplateCacheEntity(
     var type: String,
     var min: Int,
     var max: Int,
-    var status: String
+    @ColumnInfo(name = "values_label_json") var valuesLabelJson: String,
+    var status: String,
 ) {
 
     @PrimaryKey(autoGenerate = true)

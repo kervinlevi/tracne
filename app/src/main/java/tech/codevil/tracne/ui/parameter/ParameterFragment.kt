@@ -41,6 +41,7 @@ class ParameterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val param = args.param
+        viewModel.parameter.value = param
 
         viewModel.duration.observe(viewLifecycleOwner) {
             binding.datePickerParameter.text =
@@ -49,24 +50,27 @@ class ParameterFragment : Fragment() {
         viewModel.graphs.observe(viewLifecycleOwner, binding.statisticsGraphParameter::setGraphs)
         viewModel.parameters.observe(viewLifecycleOwner) { parameters ->
             parameters.forEach {
-                if (chipId.containsKey(it.id)) {
-                    val chip = binding.chipGroupParameter.findViewById(chipId[it.id]!!) as Chip
-                    chip.text = it.label
+                val id = it.template.id()
+                if (chipId.containsKey(id)) {
+                    val chip = binding.chipGroupParameter.findViewById(chipId[id]!!) as Chip
+                    chip.text = it.template.label
                 } else {
                     val chip = Chip(requireContext())
                     chip.id = View.generateViewId()
                     chip.isCheckable = true
                     chip.isCheckedIconVisible = true
-                    chip.text = it.label
+                    chip.text = it.template.label
                     chip.setOnCheckedChangeListener { _, isChecked ->
+                        val list =
+                            viewModel.selectedParameters.value?.toMutableList() ?: mutableListOf()
                         if (isChecked) {
-                            viewModel.selectedParameters.value = listOf(param.id, it.id)
+                            list.add(id)
+                        } else {
+                            list.remove(id)
                         }
-                        else {
-                            viewModel.selectedParameters.value = listOf(param.id)
-                        }
+                        viewModel.selectedParameters.value = list
                     }
-                    chipId[it.id] = chip.id
+                    chipId[id] = chip.id
                     binding.chipGroupParameter.addView(chip)
                 }
             }
@@ -81,9 +85,9 @@ class ParameterFragment : Fragment() {
 //            }
 //        }
 
-        binding.labelParameter.text = param.label
+        binding.labelParameter.text = param.template.label
         binding.datePickerParameter.setOnClickListener { showDateRangePicker() }
-        viewModel.selectedParameters.value = listOf(param.id)
+        viewModel.selectedParameters.value = listOf(param.template.id())
         viewModel.duration.value = Pair(param.startTimestamp, param.endTimestamp)
     }
 

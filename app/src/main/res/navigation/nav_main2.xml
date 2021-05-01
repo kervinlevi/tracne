@@ -38,7 +38,7 @@
         android:label="ParameterFragment" >
         <argument
             android:name="param"
-            app:argType="tech.codevil.tracne.ui.home2.components.ParameterItem" />
+            app:argType="tech.codevil.tracne.ui.home2.components.TemplateGraph" />
     </fragment>
 
 </navigation>

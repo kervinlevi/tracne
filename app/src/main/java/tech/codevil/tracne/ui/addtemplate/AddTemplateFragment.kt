@@ -15,9 +15,9 @@ import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import tech.codevil.tracne.R
-import tech.codevil.tracne.common.util.Constants.QUESTION_TYPE_NUMERIC
-import tech.codevil.tracne.common.util.Constants.QUESTION_TYPE_SLIDER
-import tech.codevil.tracne.common.util.Constants.QUESTION_TYPE_YES_NO
+import tech.codevil.tracne.common.util.Constants.TEMPLATE_TYPE_NUMERIC
+import tech.codevil.tracne.common.util.Constants.TEMPLATE_TYPE_SLIDER
+import tech.codevil.tracne.common.util.Constants.TEMPLATE_TYPE_YES_NO
 import tech.codevil.tracne.common.util.DataState
 import tech.codevil.tracne.databinding.FragmentAddTemplateBinding
 import tech.codevil.tracne.common.util.Extensions.textWatcherFlow
@@ -35,9 +35,9 @@ class AddTemplateFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val typeRadioValue = mapOf(
-        R.id.yes_no_radio_add_template to QUESTION_TYPE_YES_NO,
-        R.id.numeric_radio_add_template to QUESTION_TYPE_NUMERIC,
-        R.id.slider_radio_add_template to QUESTION_TYPE_SLIDER
+        R.id.yes_no_radio_add_template to TEMPLATE_TYPE_YES_NO,
+        R.id.numeric_radio_add_template to TEMPLATE_TYPE_NUMERIC,
+        R.id.slider_radio_add_template to TEMPLATE_TYPE_SLIDER
     )
 
     private val addTemplateViewModel: AddTemplateViewModel by viewModels()

@@ -12,14 +12,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
-import tech.codevil.tracne.common.util.Constants
-import tech.codevil.tracne.common.util.Constants.DAY_FORMAT
 import tech.codevil.tracne.common.util.Constants.RANGE_FORMAT
 import tech.codevil.tracne.common.util.Extensions.setMaxTime
 import tech.codevil.tracne.common.util.Extensions.setMinTime
 import tech.codevil.tracne.databinding.FragmentHome2Binding
 import tech.codevil.tracne.ui.home2.components.Home2Adapter
-import tech.codevil.tracne.ui.home2.components.ParameterItem
+import tech.codevil.tracne.ui.home2.components.TemplateGraph
 import java.util.*
 
 /**
@@ -108,7 +106,7 @@ class Home2Fragment : Fragment(), Home2Adapter.Listener {
         picker.show(requireActivity().supportFragmentManager, "date_range_picker")
     }
 
-    override fun onParameterClicked(parameter: ParameterItem?) {
+    override fun onParameterClicked(parameter: TemplateGraph?) {
         Log.d(javaClass.simpleName, "param = $parameter")
         parameter?.let {
             findNavController().navigate(Home2FragmentDirections.actionHome2FragmentToParameterFragment(

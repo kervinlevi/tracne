@@ -5,7 +5,8 @@ import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import tech.codevil.tracne.common.util.Constants
-import tech.codevil.tracne.common.util.Constants.QUESTION_TYPE_SLIDER
+import tech.codevil.tracne.common.util.Constants.TEMPLATE_TYPE_SLIDER
+import tech.codevil.tracne.common.util.Constants.TEMPLATE_TYPE_YES_NO
 import tech.codevil.tracne.common.util.DataState
 import tech.codevil.tracne.model.Template
 import tech.codevil.tracne.repository.TemplateRepository
@@ -53,7 +54,7 @@ class AddTemplateViewModel @Inject constructor(
         _guidingQuestionState =
             Transformations.map(guidingQuestionInput, this::validateGuidingQuestion)
         _typeState = Transformations.map(typeInput) {
-            _minMaxVisible.value = (it == QUESTION_TYPE_SLIDER)
+            _minMaxVisible.value = (it == TEMPLATE_TYPE_SLIDER)
             validateType(it)
         }
         _minState = Transformations.map(minInput, this::validateMin)
@@ -73,11 +74,14 @@ class AddTemplateViewModel @Inject constructor(
             typeInput.value = typeInput.value
             val typeInputState = typeState.value
 
-            minInput.value = if (typeInput.value == QUESTION_TYPE_SLIDER) minInput.value else "0"
+            minInput.value = if (typeInput.value == TEMPLATE_TYPE_SLIDER) minInput.value else "0"
             val minInputState = minState.value
 
-            maxInput.value = if (typeInput.value == QUESTION_TYPE_SLIDER) maxInput.value else "1"
+            maxInput.value = if (typeInput.value == TEMPLATE_TYPE_SLIDER) maxInput.value else "1"
             val maxInputState = maxState.value
+
+            val valuesLabel = if (typeInput.value == TEMPLATE_TYPE_YES_NO) mapOf(0 to "No",
+                1 to "Yes") else emptyMap()
 
             val hasInputError = labelInputState?.hasError == true
                     || guidingQuestionInputState?.hasError == true
@@ -95,7 +99,8 @@ class AddTemplateViewModel @Inject constructor(
                     type = typeInput.value!!,
                     min = Integer.parseInt(minInput.value!!),
                     max = Integer.parseInt(maxInput.value!!),
-                    status = Constants.QUESTION_STATUS_ACTIVE
+                    status = Constants.TEMPLATE_STATUS_ACTIVE,
+                    valuesLabel = valuesLabel
                 )
                 val id = templateRepository.insertTemplate(template)
                 val dataState = if (id == -1L) DataState.Error(RuntimeException("error inserting"))

@@ -3,16 +3,12 @@ package tech.codevil.tracne.ui.parameter
 import android.graphics.Color
 import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
-import tech.codevil.tracne.common.util.Constants
-import tech.codevil.tracne.common.util.Extensions.setMaxTime
 import tech.codevil.tracne.common.util.Extensions.setMinTime
 import tech.codevil.tracne.model.Entry
 import tech.codevil.tracne.model.Template
 import tech.codevil.tracne.repository.EntryRepository
 import tech.codevil.tracne.repository.TemplateRepository
-import tech.codevil.tracne.ui.home2.components.ParameterItem
-import tech.codevil.tracne.ui.statistics.MultipleGraphView
+import tech.codevil.tracne.ui.home2.components.TemplateGraph
 import tech.codevil.tracne.ui.statistics.MultipleGraphView.Graph
 import java.util.*
 import javax.inject.Inject
@@ -23,11 +19,11 @@ class ParameterViewModel @Inject constructor(
     templateRepository: TemplateRepository,
 ) : ViewModel() {
 
-
+    val parameter = MutableLiveData<TemplateGraph>()
     val duration = MutableLiveData<Pair<Long, Long>>()
     val selectedParameters = MutableLiveData<List<String>>()
 
-    val parameters: LiveData<List<ParameterItem>>
+    val parameters: LiveData<List<TemplateGraph>>
     val entries = Transformations.switchMap(duration) {
         entryRepository.observeEntriesWithin(it.first, it.second)
     }
@@ -38,18 +34,20 @@ class ParameterViewModel @Inject constructor(
 
 
     init {
+        entriesAndTemplates.addSource(parameter, this::combineEntriesAndTemplates)
         entriesAndTemplates.addSource(entries, this::combineEntriesAndTemplates)
         entriesAndTemplates.addSource(templates, this::combineEntriesAndTemplates)
 
         parameters = Transformations.map(entriesAndTemplates) {
             val entries = it.first ?: emptyList()
             val temps = it.second ?: emptyList()
-            val parameterItems = mutableListOf<ParameterItem>()
+            val parameterItems = mutableListOf<TemplateGraph>()
+            val thisParameter = parameter.value
 
             val start = duration.value?.first ?: 0L
             val end = duration.value?.second ?: 0L
 
-            if (start == 0L || end == 0L) {
+            if (start == 0L || end == 0L || thisParameter == null) {
                 return@map emptyList()
             }
 
@@ -66,51 +64,9 @@ class ParameterViewModel @Inject constructor(
 
 
             val paramValues = mutableMapOf<String, MutableMap<Int, Int>>()
-
-            parameterItems.add(ParameterItem("sleep",
-                "Sleep",
-                Graph(xMin,
-                    xMax,
-                    0,
-                    13,
-                    mutableMapOf(),
-                    Color.parseColor("#8DCAD4")),
-                noTimeStart, noTimeEnd
-            ))
-            parameterItems.add(ParameterItem("spots",
-                "New spots",
-                Graph(xMin,
-                    xMax,
-                    0,
-                    20,
-                    mutableMapOf(),
-                    Color.parseColor("#8DCAD4")),
-                noTimeStart, noTimeEnd
-            ))
-            parameterItems.add(ParameterItem("ratings",
-                "Skin ratings",
-                Graph(xMin,
-                    xMax,
-                    0,
-                    10,
-                    mutableMapOf(),
-                    Color.parseColor("#8DCAD4")),
-                noTimeStart, noTimeEnd
-            ))
-            parameterItems.add(ParameterItem("mood",
-                "Mood",
-                Graph(xMin,
-                    xMax,
-                    0,
-                    10,
-                    mutableMapOf(),
-                    Color.parseColor("#8DCAD4")),
-                noTimeStart, noTimeEnd
-            ))
-
             temps.forEachIndexed { index, template ->
-                parameterItems.add(ParameterItem(template.timestamp.toString(),
-                    template.label,
+                if (template.id() != thisParameter.template.id())
+                parameterItems.add(TemplateGraph(template,
                     Graph(xMin,
                         xMax,
                         template.min,
@@ -120,19 +76,12 @@ class ParameterViewModel @Inject constructor(
                     noTimeStart, noTimeEnd
                 ))
             }
-            parameterItems.forEach { paramValues[it.id] = it.graph.valuesMap }
+            parameterItems.forEach { paramValues[it.template.id()] = it.graph.valuesMap }
 
             entries.forEachIndexed { i, entry ->
                 val date = entry.day
                 val x = daysBetween(noTimeStart, date.time)
-                paramValues["sleep"]?.put(x, entry.sleep)
-                paramValues["spots"]?.put(x, entry.newSpots)
-                paramValues["ratings"]?.put(x, entry.rating)
-                paramValues["mood"]?.put(x, entry.mood)
-
-                entry.templateValues.map {
-                    paramValues[it.key]?.put(x, it.value)
-                }
+                entry.values.map { pair -> paramValues[pair.key]?.put(x, pair.value) }
             }
             parameterItems
         }
@@ -141,6 +90,8 @@ class ParameterViewModel @Inject constructor(
         graphs.addSource(selectedParameters, this::combineParameters)
         graphs.addSource(parameters, this::combineParameters)
     }
+
+
 
     private fun combineEntriesAndTemplates(any: Any) {
         entriesAndTemplates.value = Pair(entries.value, templates.value)
@@ -151,8 +102,12 @@ class ParameterViewModel @Inject constructor(
         val selectedParamValues = selectedParameters.value
         if (paramValues != null && selectedParamValues != null) {
             val graphValues = mutableListOf<Graph>()
+            val selectedParameterGraph = parameter.value?.graph
+            if (selectedParameterGraph != null) {
+                graphValues.add(selectedParameterGraph)
+            }
             paramValues.forEach {
-                if (selectedParamValues.contains(it.id)) graphValues.add(it.graph)
+                if (selectedParamValues.contains(it.template.id())) graphValues.add(it.graph)
             }
             graphs.value = graphValues
         }

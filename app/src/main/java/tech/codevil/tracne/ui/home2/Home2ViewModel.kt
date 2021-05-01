@@ -1,8 +1,10 @@
 package tech.codevil.tracne.ui.home2
 
 import android.graphics.Color
+import android.util.Log
 import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import tech.codevil.tracne.common.util.Constants.DAY_FORMAT
 import tech.codevil.tracne.common.util.Extensions.setMaxTime
@@ -11,10 +13,10 @@ import tech.codevil.tracne.model.Entry
 import tech.codevil.tracne.model.Template
 import tech.codevil.tracne.repository.EntryRepository
 import tech.codevil.tracne.repository.TemplateRepository
-import tech.codevil.tracne.ui.home2.components.ParameterItem
-import tech.codevil.tracne.ui.statistics.MultipleGraphView
+import tech.codevil.tracne.ui.home2.components.TemplateGraph
 import tech.codevil.tracne.ui.statistics.MultipleGraphView.Graph
 import java.util.*
+import java.util.Calendar.DAY_OF_MONTH
 import javax.inject.Inject
 
 /**
@@ -22,8 +24,8 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class Home2ViewModel @Inject constructor(
-    entryRepository: EntryRepository,
-    templateRepository: TemplateRepository,
+    private val entryRepository: EntryRepository,
+    private val templateRepository: TemplateRepository,
 ) : ViewModel() {
 
     val enableWritingToday: LiveData<Boolean>
@@ -32,7 +34,7 @@ class Home2ViewModel @Inject constructor(
     val entries = Transformations.switchMap(duration) {
         entryRepository.observeEntriesWithin(it.first, it.second)
     }
-    val parameters: LiveData<List<ParameterItem>>
+    val parameters: LiveData<List<TemplateGraph>>
     private val templates = templateRepository.observeTemplates()
     private val entriesAndTemplates = MediatorLiveData<Pair<List<Entry>?, List<Template>?>>()
 
@@ -51,7 +53,7 @@ class Home2ViewModel @Inject constructor(
         parameters = Transformations.map(entriesAndTemplates) {
             val entries = it.first ?: emptyList()
             val temps = it.second ?: emptyList()
-            val parameterItems = mutableListOf<ParameterItem>()
+            val parameterItems = mutableListOf<TemplateGraph>()
 
             val start = duration.value?.first ?: 0L
             val end = duration.value?.second ?: 0L
@@ -73,31 +75,8 @@ class Home2ViewModel @Inject constructor(
 
 
             val paramValues = mutableMapOf<String, MutableMap<Int, Int>>()
-
-            parameterItems.add(ParameterItem("sleep",
-                "Sleep",
-                Graph(xMin, xMax, 0, 13, mutableMapOf(), Color.parseColor("#8DCAD4")),
-                noTimeStart, noTimeEnd
-            ))
-            parameterItems.add(ParameterItem("spots",
-                "New spots",
-                Graph(xMin, xMax, 0, 20, mutableMapOf(), Color.parseColor("#8DCAD4")),
-                noTimeStart, noTimeEnd
-            ))
-            parameterItems.add(ParameterItem("ratings",
-                "Skin ratings",
-                Graph(xMin, xMax, 0, 10, mutableMapOf(), Color.parseColor("#8DCAD4")),
-                noTimeStart, noTimeEnd
-            ))
-            parameterItems.add(ParameterItem("mood",
-                "Mood",
-                Graph(xMin, xMax, 0, 10, mutableMapOf(), Color.parseColor("#8DCAD4")),
-                noTimeStart, noTimeEnd
-            ))
-
             temps.forEachIndexed { index, template ->
-                parameterItems.add(ParameterItem(template.timestamp.toString(),
-                    template.label,
+                parameterItems.add(TemplateGraph(template,
                     Graph(xMin,
                         xMax,
                         template.min,
@@ -107,19 +86,14 @@ class Home2ViewModel @Inject constructor(
                     noTimeStart, noTimeEnd
                 ))
             }
-            parameterItems.forEach { paramValues[it.id] = it.graph.valuesMap }
+            parameterItems.forEach { item ->
+                paramValues[item.template.id()] = item.graph.valuesMap
+            }
 
             entries.forEachIndexed { i, entry ->
                 val date = entry.day
                 val x = daysBetween(noTimeStart, date.time)
-                paramValues["sleep"]?.put(x, entry.sleep)
-                paramValues["spots"]?.put(x, entry.newSpots)
-                paramValues["ratings"]?.put(x, entry.rating)
-                paramValues["mood"]?.put(x, entry.mood)
-
-                entry.templateValues.map {
-                    paramValues[it.key]?.put(x, it.value)
-                }
+                entry.values.map { pair -> paramValues[pair.key]?.put(x, pair.value) }
             }
             parameterItems
         }
@@ -134,6 +108,8 @@ class Home2ViewModel @Inject constructor(
         val defaultEnd = calendar.timeInMillis
 
         duration.value = Pair(defaultStart, defaultEnd)
+
+        loadMockDataIfEmpty()
     }
 
     private fun combineEntriesAndTemplates(any: Any) {
@@ -144,4 +120,33 @@ class Home2ViewModel @Inject constructor(
         return ((end - start) / (24 * 60 * 60 * 1000)).toInt()
     }
 
+    private fun loadMockDataIfEmpty() = viewModelScope.launch {
+        Log.d(javaClass.simpleName, "viewModelScope.launch")
+        entryRepository.getEntries().collect {
+            if (it.isNotEmpty()) {
+                return@collect
+            }
+            Log.d(javaClass.simpleName, "entryRepository.getEntries().collect")
+            templateRepository.getTemplates().collect { templates ->
+                val cal = Calendar.getInstance()
+                cal.set(Calendar.MONTH, Calendar.APRIL)
+                val days =
+                    cal.getActualMinimum(DAY_OF_MONTH)..cal.getActualMaximum(
+                        DAY_OF_MONTH)
+                for (day in days) {
+                    cal.set(DAY_OF_MONTH, day)
+                    val valuesMap = mutableMapOf<String, Int>()
+                    templates.forEach { template ->
+                        valuesMap[template.timestamp.toString()] =
+                            (template.min..template.max).random()
+                    }
+                    val entry = Entry(cal.timeInMillis,
+                        cal.time,
+                        valuesMap,
+                        cal.timeInMillis)
+                    entryRepository.insertEntry(entry)
+                }
+            }
+        }
+    }
 }

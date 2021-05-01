@@ -30,14 +30,14 @@ class StatisticsViewModel @Inject constructor(
     val templates: LiveData<List<Template>>
 
     init {
+        Log.d(javaClass.simpleName, "Statistics")
         templates = Transformations.map(templateRepository.observeTemplates()) {
             Log.d(javaClass.simpleName, "Transformations.map(templateRepository.observeTemplates()")
-            val map = it.map { template -> template.timestamp.toString() to template }.toMap()
-                .toMutableMap()
-            parameters.value?.forEach { parameter -> map.remove(parameter.id) }
+            val map = it.map { template -> template.id() to template }.toMap().toMutableMap()
+            parameters.value?.forEach { parameter -> map.remove(parameter.template.id()) }
             val newParams = parameters.value?.toMutableList() ?: mutableListOf()
-            for ((key, value) in map) {
-                newParams.add(Parameter(id = key, label = value.label))
+            map.forEach { (_, value) ->
+                newParams.add(Parameter(value))
             }
             parameters.value = newParams
             Log.d(javaClass.simpleName, "newParams = $newParams")
@@ -57,7 +57,7 @@ class StatisticsViewModel @Inject constructor(
             val templateMap =
                 templateList.map { template -> template.timestamp.toString() to template }.toMap()
             val selectedParameters = mutableListOf<String>()
-            parameters.value?.forEach { if (it.isChecked) selectedParameters.add(it.id) }
+            parameters.value?.forEach { if (it.isChecked) selectedParameters.add(it.template.id()) }
             Log.d("graphsFromEntries", selectedParameters.toString())
 
             val graph = mutableListOf<Graph>()
@@ -85,89 +85,31 @@ class StatisticsViewModel @Inject constructor(
                 val date = it.day
                 val x = daysBetween(noTimeStart, date.time)
                 selectedParameters.forEachIndexed { index, param ->
-                    when (param) {
-                        "sleep" -> listValuesMap[index][x] = it.sleep
-                        "spots" -> listValuesMap[index][x] = it.newSpots
-                        "ratings" -> listValuesMap[index][x] = it.rating
-                        "mood" -> listValuesMap[index][x] = it.mood
-                        else -> {
-                            if (it.templateValues.containsKey(param)) {
-                                listValuesMap[index][x] = it.templateValues[param]!!
-                            }
-                        }
+                    if (it.values.containsKey(param)) {
+                        listValuesMap[index][x] = it.values[param]!!
+
                     }
                 }
 
             }
             selectedParameters.forEachIndexed { index, param ->
-                when (param) {
-                    "sleep" -> graph.add(
+                if (templateMap.containsKey(param)) {
+                    graph.add(
                         Graph(
                             xMin,
                             xMax,
-                            yMin = 0,
-                            yMax = 13,
+                            templateMap[param]?.min ?: 0,
+                            templateMap[param]?.max ?: 10,
                             listValuesMap[index],
-                            Color.MAGENTA
+                            Color.BLACK
                         )
                     )
-                    "spots" -> graph.add(
-                        Graph(
-                            xMin,
-                            xMax,
-                            yMin = 0,
-                            yMax = 20,
-                            listValuesMap[index],
-                            Color.BLUE
-                        )
-                    )
-                    "ratings" -> graph.add(
-                        Graph(
-                            xMin,
-                            xMax,
-                            yMin = 0,
-                            yMax = 10,
-                            listValuesMap[index],
-                            Color.GREEN
-                        )
-                    )
-                    "mood" -> graph.add(
-                        Graph(
-                            xMin,
-                            xMax,
-                            yMin = 0,
-                            yMax = 10,
-                            listValuesMap[index],
-                            Color.YELLOW
-                        )
-                    )
-                    else -> {
-                        if (templateMap.containsKey(param)) {
-                            graph.add(
-                                Graph(
-                                    xMin,
-                                    xMax,
-                                    templateMap[param]?.min ?: 0,
-                                    templateMap[param]?.max ?: 10,
-                                    listValuesMap[index],
-                                    Color.BLACK
-                                )
-                            )
-                        }
-                    }
-
-
                 }
             }
             graph
         }
 
-        parameters.value = listOf(
-            Parameter("sleep", "Sleep"),
-            Parameter("mood", "Mood"),
-            Parameter("spots", "New Spots"),
-            Parameter("ratings", "Skin Rating")
-        )
+        parameters.value = listOf()
 
 
         val currentMonth = Calendar.getInstance().apply { //start of month
@@ -194,7 +136,7 @@ class StatisticsViewModel @Inject constructor(
     }
 
     fun onToggleParameter(id: String) {
-        parameters.value?.find { it.id == id }?.toggle()
+        parameters.value?.find { it.template.id() == id }?.toggle()
         parameters.value = parameters.value
     }
 }

@@ -7,7 +7,6 @@ import tech.codevil.tracne.databinding.ViewHolderCalendarPickerBinding
 import tech.codevil.tracne.databinding.ViewHolderGreetingsBinding
 import tech.codevil.tracne.databinding.ViewHolderOptionsBinding
 import tech.codevil.tracne.databinding.ViewHolderParameterBinding
-import tech.codevil.tracne.ui.statistics.Parameter
 
 class Home2Adapter(private val listener: Listener) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -38,7 +37,7 @@ class Home2Adapter(private val listener: Listener) :
             }
         }
 
-    val parameters = mutableListOf<ParameterItem>()
+    val parameters = mutableListOf<TemplateGraph>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -102,14 +101,14 @@ class Home2Adapter(private val listener: Listener) :
         return 3 + parameters.size
     }
 
-    private fun getParameter(position: Int): ParameterItem? {
+    private fun getParameter(position: Int): TemplateGraph? {
         val index = position - 3
         return parameters.getOrNull(index)
     }
 
-    fun setParameterItems(parameterItems: List<ParameterItem>) {
+    fun setParameterItems(templateGraphs: List<TemplateGraph>) {
         parameters.clear()
-        parameters.addAll(parameterItems)
+        parameters.addAll(templateGraphs)
         notifyDataSetChanged()
     }
 

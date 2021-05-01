@@ -44,7 +44,7 @@ class HomeFragment : Fragment() {
         homeViewModel.entries.observe(viewLifecycleOwner, { entries ->
             val stringBuilder = StringBuilder()
             entries.map {
-                stringBuilder.append("${DAY_FORMAT.format(Date(it.timestamp))} Skin rating = ${it.rating}\n")
+                stringBuilder.append("${DAY_FORMAT.format(Date(it.timestamp))} Skin rating = ${it.values}\n")
             }
             binding.entriesTextHome.text = stringBuilder.toString()
         })

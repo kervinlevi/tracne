@@ -40,25 +40,26 @@ class EntryRepository @Inject constructor(
 
     suspend fun loadMockData() {
         getEntries().collect {
-            if (it.isEmpty()) {
-
-                val calendar = Calendar.getInstance()
-                for (i in 1..calendar.getActualMaximum(Calendar.DAY_OF_MONTH)) {
-                    calendar.set(Calendar.DAY_OF_MONTH, i)
-
-                    val entry = Entry(
-                        timestamp = calendar.timeInMillis,
-                        day = calendar.time,
-                        mood = (1..9).random(),
-                        sleep = (1..12).random(),
-                        newSpots = (1..19).random(),
-                        rating = (4..9).random(),
-                        templateValues = mapOf(),
-                        lastUpdated = calendar.timeInMillis
-                    )
-                    insertEntry(entry)
-                }
-            }
+//            TODO: generate mock data
+//            if (it.isEmpty()) {
+//
+//                val calendar = Calendar.getInstance()
+//                for (i in 1..calendar.getActualMaximum(Calendar.DAY_OF_MONTH)) {
+//                    calendar.set(Calendar.DAY_OF_MONTH, i)
+//
+//                    val entry = Entry(
+//                        timestamp = calendar.timeInMillis,
+//                        day = calendar.time,
+//                        mood = (1..9).random(),
+//                        sleep = (1..12).random(),
+//                        newSpots = (1..19).random(),
+//                        rating = (4..9).random(),
+//                        templateValues = mapOf(),
+//                        lastUpdated = calendar.timeInMillis
+//                    )
+//                    insertEntry(entry)
+//                }
+//            }
         }
 
 

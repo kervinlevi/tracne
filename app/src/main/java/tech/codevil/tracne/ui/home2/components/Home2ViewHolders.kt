@@ -65,15 +65,15 @@ class ParametersViewHolder(
 ) :
     RecyclerView.ViewHolder(itemBinding.root) {
 
-    var param: ParameterItem? = null
+    var param: TemplateGraph? = null
 
     init {
         itemView.setOnClickListener { listener.onParameterClicked(param) }
     }
 
-    fun setParameterItem(parameter: ParameterItem?) {
+    fun setParameterItem(parameter: TemplateGraph?) {
         if (parameter != null) {
-            itemBinding.labelParameter.text = parameter.label
+            itemBinding.labelParameter.text = parameter.template.label
             itemBinding.graphViewParameter.setGraphs(listOf(parameter.graph))
             param = parameter
         } else {
@@ -84,7 +84,7 @@ class ParametersViewHolder(
     }
 
     interface Listener {
-        fun onParameterClicked(parameter: ParameterItem?)
+        fun onParameterClicked(parameter: TemplateGraph?)
     }
 
 }

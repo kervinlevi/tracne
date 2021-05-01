@@ -64,13 +64,13 @@ class JournalFragment : Fragment(), TemplateViewCallback {
             binding.templatesContainerJournal.removeAllViews()
             it.map {
                 when(it.type) {
-                    Constants.QUESTION_TYPE_YES_NO -> {
+                    Constants.TEMPLATE_TYPE_YES_NO -> {
                         val yesNoView = YesNoTemplateView(requireContext())
                         binding.templatesContainerJournal.addView(yesNoView)
                         yesNoView.setTemplate(it)
                         yesNoView.setCallback(this)
                     }
-                    Constants.QUESTION_TYPE_SLIDER -> {
+                    Constants.TEMPLATE_TYPE_SLIDER -> {
                         val sliderView = SliderTemplateView(requireContext())
                         binding.templatesContainerJournal.addView(sliderView)
                         sliderView.setTemplate(it)
@@ -85,11 +85,7 @@ class JournalFragment : Fragment(), TemplateViewCallback {
                 Entry(
                     timestamp = System.currentTimeMillis(),
                     day = Date(),
-                    mood = binding.moodBarJournal.value,
-                    sleep = binding.sleepBarJournal.value,
-                    newSpots = binding.spotsBarJournal.value,
-                    rating = binding.rateBarJournal.value,
-                    templateValues = this.templateValues,
+                    values = emptyMap(),
                     lastUpdated = System.currentTimeMillis()
                 )
             )
