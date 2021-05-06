@@ -114,4 +114,7 @@ class Home2Fragment : Fragment(), Home2Adapter.Listener {
         }
     }
 
+    override fun onWriteClicked() {
+        findNavController().navigate(Home2FragmentDirections.actionHome2FragmentToJournalFragment2())
+    }
 }

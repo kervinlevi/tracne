@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import tech.codevil.tracne.R
 import tech.codevil.tracne.databinding.ViewYesNoTemplateBinding
 import tech.codevil.tracne.model.Template
@@ -43,6 +44,16 @@ class YesNoTemplateView @JvmOverloads constructor(
         binding.questionYesNoTemplate.text = template.guidingQuestion
     }
 
+    fun setValue(value: Int) {
+        currentValue = value.coerceIn(0, 1)
+        if (currentValue == 0) {
+            binding.negativeRadioYesNoTemplate.isChecked = true
+        }
+        else {
+            binding.positiveRadioYesNoTemplate.isChecked = true
+        }
+    }
+
     private fun attachCallback() {
         if (callback != null) {
             binding.radioGroupYesNoTemplate.setOnCheckedChangeListener { _, checkedId ->
@@ -57,6 +68,10 @@ class YesNoTemplateView @JvmOverloads constructor(
 
     private fun detachCallback() {
         binding.radioGroupYesNoTemplate.setOnCheckedChangeListener(null)
+    }
+
+    fun showError() {
+        binding.questionYesNoTemplate.setTextColor(ContextCompat.getColor(context, R.color.pastel_red))
     }
 
 }

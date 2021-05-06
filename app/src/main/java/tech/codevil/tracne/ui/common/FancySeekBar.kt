@@ -212,6 +212,7 @@ class FancySeekBar @JvmOverloads constructor(
 
     fun setOnValueChangedListener(listener: Listener?) {
         this.listener = listener
+        listener?.onValueChanged(currentValueIndex + min)
     }
 
     private fun setCurrentValueIndex(newValueIndex: Int) {

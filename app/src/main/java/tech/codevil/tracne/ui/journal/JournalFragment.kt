@@ -1,6 +1,7 @@
 package tech.codevil.tracne.ui.journal
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,6 +30,7 @@ class JournalFragment : Fragment(), TemplateViewCallback {
 
     private val journalViewModel: JournalViewModel by viewModels()
     private val templateValues: MutableMap<String, Int> = mutableMapOf()
+    private val templateIds: MutableMap<String, Int> = mutableMapOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,7 +55,8 @@ class JournalFragment : Fragment(), TemplateViewCallback {
                 }
                 is DataState.Success -> {
                     Toast.makeText(requireContext(), "Success!", Toast.LENGTH_SHORT).show()
-                    findNavController().navigate(JournalFragmentDirections.actionJournalFragmentToHomeFragment())
+//                    findNavController().navigate(JournalFragmentDirections.actionJournalFragmentToHomeFragment())
+                    findNavController().navigateUp()
                 }
                 is DataState.Loading -> {
                     binding.submitButtonJournal.isEnabled = false
@@ -61,6 +64,7 @@ class JournalFragment : Fragment(), TemplateViewCallback {
             }
         }
         journalViewModel.templates.observe(viewLifecycleOwner) { it ->
+            Log.d(javaClass.simpleName, "templates $it")
             binding.templatesContainerJournal.removeAllViews()
             it.map {
                 when(it.type) {
@@ -69,26 +73,35 @@ class JournalFragment : Fragment(), TemplateViewCallback {
                         binding.templatesContainerJournal.addView(yesNoView)
                         yesNoView.setTemplate(it)
                         yesNoView.setCallback(this)
+                        yesNoView.id = View.generateViewId()
+                        templateIds[it.id()] = yesNoView.id
+                        templateValues[it.id()]?.also(yesNoView::setValue)
                     }
                     Constants.TEMPLATE_TYPE_SLIDER -> {
                         val sliderView = SliderTemplateView(requireContext())
                         binding.templatesContainerJournal.addView(sliderView)
                         sliderView.setTemplate(it)
                         sliderView.setCallback(this)
+                        sliderView.id = View.generateViewId()
+                        templateIds[it.id()] = sliderView.id
+                        templateValues[it.id()]?.also(sliderView::setValue)
                     }
+                    else -> {}
                 }
             }
         }
 
+        journalViewModel.showError.observe(viewLifecycleOwner) { errors ->
+            errors.forEach {
+                val viewId = templateIds[it] ?: -1
+                val selectedView : View? = binding.templatesContainerJournal.findViewById(viewId)
+                (selectedView as? YesNoTemplateView)?.showError()
+                (selectedView as? SliderTemplateView)?.showError() //todo: hide error after
+            }
+        }
+
         binding.submitButtonJournal.setOnClickListener {
-            journalViewModel.insertEntry(
-                Entry(
-                    timestamp = System.currentTimeMillis(),
-                    day = Date(),
-                    values = emptyMap(),
-                    lastUpdated = System.currentTimeMillis()
-                )
-            )
+            journalViewModel.insertEntry()
         }
 
         binding.customizeImageViewJournal.setOnClickListener {
@@ -99,6 +112,7 @@ class JournalFragment : Fragment(), TemplateViewCallback {
 
     override fun onValueChanged(templateTimestamp: Long, value: Int) {
         templateValues[templateTimestamp.toString()] = value
+        journalViewModel.values.value = templateValues
     }
 
 }

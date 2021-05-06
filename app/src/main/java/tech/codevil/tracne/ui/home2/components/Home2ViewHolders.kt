@@ -9,11 +9,16 @@ class GreetingsViewHolder(
 ) :
     RecyclerView.ViewHolder(itemBinding.root) {
     interface Listener {
+        fun onWriteClicked()
+    }
 
+    init {
+        itemBinding.writeCardHome.setOnClickListener { listener.onWriteClicked() }
     }
 
     fun setWritingEnabled(enabled: Boolean) {
-        itemBinding.writeCardHome.isClickable = enabled
+        itemBinding.writeCardHome.isClickable = true
+
     }
 
 }

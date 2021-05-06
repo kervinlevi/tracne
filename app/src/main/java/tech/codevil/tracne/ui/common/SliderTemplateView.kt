@@ -4,6 +4,8 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
+import tech.codevil.tracne.R
 import tech.codevil.tracne.databinding.ViewSliderTemplateBinding
 import tech.codevil.tracne.model.Template
 
@@ -44,6 +46,10 @@ class SliderTemplateView @JvmOverloads constructor(
         binding.barSliderTemplate.setMinMax(template.min, template.max)
     }
 
+    fun setValue(value: Int) {
+        binding.barSliderTemplate.setValue(value)
+    }
+
     private fun attachCallback() {
         binding.barSliderTemplate.setOnValueChangedListener(object : FancySeekBar.Listener {
             override fun onValueChanged(newValue: Int) {
@@ -54,6 +60,10 @@ class SliderTemplateView @JvmOverloads constructor(
 
     private fun detachCallback() {
         binding.barSliderTemplate.setOnValueChangedListener(null)
+    }
+
+    fun showError() {
+        binding.questionSliderTemplate.setTextColor(ContextCompat.getColor(context, R.color.pastel_red))
     }
 
 }
