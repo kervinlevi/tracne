@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -17,6 +18,8 @@ import tech.codevil.tracne.common.util.Extensions.setMaxTime
 import tech.codevil.tracne.common.util.Extensions.setMinTime
 import tech.codevil.tracne.databinding.FragmentHome2Binding
 import tech.codevil.tracne.ui.home2.components.Home2Adapter
+import tech.codevil.tracne.ui.home2.components.HomeCalendar
+import tech.codevil.tracne.ui.home2.components.HomeCalendarAdapter
 import tech.codevil.tracne.ui.home2.components.TemplateGraph
 import java.util.*
 
@@ -30,7 +33,7 @@ class Home2Fragment : Fragment(), Home2Adapter.Listener {
     private val binding get() = _binding!!
 
     private val home2ViewModel: Home2ViewModel by viewModels()
-    private lateinit var home2Adapter: Home2Adapter
+    private val home2Adapter = Home2Adapter(this)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,7 +46,6 @@ class Home2Fragment : Fragment(), Home2Adapter.Listener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        home2Adapter = Home2Adapter(this)
         binding.home2RecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             adapter = home2Adapter
@@ -65,8 +67,8 @@ class Home2Fragment : Fragment(), Home2Adapter.Listener {
             val date =
                 RANGE_FORMAT.format(Date(it.first)) + " — " + RANGE_FORMAT.format(Date(it.second))
             home2Adapter.date = date
-
         }
+        home2ViewModel.weeklyCalendar.observe(viewLifecycleOwner) { home2Adapter.calendarList = it }
     }
 
     override fun onDestroyView() {
@@ -116,5 +118,14 @@ class Home2Fragment : Fragment(), Home2Adapter.Listener {
 
     override fun onWriteClicked() {
         findNavController().navigate(Home2FragmentDirections.actionHome2FragmentToJournalFragment2())
+    }
+
+    override fun onClickCalendar(calendar: HomeCalendar) {
+        if (calendar.isToday && !calendar.isChecked) {
+            findNavController().navigate(Home2FragmentDirections.actionHome2FragmentToJournalFragment2())
+        }
+        else {
+            Toast.makeText(requireContext(), "$calendar", Toast.LENGTH_SHORT).show()
+        }
     }
 }

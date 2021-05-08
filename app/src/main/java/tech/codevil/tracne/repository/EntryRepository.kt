@@ -26,6 +26,11 @@ class EntryRepository @Inject constructor(
         emit(entryCacheMapper.mapFromEntities(entryEntities))
     }
 
+    suspend fun getEntries(start: Long, end: Long): Flow<List<Entry>> = flow {
+        val entryEntities = entryDao.get()
+        emit(entryCacheMapper.mapFromEntities(entryEntities))
+    }
+
     fun getEntriesLiveData(): LiveData<List<Entry>> =
         Transformations.map(entryDao.observe(), entryCacheMapper::mapFromEntities)
 

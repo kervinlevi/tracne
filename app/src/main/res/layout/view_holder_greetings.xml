@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/dark_blue"
-    android:paddingBottom="24dp">
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:paddingBottom="24dp"
+    tools:background="@color/ghost_white">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/start_guide_home"
@@ -24,13 +27,14 @@
         android:id="@+id/hey_there_home"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/open_sans_bold"
         android:text="Hey there!"
-        android:textColor="@color/white"
-        android:textSize="24sp"
+        android:textColor="@color/charcoal"
+        android:textSize="26sp"
         app:layout_constraintEnd_toEndOf="@id/end_guide_home"
         app:layout_constraintStart_toStartOf="@id/start_guide_home"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/drawer_home" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/write_card_home"
@@ -39,11 +43,14 @@
         android:layout_marginTop="12dp"
         android:clickable="true"
         android:foreground="?android:selectableItemBackgroundBorderless"
-        app:cardCornerRadius="20dp"
+        android:visibility="gone"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="5dp"
         app:cardElevation="4dp"
         app:layout_constraintEnd_toEndOf="@id/end_guide_home"
         app:layout_constraintStart_toStartOf="@id/start_guide_home"
-        app:layout_constraintTop_toBottomOf="@id/hey_there_home">
+        app:layout_constraintTop_toBottomOf="@id/dont_forget_log_home"
+        tools:visibility="gone">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -62,21 +69,59 @@
                 android:id="@+id/log_entry_today"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="24dp"
                 android:text="Log today's progress"
                 android:textSize="22sp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/todo_home"
-                app:layout_constraintBottom_toBottomOf="parent"
-                />
+                app:layout_constraintTop_toBottomOf="@id/todo_home" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
     </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/dont_forget_log_home"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/open_sans_light"
+        android:text="Don't forget to log your progress today."
+        android:textColor="@color/lead"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@id/end_guide_home"
+        app:layout_constraintStart_toStartOf="@id/start_guide_home"
+        app:layout_constraintTop_toBottomOf="@id/hey_there_home" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/calendar_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="16dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dont_forget_log_home"
+        tools:itemCount="7"
+        tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/view_holder_date_home"
+        tools:orientation="horizontal"
+        tools:paddingStart="16dp"
+        tools:paddingTop="8dp" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/drawer_home"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="16dp"
+        android:padding="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_drawer2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -105,7 +105,7 @@ class JournalFragment : Fragment(), TemplateViewCallback {
         }
 
         binding.customizeImageViewJournal.setOnClickListener {
-            findNavController().navigate(JournalFragmentDirections.actionJournalFragmentToTemplatesFragment())
+//            findNavController().navigate(JournalFragmentDirections.actionJournalFragmentToTemplatesFragment())
         }
 
     }

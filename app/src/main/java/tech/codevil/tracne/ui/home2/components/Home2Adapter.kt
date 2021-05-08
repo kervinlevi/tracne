@@ -37,6 +37,14 @@ class Home2Adapter(private val listener: Listener) :
             }
         }
 
+    var calendarList = listOf<HomeCalendar>()
+        set(value) {
+            if (field != value) {
+                field = value
+                notifyItemChanged(0)
+            }
+        }
+
     val parameters = mutableListOf<TemplateGraph>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -82,6 +90,7 @@ class Home2Adapter(private val listener: Listener) :
             ITEM_TYPE_GREETINGS -> {
                 (holder as? GreetingsViewHolder)?.let {
                     holder.setWritingEnabled(writingTodayEnabled)
+                    holder.setHomeCalendarList(calendarList)
                 }
             }
             ITEM_TYPE_CALENDAR_PICKER -> {

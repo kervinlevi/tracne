@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="8dp"
+    tools:cardBackgroundColor="@color/white_smoke"
+    tools:layout_marginEnd="16dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="80dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/day_date_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/open_sans"
+            android:gravity="center"
+            android:lines="1"
+            android:padding="4dp"
+            android:textColor="@color/lead"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="RtlSymmetry"
+            tools:text="Sun" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/checked_date_home"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            app:layout_constraintBottom_toBottomOf="@id/day_date_home"
+            app:layout_constraintStart_toEndOf="@id/day_date_home"
+            app:layout_constraintTop_toTopOf="@id/day_date_home"
+            app:srcCompat="@drawable/ic_checked_3" />
+
+        <View
+            android:id="@+id/divider_date_home"
+            android:layout_width="0dp"
+            android:layout_height="0.5dp"
+            android:alpha="0.25"
+            android:background="@color/lead"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/day_date_home" />
+
+        <TextView
+            android:id="@+id/number_date_home"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/open_sans"
+            android:gravity="center_horizontal"
+            android:lines="1"
+            android:paddingBottom="8dp"
+            android:textColor="@color/lead"
+            android:textSize="40sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider_date_home"
+            tools:text="11" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</com.google.android.material.card.MaterialCardView>

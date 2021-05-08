@@ -18,6 +18,9 @@ interface EntryDao {
     @Query("SELECT * FROM entry ORDER BY time_created")
     suspend fun get(): List<EntryCacheEntity>
 
+    @Query("SELECT * FROM entry WHERE time_created BETWEEN :start AND :end ORDER BY time_created")
+    suspend fun get(start: Long, end: Long): List<EntryCacheEntity>
+
     @Query("SELECT * FROM entry ORDER BY time_created")
     fun observe(): LiveData<List<EntryCacheEntity>>
 
