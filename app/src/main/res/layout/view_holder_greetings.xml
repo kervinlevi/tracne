@@ -97,7 +97,6 @@
         app:layout_constraintStart_toStartOf="@id/start_guide_home"
         app:layout_constraintTop_toBottomOf="@id/hey_there_home" />
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/calendar_recycler_view"
         android:layout_width="match_parent"
@@ -108,6 +107,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dont_forget_log_home"
         tools:itemCount="7"
+        android:minHeight="88dp"
         tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/view_holder_date_home"
         tools:orientation="horizontal"

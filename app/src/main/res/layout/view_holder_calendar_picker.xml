@@ -4,54 +4,51 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="8dp"
+    android:paddingStart="16dp"
+    android:paddingTop="16dp"
+    android:paddingEnd="16dp"
+    android:paddingBottom="8dp"
     tools:background="@color/ghost_white">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/start_guide_calendar_picker"
+    <TextSwitcher
+        android:id="@+id/weekly_monthly_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="16dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/end_guide_calendar_picker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_end="16dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/twenty_five_percent_guide_calendar_picker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.25" />
-
-    <View
-        android:id="@+id/cornered_bg_calendar_picker"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/date_picker_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/bg_rounded_ripple"
         android:clickable="true"
-        android:padding="8dp"
+        android:background="@drawable/bg_rounded_dark_blue"
         android:text="@string/mar_11_to_apr_5"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/end_guide_calendar_picker"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:inAnimation="@anim/text_slide_up"
+        android:outAnimation="@anim/text_slide_up_out"
+        >
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/open_sans_semibold"
+            android:gravity="center_horizontal"
+            android:maxLines="1"
+            android:minWidth="88dp"
+            android:padding="8dp"
+            android:text="@string/weekly"
+            android:textColor="@color/dark_blue"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/open_sans_semibold"
+            android:gravity="center_horizontal"
+            android:maxLines="1"
+            android:minWidth="88dp"
+            android:padding="8dp"
+            android:textColor="@color/dark_blue"
+            android:textSize="14sp"
+            tools:text="@string/weekly" />
+
+    </TextSwitcher>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,6 +24,10 @@
     <string name="log">Log</string>
     <string name="statistics">Statistics</string>
     <string name="mar_11_to_apr_5">Mar. 11 — Apr. 5</string>
+
+    <string name="weekly">Weekly</string>
+    <string name="monthly">Monthly</string>
+
     <string name="data">Data</string>
     <string name="compare_with">Compare with:</string>
 </resources>

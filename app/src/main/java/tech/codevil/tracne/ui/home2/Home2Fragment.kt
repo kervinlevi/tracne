@@ -22,6 +22,8 @@ import tech.codevil.tracne.ui.home2.components.HomeCalendar
 import tech.codevil.tracne.ui.home2.components.HomeCalendarAdapter
 import tech.codevil.tracne.ui.home2.components.TemplateGraph
 import java.util.*
+import java.util.Calendar.DAY_OF_MONTH
+import java.util.Calendar.DAY_OF_WEEK
 
 /**
  * Created by kervin.decena on 21/03/2021.
@@ -34,6 +36,28 @@ class Home2Fragment : Fragment(), Home2Adapter.Listener {
 
     private val home2ViewModel: Home2ViewModel by viewModels()
     private val home2Adapter = Home2Adapter(this)
+
+    private val weeklyPair: Pair<Long, Long> by lazy {
+        val calendar = Calendar.getInstance()
+        calendar.set(DAY_OF_WEEK, 1)
+        calendar.setMinTime()
+        val start = calendar.timeInMillis
+        calendar.set(DAY_OF_WEEK, calendar.getActualMaximum(DAY_OF_WEEK))
+        calendar.setMaxTime()
+        val end = calendar.timeInMillis
+        Pair(start, end)
+    }
+
+    private val monthlyPair: Pair<Long, Long> by lazy {
+        val calendar = Calendar.getInstance()
+        calendar.set(DAY_OF_MONTH, 1)
+        calendar.setMinTime()
+        val start = calendar.timeInMillis
+        calendar.set(DAY_OF_MONTH, calendar.getActualMaximum(DAY_OF_MONTH))
+        calendar.setMaxTime()
+        val end = calendar.timeInMillis
+        Pair(start, end)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,11 +88,14 @@ class Home2Fragment : Fragment(), Home2Adapter.Listener {
             home2Adapter.setParameterItems(it)
         }
         home2ViewModel.duration.observe(viewLifecycleOwner) {
-            val date =
-                RANGE_FORMAT.format(Date(it.first)) + " — " + RANGE_FORMAT.format(Date(it.second))
-            home2Adapter.date = date
+//            val date =
+//                RANGE_FORMAT.format(Date(it.first)) + " — " + RANGE_FORMAT.format(Date(it.second))
+//            home2Adapter.date = date
         }
         home2ViewModel.weeklyCalendar.observe(viewLifecycleOwner) { home2Adapter.calendarList = it }
+        home2ViewModel.isWeekly.observe(viewLifecycleOwner) {
+            home2Adapter.isWeekly = it
+        }
     }
 
     override fun onDestroyView() {
@@ -106,6 +133,16 @@ class Home2Fragment : Fragment(), Home2Adapter.Listener {
             home2ViewModel.duration.value = Pair(start, end)
         }
         picker.show(requireActivity().supportFragmentManager, "date_range_picker")
+    }
+
+    override fun onWeeklyPicked() {
+        home2ViewModel.duration.value = weeklyPair
+        home2ViewModel.isWeekly.value = true
+    }
+
+    override fun onMonthlyPicked() {
+        home2ViewModel.duration.value = monthlyPair
+        home2ViewModel.isWeekly.value = false
     }
 
     override fun onParameterClicked(parameter: TemplateGraph?) {

@@ -2,52 +2,25 @@ package tech.codevil.tracne.ui.statistics
 
 import android.content.Context
 import android.graphics.*
-import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.View
-import kotlinx.parcelize.Parcelize
-import tech.codevil.tracne.common.util.Constants
-import java.util.*
 
-class MultipleGraphView @JvmOverloads constructor(
+class DashboardGraphView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
-    @Parcelize
-    data class Graph(
-        val xMin: Int = 0, val xMax: Int = 10,
-        val yMin: Int = 0, val yMax: Int = 10,
-        var valuesMap: MutableMap<Int, Int>,
-        val color: Int = Color.CYAN
-    ) : Parcelable {
-        val graphPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = this@Graph.color
-            style = Paint.Style.STROKE
-            strokeWidth = 5.0f
-//            alpha = 64
-        }
-
-        val pointPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = this@Graph.color
-            style = Paint.Style.FILL
-        }
-
-        val shapePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = this@Graph.color
-            style = Paint.Style.FILL
-            alpha = 32
-        }
-    }
-    val graphs = mutableListOf<Graph>()
+    val graphs = mutableListOf<MultipleGraphView.Graph>()
     val graphPaths = mutableListOf<Path>()
+    val graphShapes = mutableListOf<Path>()
     val pointsList = mutableListOf<MutableList<PointF>>()
     val pointRadius = 5.0f
 
     val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.DKGRAY
+        color = Color.LTGRAY
         style = Paint.Style.FILL
+        strokeWidth = 5.0f
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -61,6 +34,7 @@ class MultipleGraphView @JvmOverloads constructor(
         graphs.forEachIndexed { index, graph ->
             val path = graphPaths[index]
             val points = pointsList[index]
+            val shape = graphShapes[index]
 
             val spacingX = totalWidth / ((graph.xMax - graph.xMin).toFloat())
             val spacingY = totalHeight / ((graph.yMax - graph.yMin).toFloat())
@@ -69,7 +43,7 @@ class MultipleGraphView @JvmOverloads constructor(
             var prevY = height - graphBottom()
 
             path.reset()
-//            path.moveTo(prevX, prevY)
+            shape.reset()
             points.clear()
 
             val xValues = (graph.xMin..graph.xMax).toList()
@@ -81,7 +55,6 @@ class MultipleGraphView @JvmOverloads constructor(
                     points.add(PointF(pointX, pointY))
 
                     if (path.isEmpty) {
-//                        path.lineTo(prevX, pointY)
                         path.moveTo(pointX, pointY)
                     } else {
                         path.cubicTo((prevX + pointX) / 2f, prevY, (prevX + pointX) / 2f, pointY, pointX, pointY)
@@ -91,12 +64,12 @@ class MultipleGraphView @JvmOverloads constructor(
                     prevY = pointY
                 }
             }
-//            if (points.isNotEmpty()) {
-//                path.lineTo(points.last().x, height.toFloat() - graphBottom())
-//                path.lineTo(graphStart(), height.toFloat() - graphBottom())
-//                path.lineTo(graphStart(), points.first().y)
-//            }
-//            path.close()
+            shape.addPath(path)
+            if (points.isNotEmpty()) {
+                shape.lineTo(points.last().x, height.toFloat() - graphBottom())
+                shape.lineTo(points.first().x, height.toFloat() - graphBottom())
+                shape.close()
+            }
         }
 
 
@@ -105,6 +78,11 @@ class MultipleGraphView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         canvas?.apply {
+            graphs.forEachIndexed { i, graph ->
+                drawPath(graphShapes[i], graph.shapePaint)
+                drawPath(graphPaths[i], graph.graphPaint)
+                pointsList[i].map { drawCircle(it.x, it.y, pointRadius, graph.pointPaint) }
+            }
             drawLine(
                 graphStart(),
                 height.toFloat() - graphBottom(),
@@ -112,10 +90,6 @@ class MultipleGraphView @JvmOverloads constructor(
                 height.toFloat() - graphBottom(),
                 linePaint
             )
-            graphs.forEachIndexed { i, graph ->
-                drawPath(graphPaths[i], graph.graphPaint)
-                pointsList[i].map { drawCircle(it.x, it.y, pointRadius, graph.pointPaint) }
-            }
         }
     }
 
@@ -135,15 +109,17 @@ class MultipleGraphView @JvmOverloads constructor(
         return paddingBottom.toFloat()
     }
 
-    fun setGraphs(graphs: List<Graph>) {
+    fun setGraphs(graphs: List<MultipleGraphView.Graph>) {
         this.graphs.clear()
         this.graphs.addAll(graphs)
 
         graphPaths.clear()
         pointsList.clear()
+        graphShapes.clear()
         repeat(this.graphs.size) {
             graphPaths.add(Path())
             pointsList.add(mutableListOf())
+            graphShapes.add(Path())
         }
 
         computePoints()
@@ -151,9 +127,10 @@ class MultipleGraphView @JvmOverloads constructor(
     }
 
     fun clearGraphs() {
-        this.graphs.clear()
+        graphs.clear()
         graphPaths.clear()
         pointsList.clear()
+        graphShapes.clear()
         postInvalidate()
     }
 

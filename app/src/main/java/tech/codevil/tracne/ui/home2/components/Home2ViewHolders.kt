@@ -23,15 +23,16 @@ class GreetingsViewHolder(
         val dp16 = itemView.resources.getDimensionPixelSize(R.dimen.dp_16)
         itemBinding.calendarRecyclerView.apply {
             adapter = calendarAdapter
-            val manager = object: LinearLayoutManager(itemView.context, RecyclerView.HORIZONTAL, false) {
-                override fun onLayoutCompleted(state: RecyclerView.State?) {
-                    super.onLayoutCompleted(state)
-                    val position = calendarAdapter.findTodayItemPosition()
-                    if (position != -1) {
-                        smoothScrollToPosition(position)
+            val manager =
+                object : LinearLayoutManager(itemView.context, RecyclerView.HORIZONTAL, false) {
+                    override fun onLayoutCompleted(state: RecyclerView.State?) {
+                        super.onLayoutCompleted(state)
+                        val position = calendarAdapter.findTodayItemPosition()
+                        if (position != -1) {
+                            smoothScrollToPosition(position)
+                        }
                     }
                 }
-            }
             layoutManager = manager
             addItemDecoration(HomeCalendarItemDecoration(dp8, dp16, dp16))
         }
@@ -41,6 +42,7 @@ class GreetingsViewHolder(
         itemBinding.writeCardHome.isClickable = true
 
     }
+
     fun setHomeCalendarList(calendarList: List<HomeCalendar>) {
         calendarAdapter.setCalendarList(calendarList)
     }
@@ -72,17 +74,40 @@ class CalendarPickerViewHolder(
     private val listener: Listener,
 ) :
     RecyclerView.ViewHolder(itemBinding.root) {
-    fun setDate(date: String) {
-        itemBinding.datePickerLabel.text = date
+    fun setDate(date: String) { //todo: remove
     }
+
+    private var isWeekly = true
 
     interface Listener {
         fun onDatePickerClicked()
+
+        fun onWeeklyPicked()
+
+        fun onMonthlyPicked()
     }
 
     init {
-        itemBinding.datePickerLabel.setOnClickListener {
-            listener.onDatePickerClicked()
+        itemBinding.weeklyMonthlyButton.setOnClickListener {
+            isWeekly = !isWeekly
+            if (isWeekly) {
+                itemBinding.weeklyMonthlyButton.setText(itemView.context.getText(R.string.weekly))
+                listener.onWeeklyPicked()
+            } else {
+                itemBinding.weeklyMonthlyButton.setText(itemView.context.getText(R.string.monthly))
+                listener.onMonthlyPicked()
+            }
+        }
+    }
+
+    fun setIsWeekly(isWeekly: Boolean) {
+        if (this.isWeekly != isWeekly) {
+            this.isWeekly = isWeekly
+            if (isWeekly) {
+                itemBinding.weeklyMonthlyButton.setCurrentText(itemView.context.getText(R.string.weekly))
+            } else {
+                itemBinding.weeklyMonthlyButton.setCurrentText(itemView.context.getText(R.string.monthly))
+            }
         }
     }
 

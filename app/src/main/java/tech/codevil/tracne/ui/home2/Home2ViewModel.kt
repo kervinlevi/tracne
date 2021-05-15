@@ -32,15 +32,42 @@ class Home2ViewModel @Inject constructor(
     val enableWritingToday: LiveData<Boolean>
 
     val duration = MutableLiveData<Pair<Long, Long>>()
-    val entries = Transformations.switchMap(duration) {
-        entryRepository.observeEntriesWithin(it.first, it.second)
+
+    private val weeklyPair: Pair<Long, Long> by lazy {
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.DAY_OF_WEEK, 1)
+        calendar.setMinTime()
+        val start = calendar.timeInMillis
+        calendar.set(Calendar.DAY_OF_WEEK, calendar.getActualMaximum(Calendar.DAY_OF_WEEK))
+        calendar.setMaxTime()
+        val end = calendar.timeInMillis
+        Pair(start, end)
+    }
+
+    private val monthlyPair: Pair<Long, Long> by lazy {
+        val calendar = Calendar.getInstance()
+        calendar.set(DAY_OF_MONTH, 1)
+        calendar.setMinTime()
+        val start = calendar.timeInMillis
+        calendar.set(DAY_OF_MONTH, calendar.getActualMaximum(DAY_OF_MONTH))
+        calendar.setMaxTime()
+        val end = calendar.timeInMillis
+        Pair(start, end)
+    }
+    val isWeekly = MutableLiveData<Boolean>()
+
+    val entries = Transformations.switchMap(isWeekly) {
+        val start = if (isWeekly.value != false) weeklyPair.first else monthlyPair.first
+        val end = if (isWeekly.value != false) weeklyPair.second else monthlyPair.second
+        duration.value = Pair(start, end)
+        entryRepository.observeEntriesWithin(start, end)
     }
     val parameters: LiveData<List<TemplateGraph>>
     private val templates = templateRepository.observeTemplates()
     private val entriesAndTemplates = MediatorLiveData<Pair<List<Entry>?, List<Template>?>>()
 
-    private val _weeklyCalendar = MutableLiveData<List<HomeCalendar>>()
-    val weeklyCalendar: LiveData<List<HomeCalendar>> = _weeklyCalendar
+
+    val weeklyCalendar: LiveData<List<HomeCalendar>>
 
     init {
         viewModelScope.launch {
@@ -73,7 +100,7 @@ class Home2ViewModel @Inject constructor(
             val xMin = 0
 
             calendar.timeInMillis = end
-            calendar.setMinTime()
+            calendar.setMaxTime()
             val noTimeEnd = calendar.timeInMillis
             val xMax = daysBetween(noTimeStart, noTimeEnd)
 
@@ -102,54 +129,23 @@ class Home2ViewModel @Inject constructor(
             parameterItems
         }
 
-        val calendar = Calendar.getInstance()
-        calendar.set(Calendar.DAY_OF_WEEK, 1)
-        calendar.setMinTime()
+        weeklyCalendar = Transformations.map(entries) { entries ->
+            val cal = Calendar.getInstance()
+            cal.set(Calendar.DAY_OF_WEEK, 1)
+            cal.setMinTime()
 
-        val weekStart = calendar.timeInMillis
-        calendar.set(Calendar.DAY_OF_WEEK, 7)
-        calendar.setMaxTime()
-        val weekEnd = calendar.timeInMillis
-
-        duration.value = Pair(weekStart, weekEnd)
-
-
-
-        loadMockDataIfEmpty()
-        computeCalendar()
-    }
-
-    private fun combineEntriesAndTemplates(any: Any) {
-        entriesAndTemplates.value = Pair(entries.value, templates.value)
-    }
-
-    private fun daysBetween(start: Long, end: Long): Int {
-        return ((end - start) / (24 * 60 * 60 * 1000)).toInt()
-    }
-
-    private fun computeCalendar() = viewModelScope.launch { //TODO: observe entries instead
-        val calendar = Calendar.getInstance()
-        calendar.set(Calendar.DAY_OF_WEEK, 1)
-        calendar.setMinTime()
-
-        val weekStart = calendar.timeInMillis
-        calendar.set(Calendar.DAY_OF_WEEK, 7)
-        calendar.setMaxTime()
-        val weekEnd = calendar.timeInMillis
-
-        entryRepository.getEntries(weekStart, weekEnd).collect { entries ->
             val mutableListCalendar = mutableListOf<HomeCalendar>()
-            val today = DAY_FORMAT.format(Calendar.getInstance().time)
+            val formattedToday = DAY_FORMAT.format(Calendar.getInstance().time)
             var isFutureDate = false
             for (day in 1..7) {
-                calendar.set(Calendar.DAY_OF_WEEK, day)
-                val dayOfWeek = calendar.getDisplayName(Calendar.DAY_OF_WEEK,
+                cal.set(Calendar.DAY_OF_WEEK, day)
+                val dayOfWeek = cal.getDisplayName(Calendar.DAY_OF_WEEK,
                     Calendar.ALL_STYLES,
                     Locale.ENGLISH)
                     ?.substring(0, 3) ?: ""
-                val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
-                val formattedDate = DAY_FORMAT.format(calendar.time)
-                val isToday = today == formattedDate
+                val dayOfMonth = cal.get(Calendar.DAY_OF_MONTH)
+                val formattedDate = DAY_FORMAT.format(cal.time)
+                val isToday = formattedToday == formattedDate
                 val isChecked =
                     entries.firstOrNull { entry -> formattedDate == DAY_FORMAT.format(entry.day) } != null
                 mutableListCalendar.add(HomeCalendar(isChecked,
@@ -159,8 +155,20 @@ class Home2ViewModel @Inject constructor(
                     isFutureDate))
                 if (isToday) isFutureDate = true
             }
-            _weeklyCalendar.value = mutableListCalendar
+            mutableListCalendar
         }
+
+        isWeekly.value = true
+
+        loadMockDataIfEmpty()
+    }
+
+    private fun combineEntriesAndTemplates(any: Any) {
+        entriesAndTemplates.value = Pair(entries.value, templates.value)
+    }
+
+    private fun daysBetween(start: Long, end: Long): Int {
+        return ((end - start) / (24 * 60 * 60 * 1000)).toInt()
     }
 
     private fun loadMockDataIfEmpty() = viewModelScope.launch {

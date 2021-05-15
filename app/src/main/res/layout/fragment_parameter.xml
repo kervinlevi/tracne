@@ -4,13 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/ghost_white"
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipChildren="false">
+
+        <View
+            android:id="@+id/white_background_parameter"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/white"
+            app:layout_constraintBottom_toBottomOf="@id/statistics_graph_parameter"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/back_button_parameter"
@@ -36,80 +46,51 @@
             android:orientation="vertical"
             app:layout_constraintGuide_end="16dp" />
 
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/back_bottom_barrier_parameter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="bottom"
-            app:constraint_referenced_ids="back_button_parameter" />
-
-        <ImageView
-            android:id="@+id/icon_parameter"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:src="@drawable/ic_circle"
-            app:layout_constraintBottom_toBottomOf="@id/icon_bottom_barrier_parameter"
-            app:layout_constraintStart_toStartOf="@id/start_guide_parameter"
-            app:layout_constraintTop_toTopOf="@id/back_bottom_barrier_parameter" />
-
         <TextView
             android:id="@+id/label_parameter"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingStart="16dp"
-            android:paddingTop="8dp"
-            android:paddingEnd="8dp"
+            android:layout_marginTop="16dp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/guided_question_parameter"
             app:layout_constraintEnd_toEndOf="@id/end_guide_parameter"
-            app:layout_constraintStart_toEndOf="@id/icon_parameter"
-            app:layout_constraintTop_toBottomOf="@id/back_bottom_barrier_parameter"
-            app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="@id/start_guide_parameter"
+            app:layout_constraintTop_toBottomOf="@id/date_picker_parameter"
             tools:text="Label" />
 
         <TextView
             android:id="@+id/guided_question_parameter"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingStart="16dp"
-            android:paddingEnd="8dp"
-            android:paddingBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="@id/icon_bottom_barrier_parameter"
             app:layout_constraintEnd_toEndOf="@id/end_guide_parameter"
-            app:layout_constraintStart_toEndOf="@id/icon_parameter"
+            app:layout_constraintStart_toStartOf="@id/start_guide_parameter"
             app:layout_constraintTop_toBottomOf="@id/label_parameter"
             tools:text="What is the guided question?" />
-
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/icon_bottom_barrier_parameter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="bottom"
-            app:constraint_referenced_ids="icon_parameter, label_parameter, guided_question_parameter" />
 
         <TextView
             android:id="@+id/date_picker_parameter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="32dp"
             android:background="@drawable/bg_rounded_ripple"
             android:clickable="true"
             android:padding="8dp"
             android:text="@string/mar_11_to_apr_5"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@id/end_guide_parameter"
-            app:layout_constraintTop_toBottomOf="@id/icon_bottom_barrier_parameter" />
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/statistics_graph_parameter" />
 
         <tech.codevil.tracne.ui.statistics.MultipleGraphView
             android:id="@+id/statistics_graph_parameter"
             android:layout_width="0dp"
             android:layout_height="300dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
+            android:paddingBottom="24dp"
             app:layout_constraintEnd_toEndOf="@id/end_guide_parameter"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@id/start_guide_parameter"
-            app:layout_constraintTop_toBottomOf="@id/date_picker_parameter" />
+            app:layout_constraintTop_toBottomOf="@id/back_button_parameter" />
 
         <HorizontalScrollView
             android:id="@+id/chip_scroll_parameter"
@@ -119,7 +100,7 @@
             android:scrollbars="none"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/statistics_graph_parameter">
+            app:layout_constraintTop_toBottomOf="@id/guided_question_parameter">
 
             <com.google.android.material.chip.ChipGroup
                 android:id="@+id/chip_group_parameter"
@@ -140,6 +121,7 @@
                     android:textColor="@color/black"
                     app:checkedIconEnabled="false"
                     app:chipBackgroundColor="@color/transparent"
+                    android:background="@color/transparent"
                     app:chipEndPadding="0dp"
                     app:chipStartPadding="0dp"
                     app:textStartPadding="0dp" />

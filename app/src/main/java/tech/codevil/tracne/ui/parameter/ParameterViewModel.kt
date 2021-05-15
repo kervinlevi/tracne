@@ -3,6 +3,7 @@ package tech.codevil.tracne.ui.parameter
 import android.graphics.Color
 import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import tech.codevil.tracne.common.util.Extensions.setMaxTime
 import tech.codevil.tracne.common.util.Extensions.setMinTime
 import tech.codevil.tracne.model.Entry
 import tech.codevil.tracne.model.Template
@@ -34,7 +35,6 @@ class ParameterViewModel @Inject constructor(
 
 
     init {
-        entriesAndTemplates.addSource(parameter, this::combineEntriesAndTemplates)
         entriesAndTemplates.addSource(entries, this::combineEntriesAndTemplates)
         entriesAndTemplates.addSource(templates, this::combineEntriesAndTemplates)
 
@@ -58,31 +58,43 @@ class ParameterViewModel @Inject constructor(
             val xMin = 0
 
             calendar.timeInMillis = end
-            calendar.setMinTime()
+            calendar.setMaxTime()
             val noTimeEnd = calendar.timeInMillis
             val xMax = daysBetween(noTimeStart, noTimeEnd)
 
 
             val paramValues = mutableMapOf<String, MutableMap<Int, Int>>()
+            var selectedParam: TemplateGraph? = null
             temps.forEachIndexed { index, template ->
-                if (template.id() != thisParameter.template.id())
-                parameterItems.add(TemplateGraph(template,
-                    Graph(xMin,
+                if (template.id() != thisParameter.template.id()) {
+                    val graph = Graph(xMin,
                         xMax,
                         template.min,
                         template.max,
                         mutableMapOf(),
-                        Color.parseColor("#8DCAD4")),
-                    noTimeStart, noTimeEnd
-                ))
+                        Color.parseColor("#8DCAD4"))
+                    parameterItems.add(TemplateGraph(template, graph, noTimeStart, noTimeEnd))
+                    paramValues[template.id()] = graph.valuesMap
+                }
+                else {
+                    val graph = Graph(xMin,
+                        xMax,
+                        template.min,
+                        template.max,
+                        mutableMapOf(),
+                        Color.parseColor("#8DCAD4"))
+                    selectedParam = TemplateGraph(template, graph, noTimeStart, noTimeEnd)
+                    paramValues[template.id()] = graph.valuesMap
+                }
+
             }
-            parameterItems.forEach { paramValues[it.template.id()] = it.graph.valuesMap }
 
             entries.forEachIndexed { i, entry ->
                 val date = entry.day
                 val x = daysBetween(noTimeStart, date.time)
                 entry.values.map { pair -> paramValues[pair.key]?.put(x, pair.value) }
             }
+            selectedParam?.let { param -> parameter.value = param }
             parameterItems
         }
 

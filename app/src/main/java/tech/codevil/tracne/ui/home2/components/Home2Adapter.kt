@@ -37,6 +37,14 @@ class Home2Adapter(private val listener: Listener) :
             }
         }
 
+    var isWeekly = true
+        set(value: Boolean) {
+            if (field != value) {
+                field = value
+                notifyItemChanged(2)
+            }
+        }
+
     var calendarList = listOf<HomeCalendar>()
         set(value) {
             if (field != value) {
@@ -96,6 +104,7 @@ class Home2Adapter(private val listener: Listener) :
             ITEM_TYPE_CALENDAR_PICKER -> {
                 (holder as? CalendarPickerViewHolder)?.let {
                     holder.setDate(date)
+                    holder.setIsWeekly(isWeekly)
                 }
             }
             ITEM_TYPE_PARAMETER -> {
@@ -116,9 +125,10 @@ class Home2Adapter(private val listener: Listener) :
     }
 
     fun setParameterItems(templateGraphs: List<TemplateGraph>) {
+        val oldSize = parameters.size
         parameters.clear()
         parameters.addAll(templateGraphs)
-        notifyDataSetChanged()
+        notifyItemRangeChanged(3, maxOf(oldSize, templateGraphs.size))
     }
 
     override fun getItemViewType(position: Int): Int {
