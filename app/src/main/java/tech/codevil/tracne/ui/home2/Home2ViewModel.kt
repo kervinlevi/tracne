@@ -7,6 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import tech.codevil.tracne.common.util.Constants.DAY_FORMAT
+import tech.codevil.tracne.common.util.Constants.SHORTENED_DAY_FORMAT
 import tech.codevil.tracne.common.util.Extensions.setMaxTime
 import tech.codevil.tracne.common.util.Extensions.setMinTime
 import tech.codevil.tracne.model.Entry
@@ -17,7 +18,7 @@ import tech.codevil.tracne.ui.home2.components.HomeCalendar
 import tech.codevil.tracne.ui.home2.components.TemplateGraph
 import tech.codevil.tracne.ui.statistics.MultipleGraphView.Graph
 import java.util.*
-import java.util.Calendar.DAY_OF_MONTH
+import java.util.Calendar.*
 import javax.inject.Inject
 
 /**
@@ -54,6 +55,10 @@ class Home2ViewModel @Inject constructor(
         val end = calendar.timeInMillis
         Pair(start, end)
     }
+    private val weeklyXLabels = mutableMapOf(
+        0 to "Su", 1 to "M", 2 to "Tu", 3 to "W", 4 to "Th", 5 to "F", 6 to "Sa"
+    )
+
     val isWeekly = MutableLiveData<Boolean>()
 
     val entries = Transformations.switchMap(isWeekly) {
@@ -104,6 +109,28 @@ class Home2ViewModel @Inject constructor(
             val noTimeEnd = calendar.timeInMillis
             val xMax = daysBetween(noTimeStart, noTimeEnd)
 
+            Log.d(javaClass.simpleName, "noTimeStart = ${DAY_FORMAT.format(noTimeStart)}")
+            Log.d(javaClass.simpleName, "noTimeEnd = ${DAY_FORMAT.format(noTimeEnd)}")
+
+            val xLabels = if (isWeekly.value != false) {
+                weeklyXLabels
+            } else {
+                val monthlyXLabels = mutableMapOf<Int, String>()
+                calendar.timeInMillis = noTimeStart
+                calendar.set(DAY_OF_WEEK, 1)
+                if (calendar.timeInMillis < noTimeStart) {
+                    calendar.add(WEEK_OF_YEAR, 1)
+                }
+
+                val firstWeek = calendar.getActualMinimum(DAY_OF_WEEK_IN_MONTH)
+                val lastWeek = calendar.getActualMaximum(DAY_OF_WEEK_IN_MONTH)
+                for (i in firstWeek..lastWeek) {
+                    calendar.set(DAY_OF_WEEK_IN_MONTH, i)
+                    monthlyXLabels.put(calendar.get(DAY_OF_MONTH) - 1,
+                        SHORTENED_DAY_FORMAT.format(calendar.timeInMillis))
+                }
+                monthlyXLabels
+            }
 
             val paramValues = mutableMapOf<String, MutableMap<Int, Int>>()
             temps.forEachIndexed { index, template ->
@@ -113,7 +140,8 @@ class Home2ViewModel @Inject constructor(
                         template.min,
                         template.max,
                         mutableMapOf(),
-                        Color.parseColor("#8DCAD4")),
+                        Color.parseColor("#8DCAD4"),
+                        xLabels),
                     noTimeStart, noTimeEnd
                 ))
             }

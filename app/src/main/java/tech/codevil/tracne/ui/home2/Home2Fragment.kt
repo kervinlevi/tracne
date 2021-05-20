@@ -93,9 +93,7 @@ class Home2Fragment : Fragment(), Home2Adapter.Listener {
 //            home2Adapter.date = date
         }
         home2ViewModel.weeklyCalendar.observe(viewLifecycleOwner) { home2Adapter.calendarList = it }
-        home2ViewModel.isWeekly.observe(viewLifecycleOwner) {
-            home2Adapter.isWeekly = it
-        }
+        home2Adapter.isWeekly = home2ViewModel.isWeekly.value != false
     }
 
     override fun onDestroyView() {

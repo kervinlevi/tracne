@@ -1,7 +1,9 @@
 package tech.codevil.tracne.common.util
 
+import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.TypedValue
 import android.widget.EditText
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -48,6 +50,18 @@ object Extensions {
         set(Calendar.SECOND, getActualMaximum(Calendar.SECOND))
         set(Calendar.MILLISECOND, getActualMaximum(Calendar.MILLISECOND))
         set(Calendar.AM_PM, getActualMaximum(Calendar.AM_PM))
+    }
+
+    fun Float.sp(context: Context): Float {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,
+            this,
+            context.resources.displayMetrics)
+    }
+
+    fun Float.dp(context: Context): Float {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+            this,
+            context.resources.displayMetrics)
     }
 
 }

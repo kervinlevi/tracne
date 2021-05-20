@@ -128,7 +128,8 @@ class ParametersViewHolder(
     fun setParameterItem(parameter: TemplateGraph?) {
         if (parameter != null) {
             itemBinding.labelParameter.text = parameter.template.label
-            itemBinding.graphViewParameter.setGraphs(listOf(parameter.graph))
+            itemBinding.graphViewParameter.
+            setGraph(parameter.graph)
             param = parameter
         } else {
             itemBinding.labelParameter.text = ""
