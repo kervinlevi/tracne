@@ -1,6 +1,5 @@
 package tech.codevil.tracne.common.util
 
-import android.annotation.SuppressLint
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -17,7 +16,7 @@ object Constants {
     const val TEMPLATE_STATUS_ARCHIVED = "archived"
 
     val DAY_FORMAT = SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH)
-    val RANGE_FORMAT = SimpleDateFormat("MMM. d", Locale.ENGLISH)
+    val RANGE_FORMAT = SimpleDateFormat("MMM d", Locale.ENGLISH)
     val SHORTENED_DAY_FORMAT = SimpleDateFormat("MMM d", Locale.ENGLISH)
 
     val MONTHS_SHORTENED = mapOf(

@@ -16,9 +16,11 @@ import tech.codevil.tracne.repository.EntryRepository
 import tech.codevil.tracne.repository.TemplateRepository
 import tech.codevil.tracne.ui.home2.components.HomeCalendar
 import tech.codevil.tracne.ui.home2.components.TemplateGraph
-import tech.codevil.tracne.ui.statistics.MultipleGraphView.Graph
+import tech.codevil.tracne.ui.statistics.Graph
 import java.util.*
-import java.util.Calendar.*
+import java.util.Calendar.DAY_OF_MONTH
+import java.util.Calendar.DAY_OF_WEEK
+import java.util.Calendar.DAY_OF_WEEK_IN_MONTH
 import javax.inject.Inject
 
 /**
@@ -119,7 +121,7 @@ class Home2ViewModel @Inject constructor(
                 calendar.timeInMillis = noTimeStart
                 calendar.set(DAY_OF_WEEK, 1)
                 if (calendar.timeInMillis < noTimeStart) {
-                    calendar.add(WEEK_OF_YEAR, 1)
+                    calendar.add(Calendar.WEEK_OF_YEAR, 1)
                 }
 
                 val firstWeek = calendar.getActualMinimum(DAY_OF_WEEK_IN_MONTH)
@@ -133,6 +135,9 @@ class Home2ViewModel @Inject constructor(
             }
 
             val paramValues = mutableMapOf<String, MutableMap<Int, Int>>()
+            val now = Calendar.getInstance().apply { setMinTime() }.timeInMillis
+            val bigMarkerX =
+                if (now < noTimeStart || now > noTimeEnd) -1 else daysBetween(noTimeStart, now)
             temps.forEachIndexed { index, template ->
                 parameterItems.add(TemplateGraph(template,
                     Graph(xMin,
@@ -141,7 +146,8 @@ class Home2ViewModel @Inject constructor(
                         template.max,
                         mutableMapOf(),
                         Color.parseColor("#8DCAD4"),
-                        xLabels),
+                        xLabels,
+                        showBigMarkerAtX = bigMarkerX),
                     noTimeStart, noTimeEnd
                 ))
             }
@@ -149,7 +155,7 @@ class Home2ViewModel @Inject constructor(
                 paramValues[item.template.id()] = item.graph.valuesMap
             }
 
-            entries.forEachIndexed { i, entry ->
+            entries.forEach { entry ->
                 val date = entry.day
                 val x = daysBetween(noTimeStart, date.time)
                 entry.values.map { pair -> paramValues[pair.key]?.put(x, pair.value) }

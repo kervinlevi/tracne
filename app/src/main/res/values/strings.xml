@@ -25,9 +25,16 @@
     <string name="statistics">Statistics</string>
     <string name="mar_11_to_apr_5">Mar. 11 — Apr. 5</string>
 
+    <string name="date_range">%1$s — %2$s</string>
+
     <string name="weekly">Weekly</string>
     <string name="monthly">Monthly</string>
 
     <string name="data">Data</string>
-    <string name="compare_with">Compare with:</string>
+    <string name="date">Date</string>
+
+    <string name="compare_to">Compare to</string>
+    <string name="compare_to_ellipsis">Compare to…</string>
+    <string name="tap_to_select">(Tap to select)</string>
+    <string name="none">None</string>
 </resources>

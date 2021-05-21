@@ -16,6 +16,7 @@
     <color name="pastel_red">#FCB4B6</color>
     <color name="pastel_blue">#8DCAD4</color>
     <color name="dark_blue">#355C72</color>
+    <color name="dark_red">#E63946</color>
 
     <color name="primary_fragment_background">#f0f0f0</color>
     <color name="primary_seekbar_foreground">#000000</color>

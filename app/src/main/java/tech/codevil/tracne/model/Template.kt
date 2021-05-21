@@ -19,4 +19,6 @@ data class Template(
 ) : Parcelable {
 
     fun id() = timestamp.toString()
+
+    fun getLabelOf(value: Int): String = valuesLabel[value] ?: value.toString()
 }

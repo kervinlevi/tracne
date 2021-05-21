@@ -2,52 +2,15 @@ package tech.codevil.tracne.ui.statistics
 
 import android.content.Context
 import android.graphics.*
-import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.View
-import kotlinx.parcelize.Parcelize
-import tech.codevil.tracne.common.util.Constants
-import java.util.*
 
 class MultipleGraphView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
-    defStyleAttr: Int = 0
+    defStyleAttr: Int = 0,
 ) : View(context, attrs, defStyleAttr) {
 
-    @Parcelize
-    data class Graph(
-        val xMin: Int = 0, val xMax: Int = 10,
-        val yMin: Int = 0, val yMax: Int = 10,
-        var valuesMap: MutableMap<Int, Int>,
-        val color: Int = Color.CYAN,
-        val xLabels: Map<Int, String> = mapOf(),
-        val yLabels: Map<Int, String> = mapOf()
-    ) : Parcelable {
-        val graphPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = this@Graph.color
-            style = Paint.Style.STROKE
-            strokeWidth = 5.0f
-//            alpha = 64
-        }
-
-        val pointPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = this@Graph.color
-            style = Paint.Style.FILL
-        }
-
-        val bigPointPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = this@Graph.color
-            style = Paint.Style.STROKE
-            strokeWidth = 5.0f
-        }
-
-        val shapePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = this@Graph.color
-            style = Paint.Style.FILL
-            alpha = 32
-        }
-    }
     val graphs = mutableListOf<Graph>()
     val graphPaths = mutableListOf<Path>()
     val pointsList = mutableListOf<MutableList<PointF>>()
@@ -92,7 +55,12 @@ class MultipleGraphView @JvmOverloads constructor(
 //                        path.lineTo(prevX, pointY)
                         path.moveTo(pointX, pointY)
                     } else {
-                        path.cubicTo((prevX + pointX) / 2f, prevY, (prevX + pointX) / 2f, pointY, pointX, pointY)
+                        path.cubicTo((prevX + pointX) / 2f,
+                            prevY,
+                            (prevX + pointX) / 2f,
+                            pointY,
+                            pointX,
+                            pointY)
                         //https://medium.com/@pranjalg2308/understanding-bezier-curve-in-android-and-moddinggraphview-library-a9b1f0f95cd0
                     }
                     prevX = pointX

@@ -10,7 +10,6 @@ import tech.codevil.tracne.model.Entry
 import tech.codevil.tracne.model.Template
 import tech.codevil.tracne.repository.EntryRepository
 import tech.codevil.tracne.repository.TemplateRepository
-import tech.codevil.tracne.ui.statistics.MultipleGraphView.Graph
 import java.util.*
 import java.util.Calendar.DAY_OF_MONTH
 import javax.inject.Inject

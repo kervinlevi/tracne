@@ -11,15 +11,12 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
-import tech.codevil.tracne.common.util.Constants.RANGE_FORMAT
 import tech.codevil.tracne.common.util.Extensions.setMaxTime
 import tech.codevil.tracne.common.util.Extensions.setMinTime
 import tech.codevil.tracne.databinding.FragmentHome2Binding
 import tech.codevil.tracne.ui.home2.components.Home2Adapter
 import tech.codevil.tracne.ui.home2.components.HomeCalendar
-import tech.codevil.tracne.ui.home2.components.HomeCalendarAdapter
 import tech.codevil.tracne.ui.home2.components.TemplateGraph
 import java.util.*
 import java.util.Calendar.DAY_OF_MONTH
@@ -87,11 +84,6 @@ class Home2Fragment : Fragment(), Home2Adapter.Listener {
             Log.d(javaClass.simpleName, "parameters $it")
             home2Adapter.setParameterItems(it)
         }
-        home2ViewModel.duration.observe(viewLifecycleOwner) {
-//            val date =
-//                RANGE_FORMAT.format(Date(it.first)) + " — " + RANGE_FORMAT.format(Date(it.second))
-//            home2Adapter.date = date
-        }
         home2ViewModel.weeklyCalendar.observe(viewLifecycleOwner) { home2Adapter.calendarList = it }
         home2Adapter.isWeekly = home2ViewModel.isWeekly.value != false
     }
@@ -118,19 +110,7 @@ class Home2Fragment : Fragment(), Home2Adapter.Listener {
     }
 
     override fun onDatePickerClicked() {
-        val builder = MaterialDatePicker.Builder.dateRangePicker()
-        val picker = builder.build()
-        picker.addOnPositiveButtonClickListener {
-            val calendar = Calendar.getInstance()
-            calendar.timeInMillis = it.first ?: 0L
-            calendar.setMinTime()
-            val start = calendar.timeInMillis
-            calendar.timeInMillis = it.second ?: 0L
-            calendar.setMaxTime()
-            val end = calendar.timeInMillis
-            home2ViewModel.duration.value = Pair(start, end)
-        }
-        picker.show(requireActivity().supportFragmentManager, "date_range_picker")
+        TODO("Not yet implemented")
     }
 
     override fun onWeeklyPicked() {

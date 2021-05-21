@@ -25,11 +25,14 @@
         <item name="colorSecondaryVariant">@color/pastel_blue</item>
         <item name="colorOnSecondary">@color/dark_blue</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">@color/dark_blue</item>
+        <item name="android:statusBarColor">@color/ghost_white</item>
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
         <!-- Customize your theme here. -->
 
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
-        <item name="android:windowBackground">@color/dark_blue</item>
+        <item name="android:windowBackground">@color/ghost_white</item>
+
+        <item name="android:fontFamily">@font/open_sans</item>
     </style>
 </resources>

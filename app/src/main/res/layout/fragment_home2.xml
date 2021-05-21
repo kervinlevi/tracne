@@ -9,8 +9,9 @@
         android:id="@+id/home2_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/view_holder_greetings"
+        android:overScrollMode="never"
         tools:itemCount="1"
+        tools:listitem="@layout/view_holder_greetings"
         tools:paddingTop="8dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

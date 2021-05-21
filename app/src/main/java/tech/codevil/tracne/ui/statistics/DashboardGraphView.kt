@@ -4,10 +4,10 @@ import android.content.Context
 import android.graphics.*
 import android.text.TextPaint
 import android.util.AttributeSet
-import android.util.TypedValue
 import android.view.View
 import androidx.core.content.res.ResourcesCompat
 import tech.codevil.tracne.R
+import tech.codevil.tracne.common.util.Extensions.dp
 import tech.codevil.tracne.common.util.Extensions.sp
 
 
@@ -17,7 +17,7 @@ class DashboardGraphView @JvmOverloads constructor(
     defStyleAttr: Int = 0,
 ) : View(context, attrs, defStyleAttr) {
 
-    private var graph: MultipleGraphView.Graph? = null //TODO: make single graph
+    private var graph: Graph? = null
     private val graphPath = Path()
     private val graphShape = Path()
     private val pointsList = mutableListOf<PointF>()
@@ -26,6 +26,7 @@ class DashboardGraphView @JvmOverloads constructor(
     private val xPoints = mutableListOf<Float>()
     private val yPoints = mutableListOf<Float>()
     private var xAxis = 0.0f
+    private var bigPoint: PointF? = null
 
     val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.LTGRAY
@@ -51,18 +52,18 @@ class DashboardGraphView @JvmOverloads constructor(
         typeface = ResourcesCompat.getFont(context, R.font.open_sans_light)
     }
 
+    val xLabelPaddingTop by lazy { 8f.dp(context) }
+
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         computePoints()
     }
 
     private fun computePoints() {
-        val totalWidth = width - graphStart() - graphEnd()
-        val totalHeight = height - graphTop() - graphBottom()
+        xAxis = height - graphBottom() - getXLabelBound().height() - xLabelPaddingTop
 
-        val bounds = Rect()
-        xLabelTextPaint.getTextBounds("X", 0, 1, bounds)
-        xAxis = height - graphBottom() - bounds.height()
+        val totalWidth = width - graphStart() - graphEnd()
+        val totalHeight = xAxis - graphTop()
 
         graph?.let { graph ->
             val path = graphPath
@@ -74,8 +75,9 @@ class DashboardGraphView @JvmOverloads constructor(
 
             var prevX = graphStart()
             var prevY = xAxis
+            bigPoint = null
 
-            path.reset()
+                path.reset()
             shape.reset()
             points.clear()
             xPoints.clear()
@@ -88,6 +90,9 @@ class DashboardGraphView @JvmOverloads constructor(
                     val pointX = graphStart() + (i * spacingX)
                     val pointY = xAxis - ((value - graph.yMin) * spacingY)
                     points.add(PointF(pointX, pointY))
+                    if (graph.showBigMarkerAtX == x) {
+                        bigPoint = PointF(pointX, pointY)
+                    }
 
                     if (path.isEmpty) {
                         path.moveTo(pointX, pointY)
@@ -103,7 +108,7 @@ class DashboardGraphView @JvmOverloads constructor(
                     prevX = pointX
                     prevY = pointY
                 }
-                xPoints.add(i * spacingX)
+                xPoints.add((i * spacingX) + graphStart())
             }
             val yValues = (graph.yMin..graph.yMax).toList()
             yValues.forEachIndexed { i, y -> yPoints.add(i * spacingY) }
@@ -125,6 +130,7 @@ class DashboardGraphView @JvmOverloads constructor(
                 drawPath(graphPath, graph.graphPaint)
                 pointsList.map { drawCircle(it.x, it.y, pointRadius, graph.pointPaint) }
 
+                val xLabelPositionY = xAxis + getXLabelBound().height() + xLabelPaddingTop
                 xPoints.forEachIndexed { i, x ->
                     val label = graph.xLabels[i]
                     if (label != null) {
@@ -134,17 +140,23 @@ class DashboardGraphView @JvmOverloads constructor(
                             xPoints.size - 1 -> Paint.Align.RIGHT
                             else -> Paint.Align.CENTER
                         }
-                        drawText(label, x, height.toFloat(), xLabelTextPaint)
+                        drawText(label, x, xLabelPositionY, xLabelTextPaint)
                     }
                 }
-                if (pointsList.isNotEmpty()) {
-                    val bigPoint = pointsList.last()
-                    drawCircle(bigPoint.x, bigPoint.y, bigPointRadius, bigPointsPaint)
-                    drawCircle(bigPoint.x, bigPoint.y, bigPointRadius, graph.bigPointPaint)
+                val point = bigPoint
+                point?.let {
+                    drawCircle(it.x, it.y, bigPointRadius, bigPointsPaint)
+                    drawCircle(it.x, it.y, bigPointRadius, graph.bigPointPaint)
                 }
             }
 
         }
+    }
+
+    private fun getXLabelBound(): Rect {
+        val xLabelBounds = Rect()
+        xLabelTextPaint.getTextBounds("X", 0, 1, xLabelBounds)
+        return xLabelBounds
     }
 
     private fun graphStart(): Float {
@@ -163,7 +175,7 @@ class DashboardGraphView @JvmOverloads constructor(
         return paddingBottom.toFloat()
     }
 
-    fun setGraph(graph: MultipleGraphView.Graph) {
+    fun setGraph(graph: Graph) {
         this.graph = graph
 
         graphPath.reset()
@@ -171,6 +183,7 @@ class DashboardGraphView @JvmOverloads constructor(
         graphShape.reset()
         xPoints.clear()
         yPoints.clear()
+        bigPoint = null
 
         computePoints()
         postInvalidate()
@@ -180,9 +193,10 @@ class DashboardGraphView @JvmOverloads constructor(
         graphPath.reset()
         pointsList.clear()
         graphShape.reset()
-        postInvalidate()
         xPoints.clear()
         yPoints.clear()
+        bigPoint = null
+        postInvalidate()
     }
 
 }

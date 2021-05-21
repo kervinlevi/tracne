@@ -16,8 +16,6 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         android:background="@drawable/bg_rounded_dark_blue"
-        android:text="@string/mar_11_to_apr_5"
-        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
