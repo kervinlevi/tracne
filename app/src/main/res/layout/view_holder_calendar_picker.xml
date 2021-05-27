@@ -14,14 +14,13 @@
         android:id="@+id/weekly_monthly_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/bg_rounded_dark_blue_hollow"
         android:clickable="true"
-        android:background="@drawable/bg_rounded_dark_blue"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:inAnimation="@anim/text_slide_up"
         android:outAnimation="@anim/text_slide_up_out"
-        >
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:layout_width="match_parent"

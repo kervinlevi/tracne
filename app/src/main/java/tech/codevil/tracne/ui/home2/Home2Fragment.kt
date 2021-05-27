@@ -72,10 +72,6 @@ class Home2Fragment : Fragment(), Home2Adapter.Listener {
             adapter = home2Adapter
         }
 
-        home2ViewModel.enableWritingToday.observe(viewLifecycleOwner) {
-            home2Adapter.writingTodayEnabled = it
-        }
-
         home2ViewModel.entries.observe(viewLifecycleOwner) {
             Log.d(javaClass.simpleName, "entries $it")
         }
@@ -132,15 +128,11 @@ class Home2Fragment : Fragment(), Home2Adapter.Listener {
     }
 
     override fun onWriteClicked() {
-        findNavController().navigate(Home2FragmentDirections.actionHome2FragmentToJournalFragment2())
+//        findNavController().navigate(Home2FragmentDirections.actionHome2FragmentToJournalFragment2())
     }
 
     override fun onClickCalendar(calendar: HomeCalendar) {
-        if (calendar.isToday && !calendar.isChecked) {
-            findNavController().navigate(Home2FragmentDirections.actionHome2FragmentToJournalFragment2())
-        }
-        else {
-            Toast.makeText(requireContext(), "$calendar", Toast.LENGTH_SHORT).show()
-        }
+        findNavController().navigate(Home2FragmentDirections.actionHome2FragmentToJournalFragment2(
+            calendar.timestamp))
     }
 }

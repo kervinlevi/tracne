@@ -23,11 +23,12 @@ class SliderTemplateView @JvmOverloads constructor(
 
     private var template: Template? = null
     private var callback: TemplateViewCallback? = null
-    private var currentValue = -1
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         attachCallback()
+        clipChildren = false
+        clipToPadding = false
     }
 
     override fun onDetachedFromWindow() {
@@ -44,6 +45,7 @@ class SliderTemplateView @JvmOverloads constructor(
         this.template = template
         binding.questionSliderTemplate.text = template.guidingQuestion
         binding.barSliderTemplate.setMinMax(template.min, template.max)
+        binding.barSliderTemplate.setLabels(template.valuesLabel)
     }
 
     fun setValue(value: Int) {
@@ -62,8 +64,13 @@ class SliderTemplateView @JvmOverloads constructor(
         binding.barSliderTemplate.setOnValueChangedListener(null)
     }
 
-    fun showError() {
-        binding.questionSliderTemplate.setTextColor(ContextCompat.getColor(context, R.color.pastel_red))
+    fun showError(error: String?) {
+        binding.errorTextSliderTemplate.text = error
+        binding.errorTextSliderTemplate.visibility = VISIBLE
+    }
+
+    fun hideError() {
+        binding.errorTextSliderTemplate.visibility = INVISIBLE
     }
 
 }

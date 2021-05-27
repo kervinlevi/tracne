@@ -37,25 +37,22 @@ class HomeCalendarViewHolder(
         binding.dayDateHome.text = homeCalendar.dayOfWeek
         binding.numberDateHome.text = homeCalendar.dayOfMonth.toString()
         if (homeCalendar.isToday) {
-//            binding.root.scaleX = 1.05f
-//            binding.root.scaleY = 1.05f
             binding.root.cardElevation = 20.0f
             binding.root.setCardBackgroundColor(darkBlueColor)
             binding.numberDateHome.setTextColor(whiteColor)
             binding.dayDateHome.setTextColor(whiteColor)
             binding.dividerDateHome.setBackgroundColor(whiteColor)
             binding.checkedDateHome.setImageResource(R.drawable.ic_checked_white)
-
+            binding.root.isClickable = true
         }
         else {
-//            binding.root.scaleX = 1.0f
-//            binding.root.scaleY = 1.0f
             binding.root.cardElevation = 2.0f
             binding.root.setCardBackgroundColor(whiteColor)
             binding.numberDateHome.setTextColor(charcoalColor)
             binding.dayDateHome.setTextColor(charcoalColor)
             binding.dividerDateHome.setBackgroundColor(charcoalColor)
             binding.checkedDateHome.setImageResource(R.drawable.ic_checked_3)
+            binding.root.isClickable = !homeCalendar.isFutureDate
         }
         calendar = homeCalendar
     }

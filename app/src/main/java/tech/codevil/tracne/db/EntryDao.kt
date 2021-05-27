@@ -24,8 +24,8 @@ interface EntryDao {
     @Query("SELECT * FROM entry ORDER BY time_created")
     fun observe(): LiveData<List<EntryCacheEntity>>
 
-    @Query("SELECT * FROM entry WHERE day = :day ORDER BY time_created")
-    fun observeByDay(day: String): LiveData<List<EntryCacheEntity>>
+    @Query("SELECT * FROM entry WHERE day = :day ORDER BY time_created LIMIT 1")
+    fun observeByDay(day: String): LiveData<EntryCacheEntity?>
 
     @Query("SELECT * FROM entry WHERE time_created BETWEEN :start AND :end ORDER BY time_created")
     fun getWithinTimestamp(start: Long, end: Long): LiveData<List<EntryCacheEntity>>

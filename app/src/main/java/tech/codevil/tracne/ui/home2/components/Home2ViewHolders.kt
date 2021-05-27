@@ -17,7 +17,6 @@ class GreetingsViewHolder(
     private val calendarAdapter: HomeCalendarAdapter
 
     init {
-        itemBinding.writeCardHome.setOnClickListener { listener.onWriteClicked() }
         calendarAdapter = HomeCalendarAdapter(listener)
         val dp8 = itemView.resources.getDimensionPixelSize(R.dimen.dp_8)
         val dp16 = itemView.resources.getDimensionPixelSize(R.dimen.dp_16)
@@ -36,11 +35,6 @@ class GreetingsViewHolder(
             layoutManager = manager
             addItemDecoration(HomeCalendarItemDecoration(dp8, dp16, dp16))
         }
-    }
-
-    fun setWritingEnabled(enabled: Boolean) {
-        itemBinding.writeCardHome.isClickable = true
-
     }
 
     fun setHomeCalendarList(calendarList: List<HomeCalendar>) {

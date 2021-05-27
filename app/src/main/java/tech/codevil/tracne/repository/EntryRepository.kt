@@ -34,8 +34,10 @@ class EntryRepository @Inject constructor(
     fun getEntriesLiveData(): LiveData<List<Entry>> =
         Transformations.map(entryDao.observe(), entryCacheMapper::mapFromEntities)
 
-    fun getEntryByDateLiveData(day: String): LiveData<List<Entry>> =
-        Transformations.map(entryDao.observeByDay(day), entryCacheMapper::mapFromEntities)
+    fun getEntryByDayLiveData(day: String): LiveData<Entry?> =
+        Transformations.map(entryDao.observeByDay(day)) {
+            if (it == null) null else entryCacheMapper.mapFromEntity(it)
+        }
 
     fun observeEntriesWithin(start: Long, end: Long): LiveData<List<Entry>> =
         Transformations.map(

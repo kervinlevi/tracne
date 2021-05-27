@@ -7,12 +7,16 @@
 
     <fragment
         android:id="@+id/home2Fragment"
-        tools:layout="@layout/fragment_home2"
         android:name="tech.codevil.tracne.ui.home2.Home2Fragment"
-        android:label="Home2Fragment" >
+        android:label="Home2Fragment"
+        tools:layout="@layout/fragment_home2">
         <action
             android:id="@+id/action_home2Fragment_to_templatesFragment2"
-            app:destination="@id/templatesFragment2" />
+            app:destination="@id/templatesFragment2"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_home2Fragment_to_parameterFragment"
             app:destination="@id/parameterFragment"
@@ -22,13 +26,18 @@
             app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_home2Fragment_to_journalFragment2"
-            app:destination="@id/journalFragment2" />
+            app:destination="@id/journalFragment2"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
         android:id="@+id/templatesFragment2"
         android:name="tech.codevil.tracne.ui.templates.TemplatesFragment"
-        android:label="TemplatesFragment" >
+        android:label="TemplatesFragment"
+        tools:layout="@layout/fragment_templates">
         <action
             android:id="@+id/action_templatesFragment2_to_addTemplateFragment2"
             app:destination="@id/addTemplateFragment2" />
@@ -37,7 +46,8 @@
     <fragment
         android:id="@+id/addTemplateFragment2"
         android:name="tech.codevil.tracne.ui.addtemplate.AddTemplateFragment"
-        android:label="AddTemplateFragment" >
+        android:label="AddTemplateFragment"
+        tools:layout="@layout/fragment_add_template">
         <action
             android:id="@+id/action_addTemplateFragment2_to_templatesFragment2"
             app:popUpTo="@id/templatesFragment2" />
@@ -56,6 +66,11 @@
     <fragment
         android:id="@+id/journalFragment2"
         android:name="tech.codevil.tracne.ui.journal.JournalFragment"
-        android:label="JournalFragment" />
+        android:label="JournalFragment"
+        tools:layout="@layout/fragment_journal">
+        <argument
+            android:name="timestamp"
+            app:argType="long" />
+    </fragment>
 
 </navigation>

@@ -21,14 +21,6 @@ class Home2Adapter(private val listener: Listener) :
     interface Listener : GreetingsViewHolder.Listener, OptionsViewHolder.Listener,
         CalendarPickerViewHolder.Listener, ParametersViewHolder.Listener
 
-    var writingTodayEnabled = true
-        set(value: Boolean) {
-            if (field != value) {
-                field = value
-                notifyItemChanged(0)
-            }
-        }
-
     var date = ""
         set(value: String) {
             if (field != value) {
@@ -97,7 +89,6 @@ class Home2Adapter(private val listener: Listener) :
         when (getItemViewType(position)) {
             ITEM_TYPE_GREETINGS -> {
                 (holder as? GreetingsViewHolder)?.let {
-                    holder.setWritingEnabled(writingTodayEnabled)
                     holder.setHomeCalendarList(calendarList)
                 }
             }

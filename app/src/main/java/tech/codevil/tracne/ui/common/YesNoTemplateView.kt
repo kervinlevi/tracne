@@ -27,6 +27,8 @@ class YesNoTemplateView @JvmOverloads constructor(
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         attachCallback()
+        clipChildren = false
+        clipToPadding = false
     }
 
     override fun onDetachedFromWindow() {
@@ -70,8 +72,13 @@ class YesNoTemplateView @JvmOverloads constructor(
         binding.radioGroupYesNoTemplate.setOnCheckedChangeListener(null)
     }
 
-    fun showError() {
-        binding.questionYesNoTemplate.setTextColor(ContextCompat.getColor(context, R.color.pastel_red))
+    fun showError(error: String?) {
+        binding.errorTextYesNoTemplate.text = error
+        binding.errorTextYesNoTemplate.visibility = VISIBLE
+    }
+
+    fun hideError() {
+        binding.errorTextYesNoTemplate.visibility = INVISIBLE
     }
 
 }

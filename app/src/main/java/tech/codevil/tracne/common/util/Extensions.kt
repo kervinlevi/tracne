@@ -1,9 +1,12 @@
 package tech.codevil.tracne.common.util
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.TypedValue
+import android.view.View
 import android.widget.EditText
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -20,7 +23,7 @@ object Extensions {
 
     @FlowPreview
     @ExperimentalCoroutinesApi
-    fun EditText.textWatcherFlow(): Flow<CharSequence?> = callbackFlow<CharSequence?> {
+    fun EditText.textWatcherFlow(): Flow<CharSequence?> = callbackFlow {
         val textWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
@@ -62,6 +65,34 @@ object Extensions {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
             this,
             context.resources.displayMetrics)
+    }
+
+    fun View.scaleUpToVisible() {
+        animate()
+            .scaleX(1f)
+            .scaleY(1f)
+            .setDuration(300L)
+            .setInterpolator(Constants.OVERSHOOT_INTERPOLATOR)
+            .setListener(object: AnimatorListenerAdapter() {
+                override fun onAnimationStart(animation: Animator?) {
+                    visibility = View.VISIBLE
+                }
+            })
+            .start()
+    }
+
+    fun View.scaleDownToGone() {
+        animate()
+            .scaleX(0f)
+            .scaleY(0f)
+            .setDuration(300L)
+            .setInterpolator(Constants.OVERSHOOT_INTERPOLATOR)
+            .setListener(object: AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator?) {
+                    visibility = View.GONE
+                }
+            })
+            .start()
     }
 
 }

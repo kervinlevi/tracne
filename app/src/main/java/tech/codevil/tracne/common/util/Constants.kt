@@ -1,5 +1,6 @@
 package tech.codevil.tracne.common.util
 
+import android.view.animation.OvershootInterpolator
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -16,6 +17,7 @@ object Constants {
     const val TEMPLATE_STATUS_ARCHIVED = "archived"
 
     val DAY_FORMAT = SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH)
+    val DAY_NO_YEAR_FORMAT = SimpleDateFormat("MMMM d", Locale.ENGLISH)
     val RANGE_FORMAT = SimpleDateFormat("MMM d", Locale.ENGLISH)
     val SHORTENED_DAY_FORMAT = SimpleDateFormat("MMM d", Locale.ENGLISH)
 
@@ -23,4 +25,6 @@ object Constants {
         0 to "Jan", 1 to "Feb", 2 to "Mar", 3 to "Apr", 4 to "May", 5 to "Jun", 6 to "Jul",
         7 to "Aug", 8 to "Sep", 9 to "Oct.", 10 to "Nov", 11 to "Dec"
     )
+
+    val OVERSHOOT_INTERPOLATOR by lazy { OvershootInterpolator() }
 }

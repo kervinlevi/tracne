@@ -62,13 +62,13 @@ class ParameterGraphView @JvmOverloads constructor(
     val xLabelTextPaint = TextPaint(Paint.ANTI_ALIAS_FLAG).apply {
         color = Color.BLACK
         textSize = 10f.sp(context)
-        typeface = ResourcesCompat.getFont(context, R.font.open_sans_light)
+        if (!isInEditMode) typeface = ResourcesCompat.getFont(context, R.font.open_sans_light)
     }
 
     val y1LabelTextPaint = TextPaint(Paint.ANTI_ALIAS_FLAG).apply {
         textSize = 10f.sp(context)
-        typeface = ResourcesCompat.getFont(context, R.font.open_sans_semibold)
         textAlign = Paint.Align.LEFT
+        if (!isInEditMode) typeface = ResourcesCompat.getFont(context, R.font.open_sans_semibold)
     }
 
     val y1LabelUnderlinePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -79,8 +79,8 @@ class ParameterGraphView @JvmOverloads constructor(
 
     val y2LabelTextPaint = TextPaint(Paint.ANTI_ALIAS_FLAG).apply {
         textSize = 10f.sp(context)
-        typeface = ResourcesCompat.getFont(context, R.font.open_sans_semibold)
         textAlign = Paint.Align.RIGHT
+        if (!isInEditMode) typeface = ResourcesCompat.getFont(context, R.font.open_sans_semibold)
     }
 
     val y2LabelUnderlinePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {

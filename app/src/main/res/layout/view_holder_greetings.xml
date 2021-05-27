@@ -36,54 +36,6 @@
         app:layout_constraintStart_toStartOf="@id/start_guide_home"
         app:layout_constraintTop_toBottomOf="@id/drawer_home" />
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/write_card_home"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:clickable="true"
-        android:foreground="?android:selectableItemBackgroundBorderless"
-        android:visibility="gone"
-        app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="5dp"
-        app:cardElevation="4dp"
-        app:layout_constraintEnd_toEndOf="@id/end_guide_home"
-        app:layout_constraintStart_toStartOf="@id/start_guide_home"
-        app:layout_constraintTop_toBottomOf="@id/dont_forget_log_home"
-        tools:visibility="gone">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/todo_home"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:text="TODO"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/log_entry_today"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="24dp"
-                android:text="Log today's progress"
-                android:textSize="22sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/todo_home" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </com.google.android.material.card.MaterialCardView>
-
     <TextView
         android:id="@+id/dont_forget_log_home"
         android:layout_width="0dp"
@@ -104,10 +56,10 @@
         android:layout_marginTop="16dp"
         android:clipChildren="false"
         android:clipToPadding="false"
+        android:minHeight="88dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dont_forget_log_home"
         tools:itemCount="7"
-        android:minHeight="88dp"
         tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/view_holder_date_home"
         tools:orientation="horizontal"
@@ -119,6 +71,8 @@
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_marginTop="16dp"
+        android:background="@drawable/bg_selectable_up_button"
+        android:clickable="true"
         android:padding="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

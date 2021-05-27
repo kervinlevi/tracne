@@ -32,8 +32,6 @@ class Home2ViewModel @Inject constructor(
     private val templateRepository: TemplateRepository,
 ) : ViewModel() {
 
-    val enableWritingToday: LiveData<Boolean>
-
     val duration = MutableLiveData<Pair<Long, Long>>()
 
     private val weeklyPair: Pair<Long, Long> by lazy {
@@ -80,11 +78,6 @@ class Home2ViewModel @Inject constructor(
         viewModelScope.launch {
             entryRepository.loadMockData()
         }
-        val today = DAY_FORMAT.format(Calendar.getInstance().time)
-        enableWritingToday = Transformations.map(entryRepository.getEntryByDateLiveData(today)) {
-            it.isEmpty()
-        }
-
         entriesAndTemplates.addSource(entries, this::combineEntriesAndTemplates)
         entriesAndTemplates.addSource(templates, this::combineEntriesAndTemplates)
 
@@ -182,7 +175,9 @@ class Home2ViewModel @Inject constructor(
                 val isToday = formattedToday == formattedDate
                 val isChecked =
                     entries.firstOrNull { entry -> formattedDate == DAY_FORMAT.format(entry.day) } != null
-                mutableListCalendar.add(HomeCalendar(isChecked,
+                mutableListCalendar.add(HomeCalendar(
+                    cal.timeInMillis,
+                    isChecked,
                     dayOfWeek,
                     dayOfMonth,
                     isToday,

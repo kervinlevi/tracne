@@ -6,12 +6,15 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
+import android.text.TextPaint
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.content.withStyledAttributes
 import tech.codevil.tracne.R
+import tech.codevil.tracne.common.util.Extensions.dp
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
@@ -39,10 +42,11 @@ class FancySeekBar @JvmOverloads constructor(
         style = Paint.Style.FILL
         color = Color.MAGENTA
     }
-    private var textPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+    private var textPaint = TextPaint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.FILL
         color = Color.WHITE
         textAlign = Paint.Align.CENTER
+        if (!isInEditMode) typeface = ResourcesCompat.getFont(context, R.font.open_sans)
     }
     private var barRectF = RectF(0f, 0f, 0f, 0f)
     private var fillRectF = RectF(0f, 0f, 0f, 0f)
@@ -56,10 +60,12 @@ class FancySeekBar @JvmOverloads constructor(
     private var currentValueIndex = 0
     private var listener: Listener? = null
 
+    private var labels: Map<Int, String> = mapOf()
+
     val value get() = currentValueIndex
 
     init {
-        knobRadius = dpToPx(16f)
+        knobRadius = 16f.dp(context)
         knobX = knobRadius
         knobY = knobRadius
         textPaint.textSize = knobRadius
@@ -118,7 +124,8 @@ class FancySeekBar @JvmOverloads constructor(
             //draw knob
             //drawCircle(knobX, knobY, knobRadius, knobPaint)
 
-            drawText("${currentValueIndex + min}", knobX, knobY + knobRadius / 3, textPaint)
+            val label = labels[currentValueIndex + min] ?: (currentValueIndex + min).toString()
+            drawText(label, knobX, knobY + knobRadius / 3, textPaint)
         }
     }
 
@@ -189,15 +196,12 @@ class FancySeekBar @JvmOverloads constructor(
         return closestIndex
     }
 
-    private fun dpToPx(dp: Float): Float {
-        return dp * resources.displayMetrics.density
-    }
-
-    fun setValue(value: Int) { //value is zero-indexed
-        if (value in min until max) {
-            setCurrentValueIndex(value - min)
-            if ((value - min) in 0 until marksList.size) {
-                knobX = marksList[value]
+    fun setValue(value: Int) {
+        if (value in min .. max) {
+            val valueIndex = value - min
+            setCurrentValueIndex(valueIndex)
+            if (valueIndex in 0 until marksList.size) {
+                knobX = marksList[valueIndex]
                 postInvalidate()
             }
         }
@@ -207,6 +211,11 @@ class FancySeekBar @JvmOverloads constructor(
         this.min = min
         this.max = max
         recomputePoints()
+        postInvalidate()
+    }
+
+    fun setLabels(map: Map<Int, String>) {
+        labels = map
         postInvalidate()
     }
 

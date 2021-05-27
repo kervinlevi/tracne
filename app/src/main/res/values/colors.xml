@@ -25,6 +25,7 @@
 
 
     <color name="ghost_white">#F8F8FF</color>
+    <color name="ghost_white_transparent">#00F8F8FF</color>
     <color name="white_smoke">#F5F5F5</color>
     <color name="charcoal">#232023</color>
     <color name="lead">#3F3F4E</color>
